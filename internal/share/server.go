@@ -23,6 +23,7 @@ type Deps struct {
 	Sender     func() string
 	Strict     func() bool
 	Lang       func() i18n.Lang // idioma de quien comparte: es el de la página salvo que el receptor lo cambie
+	PINKey     func() []byte    // clave HMAC vigente de la cookie del PIN; core la rota al prender o apagar el túnel
 }
 
 type Server struct {
@@ -32,6 +33,7 @@ type Server struct {
 	createPart func(path string) (io.WriteCloser, error) // inyectable en tests (disco lleno)
 	prepare    sync.Once                                 // crear la cuarentena recién con la primera subida
 	received   atomic.Bool
+	lim        limiter // intentos de PIN fallidos
 }
 
 // view es lo que reciben todas las plantillas.
@@ -67,10 +69,11 @@ func New(d Deps) (*Server, error) {
 	s := &Server{d: d, mux: http.NewServeMux(), tpl: tpl, createPart: defaultCreatePart}
 	s.mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { w.Write([]byte("ok")) })
 	s.mux.HandleFunc("GET /{$}", s.root)
-	s.mux.HandleFunc("GET /s/{tok}", s.withSession(s.page))
-	s.mux.HandleFunc("GET /s/{tok}/f/{i}", s.withSession(s.file))
-	s.mux.HandleFunc("GET /s/{tok}/zip", s.withSession(s.zip))
-	s.mux.HandleFunc("POST /s/{tok}/up", s.withSession(s.upload))
+	s.mux.HandleFunc("GET /s/{tok}", s.withSession(s.gated(s.page)))
+	s.mux.HandleFunc("GET /s/{tok}/f/{i}", s.withSession(s.gated(s.file)))
+	s.mux.HandleFunc("GET /s/{tok}/zip", s.withSession(s.gated(s.zip)))
+	s.mux.HandleFunc("POST /s/{tok}/up", s.withSession(s.gated(s.upload)))
+	s.mux.HandleFunc("POST /s/{tok}/pin", s.withSession(s.pinPost))
 	return s, nil
 }
 
