@@ -66,11 +66,10 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	quarantine, err := files.QuarantineDir()
+	quarantine, err := files.QuarantinePath() // no se crea acá: ver QuarantinePath
 	if err != nil {
 		return err
 	}
-	cleanParts(quarantine) // .part de una ejecución anterior que se cortó
 
 	port := 8080
 	if cfg.PortOverride > 0 {
@@ -131,7 +130,9 @@ func run() error {
 	defer cancel()
 	ctlSrv.Shutdown(sctx)
 	shareSrv.Shutdown(sctx)
-	cleanParts(quarantine)
+	if shareH.Received() {
+		cleanParts(quarantine) // solo si se usó: no pedir permiso de Descargas al cerrar
+	}
 	return nil
 }
 

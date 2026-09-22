@@ -183,3 +183,21 @@ func TestUploadLargeStreamsWithoutBuffering(t *testing.T) {
 		t.Fatal("la subida se bufferizó en memoria")
 	}
 }
+
+// Los .part que quedan en la cuarentena al llegar la primera subida son de una ejecución anterior
+// que se cortó: se borran en ese momento (no al arrancar, para no tocar Descargas antes de tiempo).
+func TestFirstUploadCleansOrphanParts(t *testing.T) {
+	f := newFixture(t, nil)
+	orphan := filepath.Join(f.quar, "cortado-ayer.mp4.part")
+	os.WriteFile(orphan, []byte("a medias"), 0o644)
+	if f.srv.Received() {
+		t.Fatal("Received() antes de recibir")
+	}
+	f.upload(t, map[string][]byte{"nuevo.jpg": []byte("x")}, true)
+	if _, err := os.Stat(orphan); err == nil {
+		t.Fatal("quedó el .part huérfano")
+	}
+	if !f.srv.Received() {
+		t.Fatal("Received() tendría que ser true")
+	}
+}

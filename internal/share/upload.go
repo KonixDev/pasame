@@ -23,6 +23,9 @@ const uploadIdle = 60 * time.Second
 
 var errEmpty = errors.New("archivo vacío")
 
+// Received dice si en esta ejecución se usó la carpeta de recibidos (para limpiarla al salir).
+func (s *Server) Received() bool { return s.received.Load() }
+
 func defaultCreatePart(p string) (io.WriteCloser, error) {
 	return os.OpenFile(p, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
 }
@@ -36,7 +39,15 @@ func (s *Server) upload(w http.ResponseWriter, r *http.Request, sess *session.Se
 		s.uploadResult(w, r, sess, nil, "err_generic", http.StatusBadRequest)
 		return
 	}
-	os.MkdirAll(s.d.Quarantine, 0o755)
+	s.prepare.Do(func() {
+		os.MkdirAll(s.d.Quarantine, 0o755)
+		// Lo que haya como .part ahora es de una ejecución anterior que se cortó.
+		old, _ := filepath.Glob(filepath.Join(s.d.Quarantine, "*.part"))
+		for _, o := range old {
+			os.Remove(o)
+		}
+		s.received.Store(true)
+	})
 	var saved []string
 	for {
 		part, err := mr.NextPart()

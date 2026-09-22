@@ -8,6 +8,8 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"sync"
+	"sync/atomic"
 
 	"github.com/KonixDev/pasame/internal/i18n"
 	"github.com/KonixDev/pasame/internal/session"
@@ -28,6 +30,8 @@ type Server struct {
 	mux        *http.ServeMux
 	tpl        *template.Template
 	createPart func(path string) (io.WriteCloser, error) // inyectable en tests (disco lleno)
+	prepare    sync.Once                                 // crear la cuarentena recién con la primera subida
+	received   atomic.Bool
 }
 
 // view es lo que reciben todas las plantillas.

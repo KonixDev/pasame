@@ -70,3 +70,19 @@ func TestMarkDownloadedDoesNotFail(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+// QuarantinePath no toca el disco: en macOS, entrar a Descargas dispara un permiso del sistema y
+// eso tiene que pasar recién cuando llega el primer archivo, no al abrir la app.
+func TestQuarantinePathDoesNotCreate(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+	t.Setenv("USERPROFILE", home)
+	t.Setenv("XDG_DOWNLOAD_DIR", "")
+	p, err := QuarantinePath()
+	if err != nil || filepath.Base(p) != "Pasame" {
+		t.Fatalf("%q %v", p, err)
+	}
+	if _, err := os.Stat(p); err == nil {
+		t.Fatal("QuarantinePath creó la carpeta")
+	}
+}

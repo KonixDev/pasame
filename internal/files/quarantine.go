@@ -10,8 +10,10 @@ import (
 	"strings"
 )
 
-// QuarantineDir devuelve (y crea) la carpeta donde caen los archivos recibidos.
-func QuarantineDir() (string, error) {
+// QuarantinePath devuelve la carpeta donde caen los archivos recibidos, sin crearla ni entrar.
+// En macOS, acceder a Descargas dispara un pedido de permiso: tiene que pasar cuando llega el
+// primer archivo (con la app ya abierta y con sentido), no al hacer doble clic.
+func QuarantinePath() (string, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
@@ -20,7 +22,15 @@ func QuarantineDir() (string, error) {
 	if runtime.GOOS == "linux" {
 		base = linuxDownloads(home)
 	}
-	dir := filepath.Join(base, "Pasame")
+	return filepath.Join(base, "Pasame"), nil
+}
+
+// QuarantineDir es QuarantinePath más crear la carpeta.
+func QuarantineDir() (string, error) {
+	dir, err := QuarantinePath()
+	if err != nil {
+		return "", err
+	}
 	return dir, os.MkdirAll(dir, 0o755)
 }
 
