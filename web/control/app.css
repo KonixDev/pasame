@@ -81,3 +81,35 @@ input[type=text]{font:18px var(--sans);padding:8px 10px;border:2px solid var(--m
 }
 @media (prefers-reduced-motion:reduce){.primary:active{transform:none}}
 .qr:focus-visible{outline:3px solid var(--notice-line);outline-offset:4px;border-radius:var(--radius)}
+
+/* ── Tamaños: todo lo que se toca mide al menos 48 px (manual de marca, cap. 4) ── */
+.secondary{min-height:48px;padding:12px 20px}
+#who .link{min-height:40px;padding:8px 14px}
+#menu{min-width:48px;min-height:44px;padding:6px 12px 14px}
+.credits{margin:32px auto 0;max-width:46ch;font-size:15px;line-height:1.7;color:var(--muted);text-align:center}
+.credits a{color:var(--brand);font-weight:600;text-decoration:none;border-bottom:1px solid transparent}
+#menu-box{min-width:240px;padding:6px}
+#menu-box a,#menu-box .link{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:var(--ink);font-size:16px;text-decoration:none;width:100%;text-align:left}
+#menu-box #quit{color:var(--error)}
+
+/* ── Hover y foco: transiciones cortas. No se animan entradas porque la pantalla se redibuja cada 5 s. ── */
+.primary,.secondary,.link,#menu,#who .link,select,.credits a,#menu-box a,#menu-box .link,.qr svg{transition:background-color .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease,transform .15s ease}
+@media (hover:hover){
+  .primary:hover{background:var(--brand-strong);box-shadow:0 5px 0 #1A361A;transform:translateY(-2px)}
+  .secondary:hover{background:var(--soft);border-color:var(--brand-strong);color:var(--brand-strong)}
+  .link:hover{color:var(--brand-strong)}
+  #menu:hover,#who .link:hover{background:var(--soft);border-color:var(--brand)}
+  #menu-box a:hover,#menu-box .link:hover{background:var(--soft)}
+  .credits a:hover{border-bottom-color:currentColor}
+  .qr:not(.full) svg:hover{box-shadow:0 10px 28px rgba(27,42,26,.14);transform:translateY(-2px)}
+  select:hover{border-color:var(--brand)}
+}
+/* Lo que no se redibuja sí entra con un fundido corto: el aviso flotante y el menú. */
+@keyframes rise{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes drop-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+#toast:not([hidden]){animation:rise .2s ease-out}
+#menu-box:not([hidden]){animation:drop-in .14s ease-out}
+.qr.full{animation:drop-in .18s ease-out}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+#menu-box a:focus-visible,#menu-box .link:focus-visible,.credits a:focus-visible,#who .link:focus-visible{outline:3px solid var(--notice-line);outline-offset:1px}
+.credits a{white-space:nowrap}

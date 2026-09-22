@@ -29,7 +29,7 @@ li .type{float:left;width:46px;height:46px;margin-right:12px;line-height:46px;te
 li a.name{display:block;overflow:hidden;margin-left:58px;font-weight:600;color:#1B2A1A;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word}
 li a.name:active{text-decoration:underline}
 li .size{display:block;margin:1px 0 0 58px;color:#5E675F;font-size:15px}
-li .view{float:right;margin:4px 0 0 10px;padding:7px 14px;font-size:15px;font-weight:700;border:2px solid #2F5D2E;border-radius:12px;text-decoration:none;color:#2F5D2E;background:#fff}
+li .view{float:right;margin:0 0 0 10px;padding:12px 16px;line-height:20px;font-size:15px;font-weight:700;border:2px solid #2F5D2E;border-radius:12px;text-decoration:none;color:#2F5D2E;background:#fff}
 .note{color:#5E675F;font-size:15px;margin:10px 0 0}
 .foot{text-align:center}
 .ok,.err{padding:14px 16px;border-radius:14px;margin:0 0 14px;font-weight:600}
@@ -48,6 +48,26 @@ input[type=file]{display:block;font-size:17px;margin:0 0 14px;max-width:100%}
 #drop{display:none}
 #drop.on{display:block;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10;background:rgba(47,93,46,.92);padding:24px}
 #drop.on div{box-sizing:border-box;height:100%;border:4px dashed #A7C957;border-radius:24px;color:#fff;font-size:26px;font-weight:700;text-align:center;padding-top:30vh}
+/* Foco de teclado visible en todo (navegadores viejos: :focus). El label dibuja el foco de su input escondido. */
+a:focus,button:focus,input:focus{outline:3px solid #F2C94C;outline-offset:2px}
+.js #up-input:focus+label{outline:3px solid #F2C94C;outline-offset:3px}
+.foot{line-height:1.7}
 /* gone.html y pin.html no tienen banda: el logo va en positivo arriba. */
 .plain main{margin-top:0;padding-top:18px}
 .plain .brand{margin:0 0 20px}
+/* ── Hover, transiciones y entradas suaves (la página no se redibuja: las entradas no se repiten) ── */
+.big,li .view,a{-webkit-transition:background-color .15s,border-color .15s,color .15s,box-shadow .15s;transition:background-color .15s,border-color .15s,color .15s,box-shadow .15s}
+@media (hover:hover){
+  .big:hover{background:#B4D366;border-color:#B4D366;box-shadow:0 6px 16px rgba(47,93,46,.18)}
+  .big.alt:hover{background:#F1F4EC;border-color:#234622;color:#234622}
+  li .view:hover{background:#F1F4EC}
+  li a.name:hover{text-decoration:underline;text-underline-offset:3px}
+  .foot a:hover{color:#234622}
+}
+.foot a{display:inline-block;padding:6px 2px}
+@-webkit-keyframes fade{from{opacity:0;-webkit-transform:translateY(-4px)}to{opacity:1;-webkit-transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+#dl-hint,.ok,.err,#up-status.ok,#up-status.err{-webkit-animation:fade .25s ease-out;animation:fade .25s ease-out}
+#drop.on{-webkit-animation:fade .15s ease-out;animation:fade .15s ease-out}
+.bar div{-webkit-transition:width .2s linear;transition:width .2s linear}
+@media (prefers-reduced-motion:reduce){*{-webkit-transition:none!important;transition:none!important;-webkit-animation:none!important;animation:none!important}}

@@ -135,3 +135,21 @@ func TestPageUXHooks(t *testing.T) {
 		}
 	}
 }
+
+func TestPageAccessibilityAndCredits(t *testing.T) {
+	f := newFixture(t, map[string]int{"foto.jpg": 10})
+	body := f.do(httptest.NewRequest("GET", f.sess.Path(), nil)).Body.String()
+	for _, want := range []string{
+		`<span class="type" aria-hidden="true">JPG</span>`,
+		`Ver<span class="vh"> foto.jpg</span>`,
+		// el input va antes del label para que el foco de teclado se pueda dibujar en el label
+		`<input id="up-input" type="file" name="f" multiple>` + "\n" + `<label class="big alt js-only" for="up-input">`,
+		`href="https://github.com/KonixDev/pasame"`,
+		`href="https://martincoll.dev"`,
+		"Pasame es gratis y de código abierto",
+	} {
+		if !strings.Contains(body, want) {
+			t.Errorf("falta %q", want)
+		}
+	}
+}

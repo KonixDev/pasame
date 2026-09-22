@@ -55,6 +55,9 @@
     stopAnyway: 'Terminar igual',
     keepSharing: 'Seguir compartiendo',
     closedMsg: 'Pasame está cerrado. Podés cerrar esta pestaña.',
+    oss: 'Pasame es gratis y de código abierto. Si te sirvió,',
+    star: 'dale una estrella en GitHub',
+    madeBy: 'Creado por',
     dropHint: 'Para elegir archivos usá el botón (o arrastralos sobre el ícono de Pasame).',
     noNetwork: 'Esta computadora no está conectada a ninguna red. Conectate a un WiFi y esperá unos segundos.'
   };
@@ -103,6 +106,7 @@
         '<button class="secondary" data-act="paste">' + esc(T.paste) + '</button></div>';
     }
     h += '<p class="muted" style="margin-top:48px">' + esc(T.direct) + '</p>';
+    h += credits();
     h += '<p class="small" id="drop-hint" hidden>' + esc(T.dropHint) + '</p></div>';
     return h;
   }
@@ -232,16 +236,32 @@
     if (qrFull && document.getElementById('qr')) document.getElementById('qr').classList.add('full');
   }
 
+  // Créditos: solo en la pantalla inicial y al cerrar. Nunca mientras se comparte (no distraer del QR).
+  function credits() {
+    return '<p class="credits">' + esc(T.oss) + ' <a href="https://github.com/KonixDev/pasame" target="_blank" rel="noopener">★ ' + esc(T.star) + '</a>.<br>' +
+      esc(T.madeBy) + ' <a href="https://martincoll.dev" target="_blank" rel="noopener">martincoll.dev</a></p>';
+  }
+
   function showClosed() {
     closed = true;
-    document.getElementById('app').innerHTML = '<h1 class="center" style="margin-top:80px">' + esc(T.closedMsg) + '</h1>';
+    document.getElementById('app').innerHTML = '<h1 class="center" style="margin-top:80px">' + esc(T.closedMsg) + '</h1>' + credits();
+  }
+
+  function toggleMenu(force) {
+    var m = document.getElementById('menu-box'), b = document.getElementById('menu');
+    var open = force === undefined ? m.hidden : force;
+    m.hidden = !open;
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) m.querySelector('[role=menuitem]').focus();
   }
 
   document.addEventListener('click', function (e) {
+    // Click afuera cierra el menú.
+    if (!e.target.closest('#menu, #menu-box') && !document.getElementById('menu-box').hidden) toggleMenu(false);
     var el = e.target.closest('[data-act], #qr, #edit-name, #menu, #quit');
     if (!el) return;
     if (el.id === 'qr') return el.classList.toggle('full');
-    if (el.id === 'menu') { var m = document.getElementById('menu-box'); m.hidden = !m.hidden; return; }
+    if (el.id === 'menu') return toggleMenu();
     if (el.id === 'quit') return api('/api/quit').then(showClosed);
     if (el.id === 'edit-name') {
       var n = prompt('¿Cómo te llamás? (lo ve quien recibe)', state.name); // prompt: único diálogo, lo abre la persona
@@ -285,6 +305,7 @@
 
   // Teclado: Esc cierra el QR a pantalla completa; Enter o espacio sobre el QR lo agranda.
   document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !document.getElementById('menu-box').hidden) { toggleMenu(false); document.getElementById('menu').focus(); }
     var q = document.getElementById('qr');
     if (!q) return;
     if (e.key === 'Escape' && q.classList.contains('full')) q.classList.remove('full');

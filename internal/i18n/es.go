@@ -19,6 +19,8 @@ var es = map[string]string{
 	"sent_done_js":  "✓ Listo. %s ya los tiene.",
 	"sent_list_js":  "✓ Listo. %s ya tiene: %s",
 	"dl_started":    "Empezó la descarga. Vas a encontrar el archivo en la carpeta Descargas de este dispositivo.",
+	"oss":           "Pasame es gratis y de código abierto",
+	"made_by":       "Creado por",
 	"drop_here":     "Soltá los archivos acá para mandárselos a %s",
 	"sending_js":    "Enviando %d de %d · %d %%",
 	"err_no_space":  "No se pudo guardar: la computadora de %s no tiene espacio.",

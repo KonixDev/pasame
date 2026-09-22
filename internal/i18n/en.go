@@ -19,6 +19,8 @@ var en = map[string]string{
 	"sent_done_js":  "✓ Done. %s has them now.",
 	"sent_list_js":  "✓ Done. %s now has: %s",
 	"dl_started":    "Your download has started. You'll find the file in this device's Downloads folder.",
+	"oss":           "Pasame is free and open source",
+	"made_by":       "Made by",
 	"drop_here":     "Drop the files here to send them to %s",
 	"sending_js":    "Sending %d of %d · %d %%",
 	"err_no_space":  "Couldn't save: %s's computer is out of space.",
