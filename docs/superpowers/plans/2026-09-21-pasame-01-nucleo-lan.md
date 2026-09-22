@@ -86,7 +86,7 @@ Spec: §5 (fila "Path traversal en subidas"), §8, §13 (flags de build, targets
 ```bash
 brew install go            # debe quedar 1.27.x
 go version                 # Expected: go version go1.27.x darwin/arm64
-cd /Users/cellcaribe/Documents/share-now
+cd pasame   # la carpeta del proyecto
 go mod init github.com/KonixDev/pasame
 go mod edit -go=1.27
 ```

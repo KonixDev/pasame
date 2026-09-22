@@ -2265,7 +2265,7 @@ nfpms:
     package_name: pasame
     file_name_template: 'pasame_{{ .Version }}_{{ if eq .Arch "arm" }}armhf{{ else }}{{ .Arch }}{{ end }}'
     formats: [deb]
-    maintainer: Martin Coll <martin@commercy.com.ar>
+    maintainer: Martin Coll <145708582+KonixDev@users.noreply.github.com>
     homepage: https://pasame.com.ar
     description: Pasá archivos a cualquier celular o computadora que esté cerca.
     license: MIT
