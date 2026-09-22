@@ -18,12 +18,13 @@ type fixture struct {
 	dir    string // archivos compartidos
 	quar   string // cuarentena
 	strict bool
+	key    []byte // clave HMAC del PIN; un test la cambia para simular la rotación
 }
 
 // newFixture crea archivos con los tamaños dados y una sesión que los comparte.
 func newFixture(t *testing.T, sizes map[string]int) *fixture {
 	t.Helper()
-	f := &fixture{dir: t.TempDir(), quar: t.TempDir(), stats: session.NewStats(nil)}
+	f := &fixture{dir: t.TempDir(), quar: t.TempDir(), stats: session.NewStats(nil), key: []byte("clave-de-prueba-32-bytes-000000")}
 	var paths []string
 	for name, n := range sizes {
 		p := filepath.Join(f.dir, name)
@@ -41,6 +42,7 @@ func newFixture(t *testing.T, sizes map[string]int) *fixture {
 		Sender:     func() string { return "Martín" },
 		Strict:     func() bool { return f.strict },
 		Lang:       func() i18n.Lang { return i18n.ES },
+		PINKey:     func() []byte { return f.key },
 	})
 	if err != nil {
 		t.Fatal(err)

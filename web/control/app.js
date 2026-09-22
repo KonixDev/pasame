@@ -64,7 +64,19 @@
       noNetwork: 'Esta computadora no está conectada a ninguna red. Conectate a un WiFi y esperá unos segundos.',
       editLabel: 'Cambiar nombre',
       askName: '¿Cómo te llamás? (lo ve quien recibe)',
-      cantEnterPlan2: '', // el Plan 2 agrega acá el paso "Tocá Compartir por internet"
+      cantEnterPlan2: '<p>Si están en un bar, hotel o aeropuerto, o en redes distintas: <button class="secondary" data-act="tunnel-on">Compartir por internet</button></p>',
+      far: '¿Están lejos o en otra red?',
+      tunnelOn: 'Compartir por internet',
+      tunnelOff: 'Volver a compartir solo por WiFi',
+      preparing: 'Preparando… (la primera vez baja un componente de 40 MB, tarda un minuto)',
+      connecting: 'Conectando…',
+      askKey: 'y cuando te pida la clave:',
+      privacy: 'Los archivos pasan por los servidores de Cloudflare (servicio gratuito, puede no estar disponible).',
+      strictNote: 'Ahora todos necesitan la clave, también en tu WiFi. El código QR ya la lleva.',
+      tunnelError: 'No se pudo conectar por internet. Volvé a intentar en un momento.',
+      detail: 'Ver detalle',
+      dropped: 'Se cortó la conexión por internet. Podés volver a activarla.',
+      noTunnel: 'Compartir por internet no está disponible en esta computadora.',
       more: 'Más opciones',
       menuStar: '★ Dar una estrella en GitHub',
       menuMadeBy: 'Creado por martincoll.dev',
@@ -107,7 +119,19 @@
         '<li>Both devices need to be on <b>the same WiFi network</b> (check the network name on the phone).</li>' +
         '<li>WiFi in cafés, hotels and airports often blocks this.</li>' +
         '<li>If you use a VPN, turn it off for a moment.</li></ol>',
-      cantEnterPlan2: '',
+      cantEnterPlan2: '<p>If you are in a café, hotel or airport, or on different networks: <button class="secondary" data-act="tunnel-on">Share over the internet</button></p>',
+      far: 'Far away or on another network?',
+      tunnelOn: 'Share over the internet',
+      tunnelOff: 'Go back to sharing over WiFi only',
+      preparing: 'Getting ready… (the first time it downloads a 40 MB component, it takes a minute)',
+      connecting: 'Connecting…',
+      askKey: 'and when it asks for the code:',
+      privacy: 'Files go through Cloudflare\'s servers (free service, may be unavailable).',
+      strictNote: 'Now everyone needs the code, also on your WiFi. The QR code already includes it.',
+      tunnelError: 'Could not connect over the internet. Try again in a moment.',
+      detail: 'Show details',
+      dropped: 'The internet connection dropped. You can turn it on again.',
+      noTunnel: 'Sharing over the internet is not available on this computer.',
       checkWindows: 'Check Windows permission',
       vpn: 'It looks like a VPN is on. If the phone cannot connect, turn it off for a moment or use Change network.',
       netChanged: 'The network changed. The code was updated.',
@@ -235,12 +259,12 @@
     h += '<div class="row"><div><div class="qr" id="qr" role="button" tabindex="0" aria-label="' + esc(T.qrHint) + '">' + s.qr + '</div>' +
       '<p class="small center" style="margin:8px 0 0">' + esc(T.qrHint) + '</p></div><div class="side">';
     h += '<p class="step">' + T.phone + '</p><p>' + T.pc + '</p>';
-    h += '<div class="addr">' + esc(main.display) + '</div>';
+    h += '<div class="addr" id="addr">' + addrHTML(main.display) + '</div>';
     h += '<p style="margin-top:8px"><button class="secondary" data-act="copy">' + esc(T.copy) + '</button></p>';
     addrs.slice(1).forEach(function (a) {
       if (a.kind === 'mdns') h += '<p class="small">' + esc(T.alsoTry + a.display) + '</p>';
     });
-    h += '<div id="plan2-slot"></div></div></div>';
+    h += tunnelBlock(s) + '</div></div>';
 
     h += '<section aria-live="polite"><h2>' + esc(T.activity) + '</h2>' + activity(s);
     var st = s.stats || {};
@@ -328,11 +352,62 @@
     // Re-render cada 5 s: no pisar un control que la persona está usando (se le cerraría el menú de red).
     var f = document.activeElement;
     if (f && (f.id === 'iface' || f.id === 'paste')) return;
+    var detail = document.getElementById('detail'); // el detalle abierto se cerraría a los 5 s
+    if (detail && !detail.hidden) return;
     renderWho(state);
     var app = document.getElementById('app');
     var qrFull = document.querySelector('.qr.full') !== null;
     app.innerHTML = state.phase === 'sharing' ? renderSharing(state) : renderIdle(state);
     if (qrFull && document.getElementById('qr')) document.getElementById('qr').classList.add('full');
+    fitAddr();
+  }
+
+  // Solo se puede partir antes de "/s/…": el nombre (con guiones) nunca se corta al medio.
+  function addrHTML(d) {
+    var i = d.indexOf('/s/');
+    if (i < 0) return esc(d);
+    return '<span class="nw">' + esc(d.slice(0, i)) + '</span><wbr><span class="nw">' + esc(d.slice(i)) + '</span>';
+  }
+
+  // La dirección nunca se corta: se achica hasta entrar (y recién ahí se parte en "/s/").
+  function fitAddr() {
+    var el = document.getElementById('addr');
+    if (!el) return;
+    el.style.fontSize = '';
+    el.classList.remove('wrap');
+    var px = parseFloat(getComputedStyle(el).fontSize);
+    while (el.scrollWidth > el.clientWidth && px > 16) { px -= 1; el.style.fontSize = px + 'px'; }
+    if (el.scrollWidth <= el.clientWidth) return;
+    el.classList.add('wrap');
+    while (el.scrollWidth > el.clientWidth && px > 11) { px -= 1; el.style.fontSize = px + 'px'; }
+  }
+
+  function tunnelBlock(s) {
+    var tn = s.tunnel || {}, h = '<div class="tunnel">';
+    switch (tn.status) {
+      case 'on':
+        h += '<p>' + esc(T.askKey) + '</p><div class="addr pin">' + esc(tn.pin) + '</div>';
+        h += '<p class="small">' + esc(T.privacy) + '</p><p class="small">' + esc(T.strictNote) + '</p>';
+        h += '<button class="secondary" data-act="tunnel-off">' + esc(T.tunnelOff) + '</button>';
+        break;
+      case 'downloading':
+        h += '<p>' + esc(T.preparing) + '</p><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + (tn.progress | 0) + '"><div style="width:' + (tn.progress | 0) + '%"></div></div>';
+        break;
+      case 'connecting':
+        h += '<p>' + esc(T.connecting) + '</p>';
+        break;
+      case 'unavailable':
+        h += '<p class="small">' + esc(T.noTunnel) + '</p>';
+        break;
+      case 'error':
+        h += '<div class="notice">' + esc(T.tunnelError) + ' <button class="link" data-act="detail" aria-expanded="false">' + esc(T.detail) +
+          '</button><pre id="detail" hidden>' + esc(tn.detail) + '</pre></div>';
+        /* falls through */
+      default:
+        if (tn.dropped) h += '<div class="notice">' + esc(T.dropped) + '</div>';
+        h += '<p>' + esc(T.far) + ' <button class="secondary" data-act="tunnel-on">' + esc(T.tunnelOn) + '</button></p>';
+    }
+    return h + '</div>';
   }
 
   // Créditos: solo en la pantalla inicial y al cerrar. Nunca mientras se comparte (no distraer del QR).
@@ -381,12 +456,21 @@
       case 'copy': return copyLink();
       case 'open-folder': return api('/api/open-folder');
       case 'firewall': return api('/api/firewall');
+      case 'tunnel-on': return api('/api/tunnel', { on: true });
+      case 'tunnel-off': return api('/api/tunnel', { on: false });
+      case 'detail':
+        var d = document.getElementById('detail');
+        d.hidden = !d.hidden;
+        el.setAttribute('aria-expanded', d.hidden ? 'false' : 'true');
+        return;
       case 'paste':
         var v = document.getElementById('paste').value.trim();
         if (v) api('/api/add', { paths: [v] });
         return;
     }
   });
+
+  window.addEventListener('resize', fitAddr);
 
   document.addEventListener('change', function (e) {
     if (e.target.id === 'iface') api('/api/iface', { ip: e.target.value });

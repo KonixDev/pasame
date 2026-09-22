@@ -18,6 +18,7 @@ import (
 	"github.com/KonixDev/pasame/internal/platform"
 	"github.com/KonixDev/pasame/internal/qr"
 	"github.com/KonixDev/pasame/internal/session"
+	"github.com/KonixDev/pasame/internal/tunnel"
 )
 
 type Options struct {
@@ -30,6 +31,9 @@ type Options struct {
 	Book       *addr.Book
 	Pick       func(kind string) ([]string, error)
 	Version    string
+
+	Tunnel          TunnelStarter // por defecto baja y corre cloudflared
+	TunnelAvailable func() bool   // por defecto tunnel.Available
 }
 
 type Core struct {
@@ -48,6 +52,10 @@ type Core struct {
 	detectedLang    string // del navegador de la pestaña de control; no se guarda (es una suposición)
 	netChangedUntil time.Time
 	lastPrimary     string
+	pinKey          []byte // clave HMAC de la cookie del PIN; rota al prender y apagar el túnel
+	tun             TunnelState
+	tunStop         func()
+	tunCancel       context.CancelFunc // corta un túnel que todavía se está conectando
 
 	subsMu sync.Mutex
 	subs   map[chan struct{}]bool
@@ -72,6 +80,14 @@ func New(o Options) *Core {
 	if o.Config.IfaceOverride != "" {
 		o.LAN.SetOverride(o.Config.IfaceOverride)
 	}
+	if c.o.Tunnel == nil {
+		c.o.Tunnel = defaultTunnel(o.ConfigDir, o.SharePort)
+	}
+	if c.o.TunnelAvailable == nil {
+		c.o.TunnelAvailable = tunnel.Available
+	}
+	c.pinKey = newPINKey()
+	c.tun = TunnelState{Status: "off"}
 	return c
 }
 
@@ -184,6 +200,7 @@ func (c *Core) Share(paths []string) {
 func (c *Core) ReceiveOnly() { c.Share(nil) }
 
 func (c *Core) Stop() {
+	c.DisableTunnel() // terminar de compartir también corta internet
 	c.mu.Lock()
 	c.sess, c.stats, c.unreadable, c.phase = nil, nil, nil, "idle"
 	c.mu.Unlock()
@@ -258,9 +275,11 @@ func (c *Core) State() State {
 		FirewallHint: c.firewallHint,
 		Lang:         string(c.langLocked()), LangExplicit: c.cfg.Lang != "",
 	}
+	pin := ""
 	if sess != nil {
-		st.SharedAt = c.sharedAt.UnixMilli()
+		st.SharedAt, pin = c.sharedAt.UnixMilli(), sess.PIN
 	}
+	st.Tunnel = c.tunnelView(pin)
 	c.mu.Unlock()
 
 	st.VPN = c.o.LAN.VPN()
@@ -275,14 +294,27 @@ func (c *Core) State() State {
 	}
 	st.Stats = stats.Snapshot()
 	st.Addresses = c.o.Book.Active(context.Background(), c.sessionPath(sess))
+	if st.Strict {
+		// En modo estricto "/" no lleva a la sesión: lo que se dicta o se tipea tiene que traer la ruta.
+		// El PIN no va: se pide aparte ("y cuando te pida la clave:").
+		for i := range st.Addresses {
+			st.Addresses[i].Display += sess.Path()
+		}
+	}
 	if len(st.Addresses) > 0 {
 		st.QR, _ = qr.SVG(st.Addresses[0].URL)
 	}
 	return st
 }
 
-// sessionPath es lo que cada proveedor agrega a su base. En modo estricto (Plan 2) suma "?pin=".
-func (c *Core) sessionPath(s *session.Session) string { return s.Path() }
+// sessionPath es lo que cada proveedor agrega a su base. En modo estricto todas las direcciones llevan
+// el PIN (también la de la red WiFi), porque el modo estricto lo pide en todas las rutas.
+func (c *Core) sessionPath(s *session.Session) string {
+	if c.Strict() {
+		return s.Path() + "?pin=" + s.PIN
+	}
+	return s.Path()
+}
 
 func (c *Core) nameLocked() string {
 	if c.cfg.Name != "" {

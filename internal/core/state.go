@@ -32,4 +32,5 @@ type State struct {
 	Version         string           `json:"version"`
 	Lang            string           `json:"lang"`         // "es" | "en": idioma de la UI del emisor
 	LangExplicit    bool             `json:"langExplicit"` // lo eligió la persona (no volver a detectar)
+	Tunnel          TunnelState      `json:"tunnel"`
 }

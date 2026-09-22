@@ -1,0 +1,10 @@
+{{define "pin.html"}}<!DOCTYPE html>
+<html lang="{{.Lang}}"><head>{{template "head" .}}</head>
+<body class="plain"><main>
+<p class="brand">{{template "brand"}}</p>
+<h1 id="pin-title">{{if .Msg}}{{.Msg}}{{else}}{{t .Lang "pin_prompt" .Sender}}{{end}}</h1>
+<form class="pin" method="post" action="{{.Sess.Path}}/pin">
+<input name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="one-time-code" aria-labelledby="pin-title" autofocus required>
+<button class="big" type="submit">{{t .Lang "pin_enter"}}</button>
+</form>
+</main></body></html>{{end}}

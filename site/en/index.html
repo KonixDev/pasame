@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pasame — send files to any phone or computer nearby</title>
+<meta name="description" content="Send photos, videos and documents between nearby devices. No cable, no accounts, nothing to install on the phone.">
+<link rel="stylesheet" href="../site.css">
+<link rel="icon" href="../img/isotipo-reducido.svg" type="image/svg+xml">
+</head>
+<body><main>
+<p class="top"><a class="lang" href="../" hreflang="es" lang="es">Español</a></p>
+<h1><img src="../img/logo.svg" alt="Pasame" width="220" height="50" style="border:0;margin:0"></h1>
+<p class="lead">Send files to any phone or computer nearby. No cable, no accounts.</p>
+
+<a class="dl" id="dl" href="https://github.com/KonixDev/pasame/releases">Download Pasame</a>
+<p class="sub" id="dl-sub">For Windows, Mac and Linux</p>
+<div class="box beta" id="beta" hidden>On Mac, this version is not verified by Apple yet. <a href="how-to-open.html#mac">See how to open it</a>.</div>
+<div class="box" id="phone" hidden><b>Nothing to install on the phone.</b> Pasame goes on a computer; the phone just scans the code shown on the screen.</div>
+
+<div class="box">
+<ol>
+<li>Open Pasame on your computer and choose the files.</li>
+<li>The other person points their phone camera at the code on the screen.</li>
+<li>Done: the files download. And they can send files back to you.</li>
+</ol>
+</div>
+<p>Does Windows or Mac show a warning when you open it? <a href="how-to-open.html">See how to open it</a>.</p>
+<p class="sub"><a href="https://github.com/KonixDev/pasame/releases">All downloads</a> · <a href="https://github.com/KonixDev/pasame">Source code</a> · Free and open source</p>
+
+<script>
+(function () {
+  var ua = navigator.userAgent, asset = null, alt = null, label = '';
+  var arm = /arm|aarch64/i.test(ua) || (navigator.userAgentData && navigator.userAgentData.platform === 'Windows' && /arm/i.test(navigator.platform));
+  if (/iPhone|iPad|iPod|Android/i.test(ua)) {
+    document.getElementById('phone').hidden = false;
+    document.getElementById('dl').hidden = true;
+    document.getElementById('dl-sub').hidden = true;
+    return;
+  }
+  if (/Windows/i.test(ua)) { asset = arm ? 'Pasame-Windows-arm64.exe' : 'Pasame-Windows.exe'; label = 'for Windows'; }
+  else if (/Mac OS X/i.test(ua)) { asset = 'Pasame-macOS.dmg'; alt = 'Pasame-macOS.zip'; label = 'for Mac'; } // .zip: releases before 0.3
+  else if (/Linux/i.test(ua)) {
+    asset = /armv7|armv8l/i.test(ua) ? 'pasame-linux-armv7.tar.gz' : /aarch64|arm64/i.test(ua) ? 'pasame-linux-arm64.tar.gz' : 'pasame-linux-amd64.tar.gz';
+    label = 'for Linux';
+  }
+  if (!asset) return;
+  var x = new XMLHttpRequest();
+  x.open('GET', 'https://api.github.com/repos/KonixDev/pasame/releases?per_page=1');
+  x.onload = function () {
+    try {
+      var rel = JSON.parse(x.responseText)[0], found = null;
+      for (var i = 0; i < rel.assets.length; i++) {
+        if (rel.assets[i].name === asset) found = rel.assets[i];
+        if (!found && rel.assets[i].name === alt) found = rel.assets[i];
+      }
+      if (found) {
+        document.getElementById('dl').href = found.browser_download_url;
+        document.getElementById('dl').textContent = 'Download Pasame ' + label;
+        document.getElementById('dl-sub').textContent = 'Version ' + rel.tag_name.replace(/^v/, '');
+      }
+      if (label === 'for Mac' && rel.prerelease) document.getElementById('beta').hidden = false;
+    } catch (e) { /* the link to all downloads stays */ }
+  };
+  x.send();
+})();
+</script>
+</main></body>
+</html>

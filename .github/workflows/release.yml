@@ -1,0 +1,37 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+  id-token: write   # cosign keyless (Sigstore)
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.27.x' }
+      - uses: sigstore/cosign-installer@v3
+      - uses: goreleaser/goreleaser-action@v6
+        with: { version: '~> v2', args: release --clean }
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+      - name: .dmg (firmado y notarizado si hay certificado)
+        run: packaging/macos/release-mac.sh "$GITHUB_REF_NAME"
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+          MACOS_SIGN_IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+          MACOS_NOTARY_KEY: ${{ secrets.MACOS_NOTARY_KEY }}
+          MACOS_NOTARY_KEY_ID: ${{ secrets.MACOS_NOTARY_KEY_ID }}
+          MACOS_NOTARY_ISSUER_ID: ${{ secrets.MACOS_NOTARY_ISSUER_ID }}
+      - name: Subir .dmg y latest.json, agregarlos a los checksums y publicar
+        env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: |
+          cd dist
+          shasum -a 256 Pasame-macOS.dmg >> checksums.txt
+          cosign sign-blob --yes --output-signature checksums.txt.sig --output-certificate checksums.txt.pem checksums.txt
+          gh release upload "$GITHUB_REF_NAME" Pasame-macOS.dmg latest.json checksums.txt checksums.txt.sig checksums.txt.pem --clobber
+          pre=true; grep -q '"macNotarized":true' latest.json && [[ "$GITHUB_REF_NAME" != *-* ]] && pre=false
+          gh release edit "$GITHUB_REF_NAME" --draft=false --prerelease=$pre

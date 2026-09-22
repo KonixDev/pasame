@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Pasame
+GenericName=Pasar archivos
+Comment=Pasá archivos a cualquier celular o computadora que esté cerca
+Exec=pasame %F
+Icon=pasame
+Terminal=false
+Categories=Network;FileTransfer;
+MimeType=application/octet-stream;inode/directory;
+StartupNotify=false

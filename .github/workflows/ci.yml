@@ -18,3 +18,14 @@ jobs:
       - uses: actions/setup-go@v5
         with: { go-version: '1.27.x' }
       - run: make cross
+      - run: sudo apt-get install -y desktop-file-utils && desktop-file-validate packaging/linux/pasame.desktop
+  release-dry:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.27.x' }
+      - uses: goreleaser/goreleaser-action@v6
+        with: { version: '~> v2', args: release --snapshot --clean --skip=sign,publish }
+      - run: RUNNER_TEMP=$RUNNER_TEMP packaging/macos/release-mac.sh 0.0.0-dev
