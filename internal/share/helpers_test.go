@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/KonixDev/pasame/internal/i18n"
 	"github.com/KonixDev/pasame/internal/session"
 )
 
@@ -39,6 +40,7 @@ func newFixture(t *testing.T, sizes map[string]int) *fixture {
 		Quarantine: f.quar,
 		Sender:     func() string { return "Martín" },
 		Strict:     func() bool { return f.strict },
+		Lang:       func() i18n.Lang { return i18n.ES },
 	})
 	if err != nil {
 		t.Fatal(err)

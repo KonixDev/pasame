@@ -86,7 +86,18 @@ func defaultPick(kind string) ([]string, error) {
 
 func (c *Core) Current() *session.Session { c.mu.Lock(); defer c.mu.Unlock(); return c.sess }
 func (c *Core) Stats() *session.Stats     { c.mu.Lock(); defer c.mu.Unlock(); return c.stats }
-func (c *Core) Strict() bool              { c.mu.Lock(); defer c.mu.Unlock(); return c.strict }
+
+// Lang es el idioma de quien comparte (config "lang"; español si no está).
+func (c *Core) Lang() i18n.Lang {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.cfg.Lang == string(i18n.EN) {
+		return i18n.EN
+	}
+	return i18n.ES
+}
+
+func (c *Core) Strict() bool { c.mu.Lock(); defer c.mu.Unlock(); return c.strict }
 
 func (c *Core) Sender() string {
 	c.mu.Lock()

@@ -1,7 +1,7 @@
 {{define "page.html"}}<!DOCTYPE html>
 <html lang="{{.Lang}}"><head>{{template "head" .}}</head>
 <body><main>
-<p class="brand">Pasame</p>
+<p class="brand">Pasame{{if .SuggestAlt}}<a class="lang" id="lang-top" href="?lang={{.Alt}}">{{.AltName}}</a>{{end}}</p>
 {{$p := .Sess.Path}}{{$l := .Lang}}
 {{if .Sess.Files}}
 <h1>{{if eq (len .Sess.Files) 1}}{{t $l "sharing_1" .Sender}}{{else}}{{t $l "sharing_n" .Sender (len .Sess.Files)}}{{end}}</h1>
@@ -22,6 +22,7 @@
 <p id="up-status" class="note"></p>
 <div class="bar" id="up-bar-wrap" style="display:none"><div id="up-bar"></div></div>
 <p class="note">{{if .Strict}}{{t $l "footer_tunnel"}}{{else}}{{t $l "footer_lan"}}{{end}}</p>
+<p class="note"><a href="?lang={{.Alt}}">{{.AltName}}</a></p>
 </main>
 <script>var T={sending:"{{t $l "sending_js" 0 0 0}}",done:"{{t $l "sent_done_js" .Sender}}",fail:"{{t $l "err_generic"}}"};</script>
 <script>{{js}}</script>

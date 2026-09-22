@@ -91,7 +91,7 @@ func run() error {
 	})
 
 	shareH, err := share.New(share.Deps{
-		Current: c.Current, Stats: c.Stats, Quarantine: quarantine, Sender: c.Sender, Strict: c.Strict,
+		Current: c.Current, Stats: c.Stats, Quarantine: quarantine, Sender: c.Sender, Strict: c.Strict, Lang: c.Lang,
 	})
 	if err != nil {
 		return err

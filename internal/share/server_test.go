@@ -57,7 +57,7 @@ func TestNoSessionIsGone(t *testing.T) {
 func TestGoneInEnglish(t *testing.T) {
 	f := newFixture(t, map[string]int{"a.txt": 1})
 	r := httptest.NewRequest("GET", "/s/zzzzz", nil)
-	r.Header.Set("Accept-Language", "en-US")
+	r.AddCookie(&http.Cookie{Name: "pasame_lang", Value: "en"})
 	if w := f.do(r); !strings.Contains(w.Body.String(), "This share has ended") {
 		t.Fatalf("body: %s", w.Body)
 	}

@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"net"
 	"net/http"
+	"strings"
 
 	"github.com/KonixDev/pasame/internal/i18n"
 	"github.com/KonixDev/pasame/internal/session"
@@ -19,6 +20,7 @@ type Deps struct {
 	Quarantine string
 	Sender     func() string
 	Strict     func() bool
+	Lang       func() i18n.Lang // idioma de quien comparte: es el de la página salvo que el receptor lo cambie
 }
 
 type Server struct {
@@ -36,6 +38,10 @@ type view struct {
 	Strict bool
 	Msg    string // aviso de resultado (subida OK, error)
 	MsgErr bool
+
+	Alt        i18n.Lang // el otro idioma, para el link de cambio
+	AltName    string    // "English" | "Español"
+	SuggestAlt bool      // el navegador pide el otro idioma: el link se muestra también arriba
 }
 
 func New(d Deps) (*Server, error) {
@@ -65,8 +71,38 @@ func New(d Deps) (*Server, error) {
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) { s.mux.ServeHTTP(w, r) }
 
+var langNames = map[i18n.Lang]string{i18n.ES: "Español", i18n.EN: "English"}
+
+// pickLang: ?lang= explícito, después la cookie del receptor, después el idioma de quien comparte.
+// El Accept-Language no decide: en PCs con Windows o Chrome en inglés mostraría inglés a un receptor
+// que habla español. Solo sirve para ofrecer el cambio más visible.
+func (s *Server) pickLang(r *http.Request) (l i18n.Lang, explicit bool) {
+	if q := i18n.Lang(r.URL.Query().Get("lang")); langNames[q] != "" {
+		return q, true
+	}
+	if c, err := r.Cookie("pasame_lang"); err == nil && langNames[i18n.Lang(c.Value)] != "" {
+		return i18n.Lang(c.Value), true
+	}
+	return s.d.Lang(), false
+}
+
 func (s *Server) view(r *http.Request, sess *session.Session) view {
-	return view{Lang: i18n.Pick(r.Header.Get("Accept-Language")), Sender: s.d.Sender(), Sess: sess, Strict: s.d.Strict()}
+	l, explicit := s.pickLang(r)
+	v := view{Lang: l, Sender: s.d.Sender(), Sess: sess, Strict: s.d.Strict(), Alt: i18n.EN}
+	if l == i18n.EN {
+		v.Alt = i18n.ES
+	}
+	v.AltName = langNames[v.Alt]
+	accept := strings.ToLower(r.Header.Get("Accept-Language"))
+	v.SuggestAlt = !explicit && i18n.Pick(accept) == v.Alt && strings.Contains(accept, string(v.Alt))
+	return v
+}
+
+// rememberLang guarda la elección del receptor para las próximas páginas (y envíos) de este emisor.
+func rememberLang(w http.ResponseWriter, r *http.Request) {
+	if q := i18n.Lang(r.URL.Query().Get("lang")); langNames[q] != "" {
+		http.SetCookie(w, &http.Cookie{Name: "pasame_lang", Value: string(q), Path: "/", MaxAge: 365 * 24 * 3600, SameSite: http.SameSiteLaxMode})
+	}
 }
 
 func (s *Server) render(w http.ResponseWriter, status int, name string, v view) {
@@ -96,6 +132,7 @@ type sessHandler func(http.ResponseWriter, *http.Request, *session.Session, *ses
 // withSession resuelve el token; si no es el actual, 410. Registra al cliente.
 func (s *Server) withSession(h sessHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		rememberLang(w, r)
 		sess := s.d.Current()
 		if sess == nil || r.PathValue("tok") != sess.Token {
 			s.render(w, http.StatusGone, "gone.html", s.view(r, nil))
