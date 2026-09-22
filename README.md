@@ -1,3 +1,5 @@
+<p align="center"><b>Español</b> · <a href="README.en.md">English</a></p>
+
 <p align="center">
   <img src="docs/marca/logo.svg" alt="Pasame" width="280">
 </p>
@@ -59,6 +61,7 @@ Pasame todavía no está firmado por Microsoft ni por Apple, así que la primera
 - Si cerrás la pestaña de Pasame, la app se cierra sola a los 2 minutos (si no hay nada bajando).
 - Lo que te mandan queda en **Descargas → Pasame**.
 - Las descargas se retoman solas si se corta el WiFi, y "Descargar todo" arma un ZIP al vuelo, sin esperar ni ocupar espacio extra.
+- Pasame habla español e inglés: toma el idioma de tu navegador y lo cambiás desde el menú ⋯. La página de quien recibe sigue el idioma de quien comparte, con un cambio de un toque.
 
 ## Qué no promete
 
@@ -66,7 +69,7 @@ En tu WiFi, cualquiera conectado a esa misma red que tenga el link puede ver lo 
 
 ## Estado
 
-**v0.1 · red local.** Funciona: compartir archivos y carpetas, código QR y dirección corta, varios receptores a la vez, ZIP al vuelo, descargas reanudables, mandar archivos de vuelta (también arrastrándolos a la página), idioma español e inglés, instancia única.
+**v0.1 · red local.** Funciona: compartir archivos y carpetas, código QR y dirección corta, varios receptores a la vez, ZIP al vuelo, descargas reanudables, mandar archivos de vuelta (también arrastrándolos a la página), toda la app en español e inglés, instancia única.
 
 Próximo (ver [plan](docs/superpowers/plans/2026-09-21-pasame-02-tunel-y-distribucion.md)): compartir por internet con clave de 4 números, app de Mac firmada por Apple, instaladores y el sitio [pasame.com.ar](https://pasame.com.ar).
 
