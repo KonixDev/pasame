@@ -1,0 +1,18 @@
+body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:18px;line-height:1.4;color:#111;background:#fff}
+main{max-width:640px;margin:0 auto;padding:16px}
+.brand{font-weight:bold;color:#555;margin:0 0 16px}
+h1{font-size:24px;margin:0 0 20px}
+.big{display:block;box-sizing:border-box;width:100%;padding:20px 16px;margin:0 0 20px;font-size:20px;font-weight:bold;text-align:center;text-decoration:none;color:#fff;background:#0a58ca;border:0;border-radius:12px}
+.big.alt{background:#1f7a3a}
+ul{list-style:none;padding:0;margin:0 0 24px;border-top:1px solid #ddd}
+li{border-bottom:1px solid #ddd;padding:14px 0;overflow:hidden}
+li a.name{color:#0a58ca;word-break:break-word}
+li .size{color:#666;font-size:15px;margin-left:8px}
+li .view{float:right;margin-left:12px;padding:6px 14px;border:1px solid #0a58ca;border-radius:8px;text-decoration:none;color:#0a58ca}
+.note{color:#555;font-size:15px}
+.ok{background:#e7f6ec;padding:12px;border-radius:8px}
+.err{background:#fdecea;padding:12px;border-radius:8px}
+input[type=file]{font-size:18px;margin:0 0 12px;max-width:100%}
+.bar{height:14px;background:#eee;border-radius:7px;overflow:hidden;margin:8px 0}
+.bar div{height:100%;width:0;background:#1f7a3a}
+.pin input{font-size:32px;width:5em;letter-spacing:.3em;text-align:center;padding:8px}

@@ -1,0 +1,7 @@
+{{define "gone.html"}}<!DOCTYPE html>
+<html lang="{{.Lang}}"><head>{{template "head" .}}</head>
+<body><main>
+<p class="brand">Pasame</p>
+{{if .Msg}}<h1>{{.Msg}}</h1>{{else}}<h1>{{t .Lang "gone_title"}}</h1>
+<p>{{t .Lang "gone_body"}}</p>{{end}}
+</main></body></html>{{end}}
