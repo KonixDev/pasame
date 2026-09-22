@@ -15,11 +15,11 @@ import (
 )
 
 type env struct {
-	c     *Core
-	dir   string
-	cfg   string
-	ifs   []addr.Iface
-	pick  func(string) ([]string, error)
+	c    *Core
+	dir  string
+	cfg  string
+	ifs  []addr.Iface
+	pick func(string) ([]string, error)
 }
 
 func newEnv(t *testing.T) *env {

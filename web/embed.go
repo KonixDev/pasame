@@ -5,3 +5,6 @@ import "embed"
 
 //go:embed share
 var Share embed.FS
+
+//go:embed control
+var Control embed.FS

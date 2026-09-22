@@ -266,3 +266,6 @@ func (c *Core) notify() {
 		}
 	}
 }
+
+func (c *Core) OpenFolder() error   { return platform.OpenFolder(c.o.Quarantine) }
+func (c *Core) OpenFirewall() error { return platform.OpenFirewallSettings() }
