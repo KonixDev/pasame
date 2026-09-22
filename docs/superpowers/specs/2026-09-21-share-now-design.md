@@ -388,7 +388,7 @@ Consecuencias de diseño:
 **Ciclo del binario:**
 
 1. **Ubicación:** `<config dir>/cloudflared/<version>/cloudflared[.exe]` (`~/Library/Application Support/Pasame/` en macOS, `%APPDATA%\Pasame\` en Windows, `~/.config/pasame/` en Linux).
-2. **Descarga (primera vez):** desde `https://github.com/cloudflare/cloudflared/releases/download/<version>/<asset>` con `<version>` **fijada en el código** (no "latest": reproducible y testeable). Assets verificados: `cloudflared-darwin-amd64.tgz`, `cloudflared-darwin-arm64.tgz`, `cloudflared-windows-amd64.exe`, `cloudflared-linux-amd64`, `cloudflared-linux-arm64`. No hay asset para Windows arm64 ni Linux armv7: en esos targets el botón de túnel muestra *"No disponible en esta computadora"*. Se verifica el **SHA-256 fijado en el código** por asset (Cloudflare publica los checksums en la release) antes de marcar como ejecutable. Tamaño ≈ 35–40 MB (estimación; se muestra progreso de descarga en la UI). En macOS el `.tgz` se descomprime; se le quita el atributo de cuarentena con `xattr -d com.apple.quarantine` (un binario bajado por nuestra app, no por el navegador, normalmente no lo tiene, pero se hace igual).
+2. **Descarga (primera vez):** desde `https://github.com/cloudflare/cloudflared/releases/download/<version>/<asset>` con `<version>` **fijada en el código** (no "latest": reproducible y testeable). Assets verificados (API de GitHub, 2026-09-21): `cloudflared-darwin-amd64.tgz`, `cloudflared-darwin-arm64.tgz`, `cloudflared-windows-amd64.exe`, `cloudflared-linux-amd64`, `cloudflared-linux-arm64`, **`cloudflared-linux-armhf`** (Linux armv7 / Raspberry Pi de 32 bits) y **`cloudflared-windows-386.exe`**, que se usa en Windows arm64 por emulación x86. Con eso los 7 targets tienen túnel. *(Corrección: una versión anterior de este documento decía que no había asset para Windows arm64 ni Linux armv7.)* Se verifica el **SHA-256 fijado en el código** por asset (Cloudflare publica los checksums en la release) antes de marcar como ejecutable. Tamaño ≈ 35–40 MB (estimación; se muestra progreso de descarga en la UI). En macOS el `.tgz` se descomprime; se le quita el atributo de cuarentena con `xattr -d com.apple.quarantine` (un binario bajado por nuestra app, no por el navegador, normalmente no lo tiene, pero se hace igual).
 3. **Ejecución:** `cloudflared tunnel --url http://127.0.0.1:<puerto share> --no-autoupdate --config <null> --loglevel info`. Se lee `stderr` línea por línea buscando la regex `https://[a-z0-9-]+\.trycloudflare\.com`. Timeout de 30 s para obtenerla; si no aparece, se mata el proceso y se muestra el error con el log.
 4. **Verificación:** antes de mostrar la URL se hace `GET <url>/healthz` desde el propio proceso (sale a internet y vuelve por el túnel). Si responde `200`, se registra el proveedor y la sesión pasa a modo estricto. Evita mostrar un QR que todavía no funciona (los quick tunnels tardan unos segundos en propagarse).
 5. **Apagado:** al apagar el túnel o cerrar la app se manda `SIGTERM` (`taskkill /T` en Windows) y se espera 5 s. La sesión vuelve a modo normal. Se limpia la cookie de PIN del lado del servidor invalidando el HMAC (rota la clave).
@@ -502,7 +502,7 @@ Total: **5 interacciones** entre las dos personas. Con arrastrar-sobre-ícono, e
 │                                                        │
 │                                                        │
 │  Los archivos van directo de tu computadora al otro    │
-│  dispositivo. No pasan por ningún servidor.            │
+│  dispositivo, sin pasar por internet.                  │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -833,7 +833,7 @@ Matriz mínima por release: Windows 11 + macOS actual + Ubuntu LTS como emisores
 | Target | Asset | Formato | Notas |
 |---|---|---|---|
 | Windows x64 | `Pasame-Windows.exe` | Un `.exe` portable con icono y metadatos de versión | Sin instalador: un instalador sin firmar da la misma advertencia que un `.exe` sin firmar y agrega pasos. Se documenta "guardalo en Descargas o en el Escritorio y hacé doble clic". |
-| Windows arm64 | `Pasame-Windows-arm64.exe` | Ídem | Sin túnel (no hay `cloudflared` para este target). |
+| Windows arm64 | `Pasame-Windows-arm64.exe` | Ídem | Túnel con `cloudflared-windows-386.exe` por emulación x86 (verificar en la matriz manual). |
 | macOS universal | `Pasame-macOS.dmg` | `.dmg` con `Pasame.app` y un acceso directo a `Aplicaciones` | El `.app` es el droplet + binario universal. |
 | Linux x64 / arm64 / armv7 | `pasame-linux-<arch>.tar.gz` y `pasame_<ver>_<arch>.deb` | Binario + `.desktop` + icono | El `.deb` instala en `/usr/bin` y registra el `.desktop`. |
 | Todos | `checksums.txt` | SHA-256 | Firmado con `cosign` keyless (Sigstore) desde CI: gratis, sin secretos. |
@@ -929,7 +929,7 @@ Matriz mínima por release: Windows 11 + macOS actual + Ubuntu LTS como emisores
 ### Fuentes verificadas para este documento (2026-09-21)
 
 - Cloudflare, "TryCloudflare" (docs oficiales): sin cuenta; 200 requests en vuelo → `429`; sin SSE; no funciona con `config.yaml`; "testing y desarrollo", sin SLA.
-- `cloudflare/cloudflared` releases: versión `2026.9.1`; assets `darwin-amd64.tgz`, `darwin-arm64.tgz`, `windows-amd64.exe`, `linux-amd64`, `linux-arm64` (sin `windows-arm64` ni `linux-arm`).
+- `cloudflare/cloudflared` releases (API de GitHub, con `digest` SHA-256 por asset): versión `2026.9.1`; assets `darwin-amd64.tgz`, `darwin-arm64.tgz`, `windows-amd64.exe`, `windows-386.exe`, `linux-amd64`, `linux-arm64`, `linux-arm`, `linux-armhf` (no hay `windows-arm64`: se usa el de 386 por emulación).
 - Apple / prensa especializada: macOS Sequoia (15) eliminó el clic derecho → Abrir para apps no notarizadas; el camino es Ajustes → Privacidad y seguridad → "Abrir de todos modos", visible ~1 hora tras el intento.
 - Microsoft Learn: SmartScreen, reputación, opciones de firma; Azure Artifact Signing disponible para individuos solo en EE. UU. y Canadá.
 - Esper / Android Police: resolución de `.local` en el resolver de Android desde Android 12 (no backporteado). Wikipedia/Microsoft: Windows 10 1903+ resuelve hostnames por mDNS.
