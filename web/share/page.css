@@ -1,18 +1,32 @@
-body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:18px;line-height:1.4;color:#111;background:#fff}
-main{max-width:640px;margin:0 auto;padding:16px}
-.brand{font-weight:bold;color:#555;margin:0 0 16px}
-h1{font-size:24px;margin:0 0 20px}
-.big{display:block;box-sizing:border-box;width:100%;padding:20px 16px;margin:0 0 20px;font-size:20px;font-weight:bold;text-align:center;text-decoration:none;color:#fff;background:#0a58ca;border:0;border-radius:12px}
+/* Receptor: sin grid ni variables CSS (Kindle, TVs, navegadores viejos). Botones enormes. */
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:18px;line-height:1.45;color:#1a1a1a;background:#f3f5f9}
+main{max-width:600px;margin:0 auto;padding:20px 16px 40px}
+a{color:#0a58ca}
+.brand{margin:0 0 18px;font-size:20px;font-weight:800;color:#0a58ca;overflow:hidden}
+.brand .lang{float:right;margin-top:3px;font-size:15px;font-weight:600}
+h1{font-size:26px;line-height:1.25;margin:0 0 18px}
+h2{font-size:20px;line-height:1.3;margin:0 0 14px}
+.card{background:#fff;border:1px solid #e1e5ec;border-radius:14px;padding:18px 16px;margin:0 0 18px}
+.big{display:block;box-sizing:border-box;width:100%;min-height:64px;padding:18px 16px;margin:0 0 16px;font-size:20px;font-weight:700;line-height:1.3;text-align:center;text-decoration:none;color:#fff;background:#0a58ca;border:0;border-radius:12px;cursor:pointer;-webkit-appearance:none}
+.big:active{background:#084298}
 .big.alt{background:#1f7a3a}
-ul{list-style:none;padding:0;margin:0 0 24px;border-top:1px solid #ddd}
-li{border-bottom:1px solid #ddd;padding:14px 0;overflow:hidden}
-li a.name{color:#0a58ca;word-break:break-word}
-li .size{color:#666;font-size:15px;margin-left:8px}
-li .view{float:right;margin-left:12px;padding:6px 14px;border:1px solid #0a58ca;border-radius:8px;text-decoration:none;color:#0a58ca}
-.note{color:#555;font-size:15px}
-.ok{background:#e7f6ec;padding:12px;border-radius:8px}
-.err{background:#fdecea;padding:12px;border-radius:8px}
-input[type=file]{font-size:18px;margin:0 0 12px;max-width:100%}
-.bar{height:14px;background:#eee;border-radius:7px;overflow:hidden;margin:8px 0}
+.big.alt:active{background:#175c2c}
+ul{list-style:none;padding:0;margin:0}
+li{padding:14px 0;border-top:1px solid #edf0f4;overflow:hidden}
+li:first-child{border-top:0;padding-top:4px}
+li a.name{display:block;overflow:hidden;font-weight:600;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word}
+li .size{display:block;margin-top:2px;color:#667;font-size:15px}
+li .view{float:right;margin:2px 0 0 12px;padding:8px 16px;font-size:16px;font-weight:600;border:2px solid #0a58ca;border-radius:10px;text-decoration:none;color:#0a58ca;background:#fff}
+.note{color:#556;font-size:15px;margin:10px 0 0}
+.ok,.err{padding:12px 14px;border-radius:10px;margin:0 0 14px}
+.ok{background:#e7f6ec;color:#14532d}
+.err{background:#fdecea;color:#7f1d1d}
+input[type=file]{display:block;font-size:17px;margin:0 0 14px;max-width:100%}
+.bar{height:14px;background:#e6e9ef;border-radius:7px;overflow:hidden;margin:10px 0 0}
 .bar div{height:100%;width:0;background:#1f7a3a}
-.pin input{font-size:32px;width:5em;letter-spacing:.3em;text-align:center;padding:8px}
+.pin input{display:block;box-sizing:border-box;width:100%;font-size:36px;letter-spacing:.4em;text-align:center;padding:12px;margin:0 0 16px;border:2px solid #99a;border-radius:12px}
+/* Sin JS: input nativo + botón Enviar. Con JS: un solo botón grande (el label) y subida automática. */
+.js-only{display:none}
+.js .js-only{display:block}
+.js #up-input{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}

@@ -7,7 +7,7 @@
   // Todos los textos del emisor (spec §13). Voz rioplatense, sin palabras técnicas.
   var T = {
     who: 'Tu nombre: ',
-    edit: '✎',
+    edit: 'Cambiar',
     headline: 'Pasá archivos a cualquier celular<br>o computadora que esté cerca.',
     pickFiles: '📂  Elegir archivos',
     pickFolder: 'o elegir una carpeta entera',
@@ -127,7 +127,7 @@
     if ((s.unreadable || []).length) h += '<div class="notice">' + esc(T.unreadable + s.unreadable.join(', ')) + '</div>';
     if (!main) return h + '<div class="notice">' + esc(T.noNetwork) + '</div>';
     h += '<div class="row"><div class="qr" id="qr" title="Tocá para agrandar">' + s.qr + '</div><div class="side">';
-    h += '<p>' + T.phone + '</p><p style="margin-top:24px">' + T.pc + '</p>';
+    h += '<p class="step">' + T.phone + '</p><p>' + T.pc + '</p>';
     h += '<div class="addr">' + esc(main.display) + '</div>';
     addrs.slice(1).forEach(function (a) {
       if (a.kind === 'mdns') h += '<p class="small">' + esc(T.alsoTry + a.display) + '</p>';
@@ -152,7 +152,7 @@
     }
 
     var cur = (s.ifaces || [])[0];
-    h += '<p class="small" style="margin-top:28px">' + esc(T.network) + (cur ? esc(cur.human + ' (' + cur.ip + ')') : '—') +
+    h += '<p class="small foot">' + esc(T.network) + (cur ? esc(cur.human + ' (' + cur.ip + ')') : '—') +
       ' · <label>' + esc(T.changeNet) + ' <select id="iface"><option value="">' + esc(T.auto) + '</option>';
     (s.ifaces || []).forEach(function (c) {
       h += '<option value="' + esc(c.ip) + '">' + esc(c.human + ' (' + c.ip + ')') + '</option>';

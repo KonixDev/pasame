@@ -6526,6 +6526,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/KonixDev/pasame/internal/i18n"
 	"github.com/KonixDev/pasame/internal/session"
 	"github.com/KonixDev/pasame/internal/share"
 )
@@ -6546,6 +6547,7 @@ func main() {
 	h, err := share.New(share.Deps{
 		Current: func() *session.Session { return sess }, Stats: func() *session.Stats { return stats },
 		Quarantine: quar, Sender: func() string { return "Martín" }, Strict: func() bool { return false },
+		Lang: func() i18n.Lang { return i18n.ES },
 	})
 	if err != nil {
 		log.Fatal(err)
