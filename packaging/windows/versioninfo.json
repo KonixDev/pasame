@@ -1,0 +1,13 @@
+{
+  "FixedFileInfo": { "FileVersion": { "Major": 1 }, "ProductVersion": { "Major": 1 } },
+  "StringFileInfo": {
+    "CompanyName": "Pasame",
+    "FileDescription": "Pasame — pasá archivos a cualquier celular o computadora que esté cerca",
+    "InternalName": "pasame",
+    "LegalCopyright": "MIT — Martin Coll",
+    "OriginalFilename": "Pasame.exe",
+    "ProductName": "Pasame"
+  },
+  "VarFileInfo": { "Translation": { "LangID": "0C0A", "CharsetID": "04B0" } },
+  "IconPath": "../../packaging/windows/icon.ico"
+}
