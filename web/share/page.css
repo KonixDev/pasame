@@ -43,6 +43,11 @@ input[type=file]{display:block;font-size:17px;margin:0 0 14px;max-width:100%}
 .js-only{display:none}
 .js .js-only{display:block}
 .js #up-input{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+#dl-hint{margin:-4px 0 14px;font-weight:400;font-size:16px}
+/* Zona de soltar: cubre la pantalla solo mientras se arrastran archivos. */
+#drop{display:none}
+#drop.on{display:block;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10;background:rgba(47,93,46,.92);padding:24px}
+#drop.on div{box-sizing:border-box;height:100%;border:4px dashed #A7C957;border-radius:24px;color:#fff;font-size:26px;font-weight:700;text-align:center;padding-top:30vh}
 /* gone.html y pin.html no tienen banda: el logo va en positivo arriba. */
 .plain main{margin-top:0;padding-top:18px}
 .plain .brand{margin:0 0 20px}

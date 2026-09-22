@@ -80,3 +80,4 @@ input[type=text]{font:18px var(--sans);padding:8px 10px;border:2px solid var(--m
   .row{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){.primary:active{transform:none}}
+.qr:focus-visible{outline:3px solid var(--notice-line);outline-offset:4px;border-radius:var(--radius)}

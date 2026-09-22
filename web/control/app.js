@@ -47,6 +47,13 @@
     auto: 'Automática',
     tabHint: 'Si cerrás esta pestaña, Pasame se cierra solo a los 2 minutos.',
     stopped: 'Listo. Los links ya no funcionan.',
+    copy: 'Copiar link',
+    copied: 'Link copiado. Pegalo en un mensaje para alguien de esta red.',
+    copyFail: 'No se pudo copiar. Seleccioná la dirección y copiala a mano.',
+    qrHint: 'Tocá el código para agrandarlo.',
+    busyStop: function (n) { return n === 1 ? 'Hay 1 transferencia en curso. Si terminás ahora, se corta.' : 'Hay ' + n + ' transferencias en curso. Si terminás ahora, se cortan.'; },
+    stopAnyway: 'Terminar igual',
+    keepSharing: 'Seguir compartiendo',
     closedMsg: 'Pasame está cerrado. Podés cerrar esta pestaña.',
     dropHint: 'Para elegir archivos usá el botón (o arrastralos sobre el ícono de Pasame).',
     noNetwork: 'Esta computadora no está conectada a ninguna red. Conectate a un WiFi y esperá unos segundos.'
@@ -129,19 +136,31 @@
     var main = addrs[0];
     var h = '<div class="topbar"><h1>' + esc(s.receiveOnly ? T.receiving : T.sharingN(s.count, s.total)) + '</h1>' +
       '<button class="secondary" data-act="stop">' + esc(T.stop) + '</button></div>';
+    if (confirmStop) {
+      var n = inFlight(s);
+      if (n > 0) {
+        h += '<div class="notice" role="alert"><p style="margin:0 0 10px">' + esc(T.busyStop(n)) + '</p>' +
+          '<button class="secondary" data-act="stop-now">' + esc(T.stopAnyway) + '</button> ' +
+          '<button class="link" data-act="stop-cancel">' + esc(T.keepSharing) + '</button></div>';
+      } else {
+        confirmStop = false;
+      }
+    }
     if (s.netChanged) h += '<div class="notice ok">' + esc(T.netChanged) + '</div>';
     if (s.vpn) h += '<div class="notice">' + esc(T.vpn) + '</div>';
     if ((s.unreadable || []).length) h += '<div class="notice">' + esc(T.unreadable + s.unreadable.join(', ')) + '</div>';
     if (!main) return h + '<div class="notice">' + esc(T.noNetwork) + '</div>';
-    h += '<div class="row"><div class="qr" id="qr" title="Tocá para agrandar">' + s.qr + '</div><div class="side">';
+    h += '<div class="row"><div><div class="qr" id="qr" role="button" tabindex="0" aria-label="' + esc(T.qrHint) + '">' + s.qr + '</div>' +
+      '<p class="small center" style="margin:8px 0 0">' + esc(T.qrHint) + '</p></div><div class="side">';
     h += '<p class="step">' + T.phone + '</p><p>' + T.pc + '</p>';
     h += '<div class="addr">' + esc(main.display) + '</div>';
+    h += '<p style="margin-top:8px"><button class="secondary" data-act="copy">' + esc(T.copy) + '</button></p>';
     addrs.slice(1).forEach(function (a) {
       if (a.kind === 'mdns') h += '<p class="small">' + esc(T.alsoTry + a.display) + '</p>';
     });
     h += '<div id="plan2-slot"></div></div></div>';
 
-    h += '<section><h2>' + esc(T.activity) + '</h2>' + activity(s);
+    h += '<section aria-live="polite"><h2>' + esc(T.activity) + '</h2>' + activity(s);
     var st = s.stats || {};
     if (!st.clients && s.sharedAt && Date.now() - s.sharedAt > 45000) {
       h += '<div class="notice">' + T.cantEnter + T.cantEnterPlan2;
@@ -167,6 +186,39 @@
     h += '</select></label></p><p class="small">' + esc(T.tabHint) + '</p>';
     return h;
   }
+
+  var confirmStop = false;
+
+  function inFlight(s) {
+    var st = s.stats || {}, n = (st.uploading || []).length;
+    for (var k in (st.active || {})) n += st.active[k];
+    return n;
+  }
+
+  function copyLink() {
+    var main = (state.addresses || [])[0];
+    if (!main) return;
+    var ok = function () { toast(T.copied); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(main.url).then(ok, function () { toast(T.copyFail); });
+    } else {
+      toast(T.copyFail);
+    }
+  }
+
+  // Si la pestaña está en segundo plano, el título cuenta lo que llegó: "(2) Pasame".
+  var seenReceived = 0, unseen = 0;
+  function trackReceived(s) {
+    var n = ((s.stats || {}).received || []).length;
+    if (s.phase !== 'sharing') n = 0;
+    if (n < seenReceived) seenReceived = n;
+    if (document.hidden && n > seenReceived) unseen += n - seenReceived;
+    seenReceived = n;
+    document.title = unseen ? '(' + unseen + ') Pasame' : 'Pasame';
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) { unseen = 0; document.title = 'Pasame'; }
+  });
 
   function render() {
     if (!state || closed) return;
@@ -200,7 +252,13 @@
       case 'pick-files': return api('/api/pick', { kind: 'files' });
       case 'pick-folder': return api('/api/pick', { kind: 'folder' });
       case 'receive-only': return api('/api/receive-only');
-      case 'stop': return api('/api/stop').then(function () { toast(T.stopped); });
+      case 'stop':
+        if (inFlight(state) > 0 && !confirmStop) { confirmStop = true; return render(); }
+        confirmStop = false;
+        return api('/api/stop').then(function () { toast(T.stopped); });
+      case 'stop-now': confirmStop = false; return api('/api/stop').then(function () { toast(T.stopped); });
+      case 'stop-cancel': confirmStop = false; return render();
+      case 'copy': return copyLink();
       case 'open-folder': return api('/api/open-folder');
       case 'firewall': return api('/api/firewall');
       case 'paste':
@@ -223,7 +281,15 @@
   });
 
   var es = new EventSource('/events?t=' + encodeURIComponent(t));
-  es.addEventListener('state', function (e) { state = JSON.parse(e.data); render(); });
+  es.addEventListener('state', function (e) { state = JSON.parse(e.data); trackReceived(state); render(); });
+
+  // Teclado: Esc cierra el QR a pantalla completa; Enter o espacio sobre el QR lo agranda.
+  document.addEventListener('keydown', function (e) {
+    var q = document.getElementById('qr');
+    if (!q) return;
+    if (e.key === 'Escape' && q.classList.contains('full')) q.classList.remove('full');
+    if ((e.key === 'Enter' || e.key === ' ') && document.activeElement === q) { e.preventDefault(); q.classList.toggle('full'); }
+  });
   es.addEventListener('quit', function () { es.close(); showClosed(); });
   var fails = 0;
   es.onopen = function () { fails = 0; };

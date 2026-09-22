@@ -13,9 +13,10 @@
 {{if .Msg}}<p class="{{if .MsgErr}}err{{else}}ok{{end}}" id="up-result">{{.Msg}}</p>{{end}}
 {{if .Sess.Files}}
 <div class="card first">
-<a class="big" href="{{$p}}/zip">⬇ {{t $l "download_all" (size $l .Sess.TotalSize)}}</a>
+<a class="big" id="dl-all" href="{{$p}}/zip">⬇ {{t $l "download_all" (size $l .Sess.TotalSize)}}</a>
+<p class="ok" id="dl-hint" role="status" aria-live="polite" style="display:none">{{t $l "dl_started"}}</p>
 <ul>
-{{range .Sess.Files}}<li><span class="type">{{ext .Name}}</span>{{if viewable .Name}}<a class="view" href="{{$p}}/f/{{.Index}}?inline=1">{{t $l "view"}}</a>{{end}}<a class="name" href="{{$p}}/f/{{.Index}}">{{.Rel}}</a><span class="size">{{size $l .Size}}</span></li>
+{{range .Sess.Files}}<li><span class="type">{{ext .Name}}</span>{{if viewable .Name}}<a class="view" href="{{$p}}/f/{{.Index}}?inline=1" target="_blank" rel="noopener">{{t $l "view"}}</a>{{end}}<a class="name" href="{{$p}}/f/{{.Index}}">{{.Rel}}</a><span class="size">{{size $l .Size}}</span></li>
 {{end}}</ul>
 </div>
 <div class="card">
@@ -28,11 +29,12 @@
 <input id="up-input" type="file" name="f" multiple>
 <button id="up-send" type="submit" class="big">{{t $l "send"}}</button>
 </form>
-<p id="up-status" class="note"></p>
+<p id="up-status" class="note" role="status" aria-live="polite"></p>
 <div class="bar" id="up-bar-wrap" style="display:none"><div id="up-bar"></div></div>
 </div>
+<div id="drop" aria-hidden="true"><div>⬆ {{t $l "drop_here" .Sender}}</div></div>
 <p class="note foot"><a href="?lang={{.Alt}}">{{.AltName}}</a></p>
 </main>
-<script>var T={sending:"{{t $l "sending_js" 0 0 0}}",done:"{{t $l "sent_done_js" .Sender}}",fail:"{{t $l "err_generic"}}"};</script>
+<script>var T={sending:"{{t $l "sending_js" 0 0 0}}",done:"{{t $l "sent_done_js" .Sender}}",sentList:"{{t $l "sent_list_js" .Sender "__FILES__"}}",fail:"{{t $l "err_generic"}}"};</script>
 <script>{{js}}</script>
 </body></html>{{end}}

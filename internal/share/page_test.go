@@ -117,3 +117,21 @@ func TestTypeLabel(t *testing.T) {
 		}
 	}
 }
+
+// Mejoras de UX: "Ver" no reemplaza la página, el estado se anuncia, y el JS recibe los textos nuevos.
+func TestPageUXHooks(t *testing.T) {
+	f := newFixture(t, map[string]int{"foto.jpg": 10})
+	body := f.do(httptest.NewRequest("GET", f.sess.Path(), nil)).Body.String()
+	for _, want := range []string{
+		`href="` + f.sess.Path() + `/f/0?inline=1" target="_blank" rel="noopener"`,
+		`id="up-status" class="note" role="status" aria-live="polite"`,
+		`id="dl-hint"`, `id="drop"`,
+		"Empezó la descarga.",
+		"Soltá los archivos acá para mandárselos a Martín",
+		"__FILES__",
+	} {
+		if !strings.Contains(body, want) {
+			t.Errorf("falta %q", want)
+		}
+	}
+}
