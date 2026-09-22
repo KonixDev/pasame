@@ -84,6 +84,10 @@ func run() error {
 	lan := addr.NewLAN(sharePort)
 	book := addr.NewBook()
 	book.Register(lan)
+	if m, err := addr.NewMDNS(lan, sharePort); err == nil { // solo en builds con -tags mdns
+		book.Register(m)
+		defer m.Close()
+	}
 	c := core.New(core.Options{
 		SharePort: sharePort, Quarantine: quarantine, ConfigDir: cfgDir,
 		Config: cfg, FirstRun: firstRun, LAN: lan, Book: book, Version: version,
