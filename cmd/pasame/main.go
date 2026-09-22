@@ -91,6 +91,7 @@ func run() error {
 
 	shareH, err := share.New(share.Deps{
 		Current: c.Current, Stats: c.Stats, Quarantine: quarantine, Sender: c.Sender, Strict: c.Strict, Lang: c.Lang,
+		PINKey: c.PINKey,
 	})
 	if err != nil {
 		return err
@@ -128,6 +129,7 @@ func run() error {
 	c.RequestQuit() // avisa a las pestañas abiertas (evento SSE "quit")
 	sctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+	c.DisableTunnel() // no dejar cloudflared andando
 	ctlSrv.Shutdown(sctx)
 	shareSrv.Shutdown(sctx)
 	if shareH.Received() {

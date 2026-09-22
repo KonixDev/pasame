@@ -100,3 +100,16 @@ func (s *server) lang(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
+
+func (s *server) tunnel(w http.ResponseWriter, r *http.Request) {
+	var b struct{ On bool }
+	if !decode(w, r, &b) {
+		return
+	}
+	if b.On {
+		s.c.EnableTunnel()
+	} else {
+		s.c.DisableTunnel()
+	}
+	w.WriteHeader(http.StatusAccepted)
+}

@@ -29,8 +29,10 @@ func TestUIVoice(t *testing.T) {
 	es, en := block[:strings.Index(block, "\n    en: {")], block[strings.Index(block, "\n    en: {"):]
 	clean := func(s string) string {
 		s = strings.ToLower(s)
-		s = regexp.MustCompile(`(?m)^\s*//.*$`).ReplaceAllString(s, "") // comentarios de código
-		s = regexp.MustCompile(`(?m)^\s*\w+:`).ReplaceAllString(s, "")  // nombres de clave (no se ven)
+		s = regexp.MustCompile(`(?m)^\s*//.*$`).ReplaceAllString(s, "")  // comentarios de código
+		s = regexp.MustCompile(`(?m)^\s*\w+:`).ReplaceAllString(s, "")   // nombres de clave (no se ven)
+		s = regexp.MustCompile(`[\w-]+="[^"]*"`).ReplaceAllString(s, "") // atributos HTML (data-act="tunnel-on")
+		s = strings.ReplaceAll(s, `\'`, "'")                             // comillas escapadas del JS
 		// Títulos literales de ventanas del sistema que la persona va a ver: se permiten.
 		s = strings.ReplaceAll(s, "firewall de windows defender", "")
 		s = strings.ReplaceAll(s, "windows defender firewall", "")

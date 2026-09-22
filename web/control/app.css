@@ -59,6 +59,14 @@ h1{font-size:28px;line-height:1.25;margin:0;font-weight:700}
 .side .step{margin-bottom:20px}
 /* La dirección nunca se corta: se achica. */
 .addr{display:inline-block;max-width:100%;margin:6px 0 4px;padding:10px 18px;font:700 clamp(24px,2.9vw,40px)/1.15 var(--mono);letter-spacing:.01em;white-space:nowrap;background:var(--soft);border:2px solid var(--ink);border-radius:var(--radius-sm);user-select:all}
+/* Por internet la dirección es larga (x.trycloudflare.com/s/abcde): fitAddr() la achica; si igual no entra,
+   se parte solo antes de "/s/" (white-space normal entre los dos .nw). */
+.addr.wrap{white-space:normal}
+.addr .nw{white-space:nowrap}
+.addr.pin{letter-spacing:.2em}
+.tunnel{margin-top:24px}
+.tunnel .secondary{margin-top:4px}
+pre{white-space:pre-wrap;font:13px/1.4 var(--mono);max-height:200px;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0 0}
 section{margin-top:28px}
 section h2{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 8px}
 ul.plain{list-style:none;padding:0;margin:0}
