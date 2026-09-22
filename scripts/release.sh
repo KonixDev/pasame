@@ -20,11 +20,8 @@ build windows arm64 "$out/Pasame-Windows-arm64.exe" "-H=windowsgui"
 # macOS: binario universal dentro de Pasame.app.
 build darwin amd64 "$out/tmp/pasame-amd64"
 build darwin arm64 "$out/tmp/pasame-arm64"
-app="$out/tmp/Pasame.app"
-mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
-lipo -create -output "$app/Contents/MacOS/pasame" "$out/tmp/pasame-amd64" "$out/tmp/pasame-arm64"
-sed "s/__VERSION__/$ver/g" packaging/macos/Info.plist > "$app/Contents/Info.plist"
-cp packaging/macos/Pasame.icns "$app/Contents/Resources/Pasame.icns"
+lipo -create -output "$out/tmp/pasame-universal" "$out/tmp/pasame-amd64" "$out/tmp/pasame-arm64"
+packaging/macos/build-app.sh "$out/tmp/pasame-universal" "$ver" "$out/tmp" >/dev/null
 (cd "$out/tmp" && ditto -c -k --keepParent Pasame.app "$out/Pasame-macOS.zip")
 
 # Linux: x64, arm64 y armv7 (Raspberry Pi de 32 bits).

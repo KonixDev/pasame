@@ -8,12 +8,22 @@
   <key>CFBundleVersion</key><string>__VERSION__</string>
   <key>CFBundleShortVersionString</key><string>__VERSION__</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleExecutable</key><string>pasame</string>
-  <key>CFBundleIconFile</key><string>Pasame</string>
+  <!-- "droplet" es el applet de AppleScript: recibe los archivos soltados sobre el ícono y lanza pasame. -->
+  <key>CFBundleExecutable</key><string>droplet</string>
+  <key>CFBundleIconFile</key><string>icon</string>
   <key>LSMinimumSystemVersion</key><string>12.0</string>
   <!-- Sin ícono en el Dock ni ventana: la app es la pestaña del navegador. -->
   <key>LSUIElement</key><true/>
   <key>NSHighResolutionCapable</key><true/>
   <key>NSHumanReadableCopyright</key><string>MIT · Martin Coll · martincoll.dev</string>
+  <!-- public.item: se puede soltar cualquier archivo o carpeta sobre el ícono. -->
+  <key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeName</key><string>Cualquier archivo</string>
+      <key>CFBundleTypeRole</key><string>Viewer</string>
+      <key>LSItemContentTypes</key><array><string>public.item</string></array>
+    </dict>
+  </array>
 </dict>
 </plist>
