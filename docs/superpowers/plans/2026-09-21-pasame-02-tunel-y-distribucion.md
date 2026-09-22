@@ -214,8 +214,8 @@ Expected: FAIL — `unknown field PINKey`, `undefined: limiter`.
 ```html
 {{define "pin.html"}}<!DOCTYPE html>
 <html lang="{{.Lang}}"><head>{{template "head" .}}</head>
-<body><main>
-<p class="brand">Pasame</p>
+<body class="plain"><main>
+<p class="brand">{{template "brand"}}</p>
 <h1>{{if .Msg}}{{.Msg}}{{else}}{{t .Lang "pin_prompt" .Sender}}{{end}}</h1>
 <form class="pin" method="post" action="{{.Sess.Path}}/pin">
 <input name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="one-time-code" autofocus required>
@@ -1975,15 +1975,11 @@ Spec: §3.2 (consola parásita: `LSUIElement`; arrastrar sobre el ícono: drople
 
 - [ ] **Step 1: Icono fuente y render**
 
-`packaging/icon/pasame.svg` (flecha que "pasa" de un rectángulo a otro, colores de la UI):
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" rx="224" fill="#0a58ca"/>
-  <rect x="170" y="300" width="260" height="424" rx="40" fill="#fff"/>
-  <rect x="594" y="300" width="260" height="424" rx="40" fill="#fff" opacity=".85"/>
-  <path d="M360 512h300m-90-90 90 90-90 90" stroke="#f59f00" stroke-width="64" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+`packaging/icon/pasame.svg`: es el isotipo de la marca elegida (Ronda, ver `docs/marca/`). Copiarlo tal cual:
+```bash
+cp docs/marca/isotipo.svg packaging/icon/pasame.svg
 ```
+Para los tamaños de 16 y 32 px del `.ico`/`.icns`, `render.sh` usa `docs/marca/isotipo-reducido.svg` (por debajo de 24 px el isotipo completo se empasta).
 `packaging/icon/render.sh`:
 ```bash
 #!/usr/bin/env bash
@@ -1992,7 +1988,10 @@ set -euo pipefail
 cd "$(dirname "$0")"
 set_dir=pasame.iconset
 rm -rf "$set_dir" && mkdir "$set_dir"
-for s in 16 32 64 128 256 512 1024; do rsvg-convert -w $s -h $s pasame.svg -o "png-$s.png"; done
+for s in 16 32 64 128 256 512 1024; do
+  src=pasame.svg; [ $s -lt 24 ] && src=../../docs/marca/isotipo-reducido.svg
+  rsvg-convert -w $s -h $s "$src" -o "png-$s.png"
+done
 for s in 16 32 128 256 512; do
   cp "png-$s.png" "$set_dir/icon_${s}x${s}.png"
   cp "png-$((s*2)).png" "$set_dir/icon_${s}x${s}@2x.png"
@@ -2544,17 +2543,20 @@ Expected: FAIL — no existen los archivos.
 - [ ] **Step 2: `site/site.css`**
 
 ```css
-body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:19px;line-height:1.5;color:#111;background:#fff}
+/* Marca Ronda (docs/marca). El sitio sí carga la tipografía de marca: no tiene la restricción offline de la app. */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+body{margin:0;font-family:"Atkinson Hyperlegible",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:19px;line-height:1.5;color:#1B2A1A;background:#FAFAF6}
 main{max-width:760px;margin:0 auto;padding:32px 16px 64px}
-h1{font-size:40px;margin:0 0 8px}
-.lead{font-size:22px;color:#333;margin:0 0 32px}
-.dl{display:block;text-align:center;padding:22px;font-size:24px;font-weight:700;color:#fff;background:#0a58ca;border-radius:14px;text-decoration:none}
-.sub{text-align:center;color:#555;font-size:16px;margin:10px 0 32px}
-.box{background:#f5f7fb;border-radius:12px;padding:18px 20px;margin:20px 0}
-.beta{background:#fff8e1;border:1px solid #f1d38a}
+h1,h2{font-family:"Bricolage Grotesque",-apple-system,"Segoe UI",sans-serif;font-weight:800;letter-spacing:-.02em}
+h1{font-size:44px;margin:0 0 8px;color:#2F5D2E}
+.lead{font-size:22px;color:#1B2A1A;margin:0 0 32px}
+.dl{display:block;text-align:center;padding:22px;font-size:24px;font-weight:700;color:#1B2A1A;background:#A7C957;border-radius:16px;text-decoration:none}
+.sub{text-align:center;color:#5E675F;font-size:16px;margin:10px 0 32px}
+.box{background:#fff;border:1px solid #E1E4DA;border-radius:16px;padding:18px 20px;margin:20px 0}
+.beta{background:#FBF3D5;border:1px solid #F2C94C}
 ol li{margin:0 0 14px}
-img{max-width:100%;border:1px solid #ddd;border-radius:8px;margin:8px 0}
-a{color:#0a58ca}
+img{max-width:100%;border:1px solid #E1E4DA;border-radius:10px;margin:8px 0}
+a{color:#2F5D2E}
 ```
 
 - [ ] **Step 3: `site/index.html`**
@@ -2568,10 +2570,10 @@ a{color:#0a58ca}
 <title>Pasame — pasá archivos a cualquier celular o computadora</title>
 <meta name="description" content="Pasá fotos, videos y documentos entre dispositivos cercanos. Sin cable, sin cuentas, sin instalar nada en el celular.">
 <link rel="stylesheet" href="site.css">
-<link rel="icon" href="img/icon.png">
+<link rel="icon" href="img/isotipo-reducido.svg" type="image/svg+xml">
 </head>
 <body><main>
-<h1>Pasame</h1>
+<h1><img src="img/logo.svg" alt="Pasame" width="220" height="50" style="border:0;margin:0"></h1>
 <p class="lead">Pasá archivos a cualquier celular o computadora que esté cerca. Sin cable, sin cuentas.</p>
 
 <a class="dl" id="dl" href="https://github.com/KonixDev/pasame/releases">Descargar Pasame</a>
@@ -2667,7 +2669,7 @@ Sin JavaScript o si la API falla, el botón sigue funcionando: lleva a la págin
 </main></body>
 </html>
 ```
-Capturas (a mano, en máquinas reales, con Pasame v0.1.0-rc1 de la Tarea 8): `site/img/win-smartscreen-1.png`, `win-smartscreen-2.png`, `win-firewall.png` en Windows 11; `mac-blocked.png`, `mac-open-anyway.png` en macOS 15. Recortar a la ventana del aviso, 1200 px de ancho máximo, y pasar por `pngquant` o `oxipng`. Copiar además `packaging/linux/icon.png` a `site/img/icon.png`. `TestComoAbrir` falla mientras falte alguna captura: es el recordatorio.
+Capturas (a mano, en máquinas reales, con Pasame v0.1.0-rc1 de la Tarea 8): `site/img/win-smartscreen-1.png`, `win-smartscreen-2.png`, `win-firewall.png` en Windows 11; `mac-blocked.png`, `mac-open-anyway.png` en macOS 15. Recortar a la ventana del aviso, 1200 px de ancho máximo, y pasar por `pngquant` o `oxipng`. Copiar además los logos de la marca: `cp docs/marca/logo.svg docs/marca/isotipo-reducido.svg site/img/`. `TestComoAbrir` falla mientras falte alguna captura: es el recordatorio.
 
 - [ ] **Step 5: `site/CNAME` y deploy**
 

@@ -27,8 +27,8 @@
     alsoTry: 'o probá: ',
     activity: 'Actividad',
     files: 'Archivos',
-    nobody: '● Nadie entró todavía. Tiene que estar en la misma red WiFi.',
-    devices: function (n) { return '● ' + n + (n === 1 ? ' dispositivo conectado' : ' dispositivos conectados'); },
+    nobody: 'Nadie entró todavía. Tiene que estar en la misma red WiFi.',
+    devices: function (n) { return n + (n === 1 ? ' dispositivo conectado' : ' dispositivos conectados'); },
     downloading: function (name, k) { return '⬇ Descargando ' + name + (k > 1 ? ' (' + k + ' personas)' : ''); },
     downloaded: function (name, k) { return '✓ ' + name + ' descargado' + (k > 1 ? ' ' + k + ' veces' : ''); },
     uploading: function (name) { return '⬆ Recibiendo ' + name + '…'; },
@@ -100,9 +100,16 @@
     return h;
   }
 
+  // Isotipo de la marca como indicador: el centro es esta compu, los de alrededor, quienes entraron (hasta 6).
+  function ronda(n) {
+    var pts = [[32, 12.5], [48.9, 22.25], [48.9, 41.75], [32, 51.5], [15.1, 41.75], [15.1, 22.25]], h = '';
+    for (var i = 0; i < 6; i++) h += '<circle cx="' + pts[i][0] + '" cy="' + pts[i][1] + '" r="5.5" fill="' + (i < n ? 'var(--brand)' : 'var(--off)') + '"/>';
+    return '<svg class="ronda" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="10" fill="var(--accent)"/>' + h + '</svg>';
+  }
+
   function activity(s) {
     var st = s.stats || {}, lines = [];
-    lines.push(st.clients ? T.devices(st.clients) : T.nobody);
+    lines.push(ronda(st.clients || 0) + '<span>' + esc(st.clients ? T.devices(st.clients) : T.nobody) + '</span>');
     var files = s.files || [];
     Object.keys(st.active || {}).forEach(function (i) {
       if (files[i]) lines.push(esc(T.downloading(files[i].name, st.active[i])));

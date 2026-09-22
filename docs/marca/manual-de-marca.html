@@ -1,0 +1,731 @@
+<meta charset="utf-8">
+<title>Manual de marca Pasame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Figtree:wght@400;600;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600;800&family=Public+Sans:wght@400;600;700&family=Overpass:wght@400;600;800;900&display=swap">
+<style>
+:root{
+  --bg:#F7F8FA; --surface:#FFFFFF; --soft:#EEF1F5; --line:#DDE2E9;
+  --ink:#131920; --muted:#58626F; --faint:#8A94A1; --accent:#2D4F86; --accent-soft:#E4EBF6;
+  --ok:#17803D; --warn:#A15C00; --bad:#B42318;
+  --sans:"Hanken Grotesk",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1216; --surface:#151A20; --soft:#1B2129; --line:#2A323C;
+  --ink:#E7EBF0; --muted:#A0AAB6; --faint:#6E7884; --accent:#93B4EC; --accent-soft:#1D2A3E;
+  --ok:#5CC98A; --warn:#E6A94A; --bad:#F2877D;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E1216; --surface:#151A20; --soft:#1B2129; --line:#2A323C;
+  --ink:#E7EBF0; --muted:#A0AAB6; --faint:#6E7884; --accent:#93B4EC; --accent-soft:#1D2A3E;
+  --ok:#5CC98A; --warn:#E6A94A; --bad:#F2877D;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);padding-inline:20px;padding-block:0 80px}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:var(--accent)}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.15;margin:0}
+p{margin:0 0 12px;max-width:68ch}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* Portada */
+.cover{padding-block:56px 36px;border-bottom:1px solid var(--line);display:grid;gap:28px;grid-template-columns:1.4fr 1fr;align-items:end}
+.cover h1{font-size:clamp(40px,6vw,72px);font-weight:800;letter-spacing:-.02em;margin-top:14px}
+.cover .lede{font-size:19px;color:var(--muted);margin-top:16px}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font:500 13px/1.5 var(--mono);color:var(--muted);align-self:end}
+.meta b{color:var(--ink);font-weight:600}
+/* Índice */
+.toc{display:flex;flex-wrap:wrap;gap:8px;padding-block:18px;border-bottom:1px solid var(--line)}
+.toc a{font:600 13px/1 var(--sans);text-decoration:none;color:var(--ink);padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.toc a.hot{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* Capítulos */
+.chapter{padding-block:56px 8px}
+.chapter>header{display:grid;grid-template-columns:120px 1fr;gap:24px;margin-bottom:28px}
+.chapter>header .num{font:600 13px/1 var(--mono);color:var(--muted);padding-top:8px}
+.chapter h2{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-.01em}
+.chapter header p{color:var(--muted);margin-top:10px;font-size:17px}
+.block{margin:0 0 36px 144px}
+.block h3{font-size:20px;font-weight:700;margin-bottom:12px}
+.block h4{font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.panel p:last-child{margin-bottom:0}
+.rule{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:14px 0;border-top:1px solid var(--line)}
+.rule:first-child{border-top:0}
+.rule .k{font:600 13px/1.6 var(--mono);color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+.tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+th,td{text-align:left;padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+thead th{border-top:0;font:600 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--soft)}
+td.num{font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:14px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.say,.nosay{border-radius:12px;padding:14px 16px;border:1px solid var(--line);background:var(--surface)}
+.say{border-left:4px solid var(--ok)}
+.nosay{border-left:4px solid var(--bad)}
+.say .l,.nosay .l{font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;display:block}
+.say .l{color:var(--ok)} .nosay .l{color:var(--bad)}
+.say p,.nosay p{margin:0;font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 13px/1 var(--mono);padding:7px 10px;border-radius:8px;background:var(--soft);color:var(--ink)}
+.chip.x{text-decoration:line-through;color:var(--bad);background:transparent;border:1px dashed var(--line)}
+/* Pestañas de propuestas (funcionan sin JS: radios + CSS) */
+.tabs-in{position:absolute;opacity:0;pointer-events:none}
+.tabbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-block:12px;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabbar label{cursor:pointer;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface);display:grid;gap:4px}
+.tabbar label b{font-size:16px}
+.tabbar label span{font-size:13px;color:var(--muted);line-height:1.35}
+.tabbar label .sw{display:flex;gap:3px;margin-top:4px}
+.tabbar label .sw i{width:18px;height:8px;border-radius:2px;display:block}
+#tA:checked~.tabbar label[for=tA],#tB:checked~.tabbar label[for=tB],#tC:checked~.tabbar label[for=tC],#tD:checked~.tabbar label[for=tD]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+#tA:focus-visible~.tabbar label[for=tA],#tB:focus-visible~.tabbar label[for=tB],#tC:focus-visible~.tabbar label[for=tC],#tD:focus-visible~.tabbar label[for=tD]{outline:3px solid var(--accent);outline-offset:2px}
+.prop{display:none}
+#tA:checked~.props .pA,#tB:checked~.props .pB,#tC:checked~.props .pC,#tD:checked~.props .pD{display:block}
+/* Especímenes: colores fijos de cada propuesta (no cambian con el tema del manual) */
+.spec{border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.stage{display:flex;align-items:center;justify-content:center;min-height:220px;padding:28px}
+.stage.sm{min-height:150px;padding:20px}
+.cap{font:500 12px/1.4 var(--mono);color:var(--muted);padding:10px 14px;background:var(--surface);border-top:1px solid var(--line)}
+.logo svg{display:block;height:auto}
+.swatches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.swatch{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.swatch .c{height:110px;display:flex;align-items:flex-end;padding:12px;font:700 15px/1 var(--sans)}
+.swatch .d{padding:12px 14px;font-size:13.5px;line-height:1.5}
+.swatch .d b{display:block;font-size:15px}
+.swatch .d .mono{color:var(--muted);display:block}
+.ratio{display:flex;height:22px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.ratio i{display:block;height:100%}
+.contrast{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.cbox{border-radius:10px;padding:12px 14px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:700}
+.cbox small{font:600 12px/1.2 var(--mono);text-align:right}
+.type-spec{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:22px}
+.type-spec .big{font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-.01em}
+.scale td:first-child{font:500 13px/1.4 var(--mono);color:var(--muted);white-space:nowrap}
+/* Maquetas */
+.mock{border-radius:12px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04),0 10px 30px rgba(20,30,50,.12);border:1px solid rgba(0,0,0,.08)}
+.chrome{display:flex;align-items:center;gap:6px;padding:8px 10px;background:#E9ECF0}
+.chrome i{width:9px;height:9px;border-radius:50%;background:#C8CDD4;display:block}
+.chrome .url{flex:1;margin-left:8px;background:#fff;border-radius:6px;font:500 11px/1 var(--mono);color:#5b6470;padding:6px 10px;display:flex;gap:6px;align-items:center}
+.chrome .url svg{width:12px;height:12px;flex:none}
+.phone{width:230px;border-radius:30px;padding:10px;background:#16181c;margin:0 auto}
+.phone .scr{border-radius:22px;overflow:hidden;height:440px}
+.qrbox{background:#fff;border-radius:8px;line-height:0}
+.qrbox svg{width:100%;height:auto}
+.dodont{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dd{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.dd .stage{min-height:120px;padding:14px}
+.dd .t{padding:10px 12px;font-size:13.5px;line-height:1.45;border-top:1px solid var(--line)}
+.dd .t b{font:700 11px/1 var(--mono);letter-spacing:.1em;display:block;margin-bottom:5px}
+.dd.ok .t b{color:var(--ok)} .dd.no .t b{color:var(--bad)}
+pre.tokens{margin:0;padding:16px;overflow-x:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;font:400 13px/1.55 var(--mono);color:var(--ink)}
+.verdict{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.meter{display:flex;gap:3px;margin-top:4px}
+.meter i{width:14px;height:6px;border-radius:2px;background:var(--line);display:block}
+.meter i.on{background:var(--accent)}
+.pill{display:inline-block;font:600 11px/1 var(--mono);letter-spacing:.06em;padding:5px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);text-transform:uppercase}
+@media (max-width:900px){
+  .cover{grid-template-columns:1fr}
+  .chapter>header{grid-template-columns:1fr;gap:8px}
+  .block{margin-left:0}
+  .grid4,.dodont{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid3,.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tabbar{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .grid2,.grid3,.grid4,.swatches,.pair,.verdict,.dodont{grid-template-columns:1fr}
+  .tabbar label span,.tabbar label .sw{display:none}
+}
+@media (prefers-reduced-motion:no-preference){.toc a,.tabbar label{transition:border-color .15s,color .15s}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="qr" viewBox="0 0 37 37"><rect width="37" height="37" fill="#fff"/><g fill="#000"><rect x="4" y="4" width="7" height="1"/><rect x="13" y="4" width="3" height="1"/><rect x="19" y="4" width="2" height="1"/><rect x="22" y="4" width="1" height="1"/><rect x="24" y="4" width="1" height="1"/><rect x="26" y="4" width="7" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="15" y="5" width="1" height="1"/><rect x="22" y="5" width="1" height="1"/><rect x="24" y="5" width="1" height="1"/><rect x="26" y="5" width="1" height="1"/><rect x="32" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="6" y="6" width="3" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="12" y="6" width="4" height="1"/><rect x="18" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="22" y="6" width="2" height="1"/><rect x="26" y="6" width="1" height="1"/><rect x="28" y="6" width="3" height="1"/><rect x="32" y="6" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/><rect x="6" y="7" width="3" height="1"/><rect x="10" y="7" width="1" height="1"/><rect x="12" y="7" width="1" height="1"/><rect x="14" y="7" width="1" height="1"/><rect x="16" y="7" width="1" height="1"/><rect x="20" y="7" width="2" height="1"/><rect x="23" y="7" width="1" height="1"/><rect x="26" y="7" width="1" height="1"/><rect x="28" y="7" width="3" height="1"/><rect x="32" y="7" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="6" y="8" width="3" height="1"/><rect x="10" y="8" width="1" height="1"/><rect x="12" y="8" width="2" height="1"/><rect x="17" y="8" width="3" height="1"/><rect x="23" y="8" width="1" height="1"/><rect x="26" y="8" width="1" height="1"/><rect x="28" y="8" width="3" height="1"/><rect x="32" y="8" width="1" height="1"/><rect x="4" y="9" width="1" height="1"/><rect x="10" y="9" width="1" height="1"/><rect x="12" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/><rect x="17" y="9" width="5" height="1"/><rect x="26" y="9" width="1" height="1"/><rect x="32" y="9" width="1" height="1"/><rect x="4" y="10" width="7" height="1"/><rect x="12" y="10" width="1" height="1"/><rect x="14" y="10" width="1" height="1"/><rect x="16" y="10" width="1" height="1"/><rect x="18" y="10" width="1" height="1"/><rect x="20" y="10" width="1" height="1"/><rect x="22" y="10" width="1" height="1"/><rect x="24" y="10" width="1" height="1"/><rect x="26" y="10" width="7" height="1"/><rect x="12" y="11" width="1" height="1"/><rect x="14" y="11" width="1" height="1"/><rect x="16" y="11" width="2" height="1"/><rect x="19" y="11" width="1" height="1"/><rect x="23" y="11" width="1" height="1"/><rect x="4" y="12" width="1" height="1"/><rect x="6" y="12" width="5" height="1"/><rect x="14" y="12" width="2" height="1"/><rect x="18" y="12" width="2" height="1"/><rect x="21" y="12" width="4" height="1"/><rect x="26" y="12" width="5" height="1"/><rect x="4" y="13" width="1" height="1"/><rect x="7" y="13" width="1" height="1"/><rect x="13" y="13" width="2" height="1"/><rect x="19" y="13" width="2" height="1"/><rect x="24" y="13" width="5" height="1"/><rect x="32" y="13" width="1" height="1"/><rect x="4" y="14" width="1" height="1"/><rect x="9" y="14" width="3" height="1"/><rect x="13" y="14" width="4" height="1"/><rect x="21" y="14" width="2" height="1"/><rect x="25" y="14" width="1" height="1"/><rect x="27" y="14" width="1" height="1"/><rect x="4" y="15" width="4" height="1"/><rect x="12" y="15" width="1" height="1"/><rect x="15" y="15" width="2" height="1"/><rect x="18" y="15" width="1" height="1"/><rect x="20" y="15" width="3" height="1"/><rect x="26" y="15" width="2" height="1"/><rect x="31" y="15" width="1" height="1"/><rect x="4" y="16" width="1" height="1"/><rect x="7" y="16" width="2" height="1"/><rect x="10" y="16" width="1" height="1"/><rect x="12" y="16" width="2" height="1"/><rect x="15" y="16" width="1" height="1"/><rect x="20" y="16" width="2" height="1"/><rect x="24" y="16" width="2" height="1"/><rect x="27" y="16" width="1" height="1"/><rect x="29" y="16" width="2" height="1"/><rect x="4" y="17" width="2" height="1"/><rect x="11" y="17" width="1" height="1"/><rect x="14" y="17" width="1" height="1"/><rect x="17" y="17" width="3" height="1"/><rect x="24" y="17" width="5" height="1"/><rect x="30" y="17" width="1" height="1"/><rect x="32" y="17" width="1" height="1"/><rect x="4" y="18" width="1" height="1"/><rect x="9" y="18" width="2" height="1"/><rect x="12" y="18" width="1" height="1"/><rect x="15" y="18" width="1" height="1"/><rect x="17" y="18" width="5" height="1"/><rect x="23" y="18" width="1" height="1"/><rect x="25" y="18" width="1" height="1"/><rect x="28" y="18" width="1" height="1"/><rect x="30" y="18" width="1" height="1"/><rect x="4" y="19" width="1" height="1"/><rect x="6" y="19" width="1" height="1"/><rect x="11" y="19" width="4" height="1"/><rect x="17" y="19" width="1" height="1"/><rect x="19" y="19" width="1" height="1"/><rect x="21" y="19" width="3" height="1"/><rect x="25" y="19" width="2" height="1"/><rect x="28" y="19" width="1" height="1"/><rect x="31" y="19" width="1" height="1"/><rect x="4" y="20" width="5" height="1"/><rect x="10" y="20" width="2" height="1"/><rect x="15" y="20" width="1" height="1"/><rect x="18" y="20" width="2" height="1"/><rect x="21" y="20" width="2" height="1"/><rect x="26" y="20" width="1" height="1"/><rect x="30" y="20" width="1" height="1"/><rect x="4" y="21" width="1" height="1"/><rect x="7" y="21" width="1" height="1"/><rect x="9" y="21" width="1" height="1"/><rect x="11" y="21" width="1" height="1"/><rect x="13" y="21" width="1" height="1"/><rect x="15" y="21" width="1" height="1"/><rect x="19" y="21" width="2" height="1"/><rect x="24" y="21" width="1" height="1"/><rect x="28" y="21" width="3" height="1"/><rect x="32" y="21" width="1" height="1"/><rect x="4" y="22" width="1" height="1"/><rect x="6" y="22" width="1" height="1"/><rect x="8" y="22" width="3" height="1"/><rect x="12" y="22" width="1" height="1"/><rect x="14" y="22" width="3" height="1"/><rect x="21" y="22" width="3" height="1"/><rect x="26" y="22" width="1" height="1"/><rect x="28" y="22" width="3" height="1"/><rect x="4" y="23" width="1" height="1"/><rect x="8" y="23" width="2" height="1"/><rect x="14" y="23" width="3" height="1"/><rect x="18" y="23" width="1" height="1"/><rect x="20" y="23" width="1" height="1"/><rect x="23" y="23" width="1" height="1"/><rect x="28" y="23" width="1" height="1"/><rect x="31" y="23" width="1" height="1"/><rect x="4" y="24" width="1" height="1"/><rect x="10" y="24" width="1" height="1"/><rect x="13" y="24" width="1" height="1"/><rect x="15" y="24" width="2" height="1"/><rect x="21" y="24" width="2" height="1"/><rect x="24" y="24" width="5" height="1"/><rect x="30" y="24" width="3" height="1"/><rect x="12" y="25" width="1" height="1"/><rect x="14" y="25" width="1" height="1"/><rect x="17" y="25" width="3" height="1"/><rect x="24" y="25" width="1" height="1"/><rect x="28" y="25" width="5" height="1"/><rect x="4" y="26" width="7" height="1"/><rect x="14" y="26" width="6" height="1"/><rect x="21" y="26" width="1" height="1"/><rect x="24" y="26" width="1" height="1"/><rect x="26" y="26" width="1" height="1"/><rect x="28" y="26" width="3" height="1"/><rect x="4" y="27" width="1" height="1"/><rect x="10" y="27" width="1" height="1"/><rect x="12" y="27" width="1" height="1"/><rect x="14" y="27" width="1" height="1"/><rect x="16" y="27" width="2" height="1"/><rect x="19" y="27" width="1" height="1"/><rect x="21" y="27" width="1" height="1"/><rect x="24" y="27" width="1" height="1"/><rect x="28" y="27" width="1" height="1"/><rect x="32" y="27" width="1" height="1"/><rect x="4" y="28" width="1" height="1"/><rect x="6" y="28" width="3" height="1"/><rect x="10" y="28" width="1" height="1"/><rect x="12" y="28" width="1" height="1"/><rect x="14" y="28" width="1" height="1"/><rect x="18" y="28" width="3" height="1"/><rect x="22" y="28" width="1" height="1"/><rect x="24" y="28" width="6" height="1"/><rect x="4" y="29" width="1" height="1"/><rect x="6" y="29" width="3" height="1"/><rect x="10" y="29" width="1" height="1"/><rect x="12" y="29" width="2" height="1"/><rect x="15" y="29" width="2" height="1"/><rect x="19" y="29" width="2" height="1"/><rect x="22" y="29" width="5" height="1"/><rect x="28" y="29" width="1" height="1"/><rect x="31" y="29" width="1" height="1"/><rect x="4" y="30" width="1" height="1"/><rect x="6" y="30" width="3" height="1"/><rect x="10" y="30" width="1" height="1"/><rect x="12" y="30" width="1" height="1"/><rect x="14" y="30" width="2" height="1"/><rect x="21" y="30" width="2" height="1"/><rect x="25" y="30" width="1" height="1"/><rect x="27" y="30" width="1" height="1"/><rect x="31" y="30" width="1" height="1"/><rect x="4" y="31" width="1" height="1"/><rect x="10" y="31" width="1" height="1"/><rect x="14" y="31" width="5" height="1"/><rect x="20" y="31" width="2" height="1"/><rect x="23" y="31" width="2" height="1"/><rect x="26" y="31" width="1" height="1"/><rect x="28" y="31" width="1" height="1"/><rect x="31" y="31" width="1" height="1"/><rect x="4" y="32" width="7" height="1"/><rect x="12" y="32" width="1" height="1"/><rect x="16" y="32" width="1" height="1"/><rect x="19" y="32" width="2" height="1"/><rect x="22" y="32" width="1" height="1"/><rect x="24" y="32" width="1" height="1"/><rect x="26" y="32" width="2" height="1"/></g></symbol></defs></svg>
+
+<div class="wrap">
+
+<section class="cover">
+  <div>
+    <span class="eyebrow">Manual de marca · Propuesta elegida: B · Ronda</span>
+    <h1>Pasame</h1>
+    <p class="lede">Cuatro direcciones de identidad para una app que pasa archivos entre dispositivos cercanos. Cada una está resuelta completa (logo, color, tipografía, aplicaciones y reglas) para que se pueda elegir mirando cómo quedaría de verdad, no un moodboard.</p>
+  </div>
+  <div class="meta">
+    <span>Versión</span><b>0.1 · 21 sep 2026</b>
+    <span>Producto</span><b>Pasame v0.1 (red local)</b>
+    <span>Dominio</span><b>pasame.com.ar</b>
+    <span>Repo</span><b>github.com/KonixDev/pasame</b>
+    <span>Decisión</span><b>B · Ronda (21 sep 2026)</b>
+  </div>
+</section>
+
+<nav class="toc" aria-label="Índice">
+  <a href="#criterio">Criterio</a>
+  <a href="#nombre">Nombre</a>
+  <a href="#voz">Voz y tono</a>
+  <a href="#fijas">Reglas fijas</a>
+  <a class="hot" href="#propuestas">Las 4 propuestas</a>
+  <a href="#comparacion">Comparación y recomendación</a>
+</nav>
+
+<section class="chapter" id="criterio">
+  <header><span class="num">Capítulo 1</span><div><h2>Cómo se decide todo en esta marca</h2><p>La marca no es decoración encima del producto: es el primer contacto de alguien que no sabe qué es una IP. Por eso se evalúa con los dos objetivos del proyecto, en este orden.</p></div></header>
+  <div class="block">
+    <div class="grid2">
+      <div class="panel"><span class="pill">Objetivo 1</span><h3 style="margin-top:12px">Máximo alcance de dispositivos</h3><p>La identidad tiene que verse igual en un iPhone nuevo, en un Android 5, en la TV del living y en un Kindle. Consecuencia directa: <b>la marca no depende de una tipografía descargada en el producto</b>, ni de degradés, ni de transparencias, ni de color para transmitir información.</p></div>
+      <div class="panel"><span class="pill">Objetivo 2</span><h3 style="margin-top:12px">Máxima simpleza, para cualquier persona</h3><p>Una persona de 60 años, sin ayuda. Consecuencia directa: <b>el logo no compite con el botón</b>. En cada pantalla manda una sola acción; la marca acompaña en un costado, chica, y nunca se confunde con algo que se pueda tocar.</p></div>
+    </div>
+  </div>
+  <div class="block">
+    <h3>La prueba de las tres preguntas</h3>
+    <p>Antes de aprobar cualquier pieza (un ícono, un color nuevo, un cartel en el sitio), se responde:</p>
+    <div class="panel">
+      <div class="rule"><span class="k">1</span><div><b>¿Se entiende en blanco y negro, a 16 píxeles?</b> Si el isotipo no se reconoce en la pestaña del navegador ni impreso en una fotocopia, no sirve.</div></div>
+      <div class="rule"><span class="k">2</span><div><b>¿Alguien podría confundirlo con un botón?</b> Si el logo tiene la forma o el color del botón principal, la persona lo toca. En la pantalla del emisor esto es crítico.</div></div>
+      <div class="rule"><span class="k">3</span><div><b>¿Le suma un paso o una palabra técnica a alguien?</b> Cualquier texto de marca pasa por el glosario del capítulo 3.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="nombre">
+  <header><span class="num">Capítulo 2</span><div><h2>El nombre</h2><p>“Pasame” es lo que se dice en la mesa: <i>pasame ese archivo, pasame las fotos</i>. El nombre es el pedido. No hay que explicarlo.</p></div></header>
+  <div class="block">
+    <div class="grid3">
+      <div class="panel"><h4 style="margin-top:0">Se escribe</h4><p style="font-size:28px;font-weight:800;margin:0">Pasame</p><p class="mono" style="color:var(--muted)">Mayúscula inicial en texto corrido. Sin tilde: el voseo “pasame” no la lleva.</p></div>
+      <div class="panel"><h4 style="margin-top:0">En el logo</h4><p style="font-size:28px;font-weight:800;margin:0">pasame</p><p class="mono" style="color:var(--muted)">Todo en minúscula dentro del logotipo, igual que en el dominio y en el comando.</p></div>
+      <div class="panel"><h4 style="margin-top:0">Nunca</h4><div class="chips"><span class="chip x">PASAME</span><span class="chip x">PásaMe</span><span class="chip x">Pásame</span><span class="chip x">Pasa-me</span><span class="chip x">Pasame!</span><span class="chip x">Pasame App</span></div></div>
+    </div>
+  </div>
+  <div class="block">
+    <h3>Pronunciación y otros idiomas</h3>
+    <p>En español se dice <b>pa-SA-me</b>. En inglés se lee sin problema (“pah-SAH-meh”) y no se traduce: la página del receptor en inglés dice “Martín is sharing 3 files with you”, pero la marca sigue siendo Pasame. El acento prosódico en la segunda sílaba es el mismo que ya usa cualquier hablante rioplatense.</p>
+    <h4>Frases de marca</h4>
+    <div class="tscroll"><table>
+      <thead><tr><th>Uso</th><th>Texto</th><th>Dónde aparece</th></tr></thead>
+      <tbody>
+        <tr><td>Descripción (oficial)</td><td><b>Pasá archivos a cualquier celular o computadora que esté cerca.</b></td><td>Pantalla inicial del emisor, sitio, metadatos del <code>.exe</code> y del <code>.deb</code></td></tr>
+        <tr><td>Promesa corta</td><td><b>Sin cable, sin cuentas.</b></td><td>Sitio, debajo del nombre</td></tr>
+        <tr><td>La regla de uso</td><td><b>Una persona tiene Pasame en una computadora. La otra, solo un navegador.</b></td><td>README, sitio, capturas de tienda</td></tr>
+        <tr><td>Para el celular que entra al sitio</td><td><b>Desde el celular no hace falta instalar nada.</b></td><td>pasame.com.ar visto desde un teléfono</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="chapter" id="voz">
+  <header><span class="num">Capítulo 3</span><div><h2>Voz y tono</h2><p>Esto no cambia entre propuestas. Es la parte de la marca que más usuarios van a ver: cada botón, cada aviso, cada error.</p></div></header>
+  <div class="block">
+    <h3>Cuatro principios</h3>
+    <div class="grid2">
+      <div class="panel"><h4 style="margin-top:0">Rioplatense, con voseo</h4><p>“Elegí”, “tocá”, “fijate”. Nunca “elige” ni “toca”. Es la voz de alguien de acá que te ayuda, no de un manual traducido.</p></div>
+      <div class="panel"><h4 style="margin-top:0">El verbo primero</h4><p>Los botones dicen lo que pasa al tocarlos: <b>Elegir archivos</b>, <b>Descargar todo</b>, <b>Terminar</b>. Nunca “Aceptar”, “OK” ni “Continuar” sin objeto.</p></div>
+      <div class="panel"><h4 style="margin-top:0">Lo que se ve, no cómo funciona</h4><p>Se nombra lo que la persona reconoce: “esta red WiFi”, no “LAN”; “dirección”, no “IP”; “permiso de Windows”, no “firewall”.</p></div>
+      <div class="panel"><h4 style="margin-top:0">Los errores dicen qué hacer</h4><p>Qué pasó y cómo seguir, en ese orden. Sin disculpas, sin culpar a nadie, sin códigos. “Este envío ya terminó. Pedile un código nuevo a quien te lo compartió.”</p></div>
+    </div>
+  </div>
+  <div class="block">
+    <h3>Glosario: técnico → Pasame</h3>
+    <p>Estas palabras no aparecen nunca en un texto que vea la persona. Un test automático de la app (<code>internal/control/ui_test.go</code>) falla si alguien las agrega.</p>
+    <div class="tscroll"><table>
+      <thead><tr><th>No se dice</th><th>Se dice</th><th>Ejemplo real de la app</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip x">IP · puerto</span></td><td>dirección</td><td>“escribí esto en el navegador: <b>192.168.1.40:8080</b>”</td></tr>
+        <tr><td><span class="chip x">LAN · red local</span></td><td>esta red WiFi</td><td>“Tiene que estar en la misma red WiFi.”</td></tr>
+        <tr><td><span class="chip x">túnel · servidor</span></td><td>por internet</td><td>“Compartir por internet”</td></tr>
+        <tr><td><span class="chip x">firewall</span></td><td>permiso de Windows</td><td>“Revisar permiso de Windows”</td></tr>
+        <tr><td><span class="chip x">token · sesión</span></td><td>código · envío</td><td>“Pedile un código nuevo”</td></tr>
+        <tr><td><span class="chip x">PIN</span></td><td>clave</td><td>“y cuando te pida la clave: 4 8 1 3”</td></tr>
+        <tr><td><span class="chip x">upload · subir</span></td><td>mandar · enviar</td><td>“¿Querés mandarle algo a Martín?”</td></tr>
+        <tr><td><span class="chip x">mDNS · hostname</span></td><td>nombre fácil</td><td>“o probá: pasame.local:8080”</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px;color:var(--muted)">Excepción única y documentada: el aviso de privacidad del túnel dice “Los archivos pasan por los servidores de Cloudflare”, porque tiene que ser exacto sobre por dónde viajan los archivos de alguien.</p>
+  </div>
+  <div class="block">
+    <h3>Así sí, así no</h3>
+    <div class="grid2" style="gap:12px">
+      <div class="say"><span class="l">Así sí</span><p>Nadie entró todavía. Tiene que estar en la misma red WiFi.</p></div>
+      <div class="nosay"><span class="l">Así no</span><p>Esperando conexiones entrantes en 0.0.0.0:8080…</p></div>
+      <div class="say"><span class="l">Así sí</span><p>Si están en un WiFi de un bar, hotel o aeropuerto, esas redes suelen bloquear esto.</p></div>
+      <div class="nosay"><span class="l">Así no</span><p>Es posible que la red tenga habilitado el aislamiento de clientes (AP isolation).</p></div>
+      <div class="say"><span class="l">Así sí</span><p>No se pudo guardar: la computadora de Martín no tiene espacio.</p></div>
+      <div class="nosay"><span class="l">Así no</span><p>Error 507: Insufficient Storage. Lo sentimos, algo salió mal.</p></div>
+      <div class="say"><span class="l">Así sí</span><p>Listo. Los links ya no funcionan.</p></div>
+      <div class="nosay"><span class="l">Así no</span><p>¡Sesión finalizada con éxito! 🎉</p></div>
+    </div>
+    <h4>Tono según el momento</h4>
+    <div class="tscroll"><table>
+      <thead><tr><th>Momento</th><th>Tono</th><th>Largo</th><th>Signos</th></tr></thead>
+      <tbody>
+        <tr><td>Camino feliz (compartiendo, descargando)</td><td>Tranquilo, informativo</td><td>Una línea</td><td>Punto final. Sin exclamaciones.</td></tr>
+        <tr><td>Algo salió bien (recibido, enviado)</td><td>Confirmación seca</td><td>Hasta 6 palabras</td><td>“✓” al inicio, única marca permitida</td></tr>
+        <tr><td>Ayuda (¿no pueden entrar?)</td><td>Paciente, en pasos</td><td>Lista numerada, máx. 4 pasos</td><td>Negrita solo en la acción</td></tr>
+        <tr><td>Error</td><td>Directo, sin drama</td><td>Qué pasó + qué hacer</td><td>Sin “Oops”, sin “Lo sentimos”, sin emoji</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="chapter" id="fijas">
+  <header><span class="num">Capítulo 4</span><div><h2>Reglas fijas, elijas la propuesta que elijas</h2><p>Estas reglas salen del producto y del diseño técnico. Ninguna dirección visual las puede romper.</p></div></header>
+  <div class="block">
+    <div class="grid2">
+      <div class="panel">
+        <h3>El código QR es sagrado</h3>
+        <div class="rule"><span class="k">A</span><div>Siempre <b>negro sobre blanco</b>. Nada de QR de color, invertido ni con degradé: muchas cámaras de Android viejo dejan de leerlo.</div></div>
+        <div class="rule"><span class="k">B</span><div>Margen blanco de <b>4 módulos</b> alrededor (la “zona tranquila” del estándar). No se recorta ni se le apoya nada encima.</div></div>
+        <div class="rule"><span class="k">C</span><div><b>Nunca un logo en el centro.</b> Pasame usa corrección de errores nivel M (15 %); tapar el centro deja al QR al borde de no leerse.</div></div>
+        <div class="rule"><span class="k">D</span><div>Mínimo <b>280 px</b> en pantalla, máximo 480 px. Un toque lo lleva a pantalla completa.</div></div>
+      </div>
+      <div class="panel" style="display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:center">
+        <div class="qrbox" style="padding:0;border:1px solid var(--line)"><svg viewBox="0 0 37 37" role="img" aria-label="QR de ejemplo"><use href="#qr"/></svg></div>
+        <div><h4 style="margin-top:0">Así lo dibuja la app</h4><p style="font-size:14px">Este QR es real: lo generó el paquete <code>internal/qr</code> de Pasame para <code>http://192.168.1.40:8080/s/k3x9m</code>. 37×37 módulos incluida la zona tranquila, versión 4, corrección M.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="grid2">
+      <div class="panel">
+        <h3>La dirección se lee de lejos</h3>
+        <p>La dirección (<code>192.168.1.40:8080</code>) es el segundo elemento más importante de la pantalla después del QR: alguien la dicta en voz alta o la copia de otra pantalla.</p>
+        <div class="rule"><span class="k">A</span><div>Tipografía <b>monoespaciada</b>, siempre. Cada carácter en su lugar: “1” y “l”, “0” y “O” no se confunden.</div></div>
+        <div class="rule"><span class="k">B</span><div><b>Una sola línea.</b> Si no entra, se achica (entre 24 y 40 px). Nunca se parte.</div></div>
+        <div class="rule"><span class="k">C</span><div>Recuadro con borde de 2 px en el color de tinta de la propuesta. Sin color de fondo llamativo.</div></div>
+      </div>
+      <div class="panel">
+        <h3>Accesibilidad mínima</h3>
+        <div class="rule"><span class="k">A</span><div>Texto sobre fondo: contraste <b>≥ 4,5:1</b>. Texto grande (≥ 24 px o ≥ 19 px en negrita): ≥ 3:1. Los números de cada propuesta están medidos, no estimados.</div></div>
+        <div class="rule"><span class="k">B</span><div>Texto de producto: <b>18 px</b> mínimo en el receptor, 16 px en textos secundarios del emisor.</div></div>
+        <div class="rule"><span class="k">C</span><div>Todo lo que se toca mide al menos <b>48 × 48 px</b>. El botón principal, 64 px de alto.</div></div>
+        <div class="rule"><span class="k">D</span><div><b>El color nunca es la única señal.</b> Recibido lleva “✓”, error lleva texto, el estado del envío se escribe.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="panel">
+      <h3>Tipografía de marca ≠ tipografía de producto</h3>
+      <p>Cada propuesta elige una tipografía de marca para el logo, el sitio y las piezas de comunicación. <b>Adentro de la app se usan las tipografías del sistema</b> (San Francisco en Apple, Segoe UI en Windows, Roboto en Android). Tres razones concretas:</p>
+      <div class="grid3" style="margin-top:8px">
+        <div><h4>Funciona sin internet</h4><p style="font-size:15px">La app anda en una red sin salida a internet. Google Fonts no carga ahí.</p></div>
+        <div><h4>La página pesa &lt; 30 KB</h4><p style="font-size:15px">Una sola fuente web pesa lo mismo que toda la página del receptor. En un Android viejo es la diferencia entre ver algo y ver blanco.</p></div>
+        <div><h4>Se ve familiar</h4><p style="font-size:15px">La letra del sistema es la que la persona ya lee todos los días. Menos extrañeza, más confianza.</p></div>
+      </div>
+      <p style="margin-top:8px;color:var(--muted)">Única excepción posible: la dirección en la UI del emisor puede usar la monoespaciada de marca embebida en el binario (unos 20 KB, solo del lado del emisor). Cada propuesta indica si lo necesita.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="propuestas">
+  <header><span class="num">Capítulo 5</span><div><h2>Las cuatro propuestas</h2><p>Mismo nombre, misma voz, mismas reglas fijas. Cambia la idea, el logo, el color y la tipografía. Tocá cada una para verla completa; las maquetas usan la app real y un QR real.</p></div></header>
+</section>
+
+<input class="tabs-in" type="radio" name="prop" id="tA">
+<input class="tabs-in" type="radio" name="prop" id="tB" checked>
+<input class="tabs-in" type="radio" name="prop" id="tC">
+<input class="tabs-in" type="radio" name="prop" id="tD">
+<div class="tabbar" role="tablist" aria-label="Propuestas">
+  <label for="tA"><b>A · Pase</b><span>La evolución de lo que ya existe</span><span class="sw"><i style="background:#0B57D0"></i><i style="background:#17803D"></i><i style="background:#F2A900"></i><i style="background:#16202E"></i></span></label>
+  <label for="tB"><b>B · Ronda <span class="pill" style="font-size:10px;padding:3px 6px">Elegida</span></b><span>Uno comparte, muchos reciben: el mate</span><span class="sw"><i style="background:#2F5D2E"></i><i style="background:#A7C957"></i><i style="background:#5A3A22"></i><i style="background:#FAFAF6;border:1px solid #ddd"></i></span></label>
+  <label for="tC"><b>C · Señal</b><span>El código y la dirección como identidad</span><span class="sw"><i style="background:#0E1116"></i><i style="background:#0072B5"></i><i style="background:#0B7A53"></i><i style="background:#E7EAEE"></i></span></label>
+  <label for="tD"><b>D · Cartel</b><span>Señalética pública: se lee a 5 metros</span><span class="sw"><i style="background:#FFCC00"></i><i style="background:#111111"></i><i style="background:#0055A5"></i><i style="background:#00843D"></i></span></label>
+</div>
+<div class="props">
+<style>
+.m-ui{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--m-bg);color:var(--m-ink);font-size:11px;line-height:1.4}
+.m-ui .hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--m-surface);border-bottom:1px solid var(--m-line)}
+.m-ui .hd .who{margin-left:auto;color:var(--m-muted);font-size:10px}
+.m-ui .bd{margin:10px;padding:12px 14px;background:var(--m-surface);border:1px solid var(--m-line);border-radius:var(--m-radius)}
+.m-ui .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.m-ui h5{margin:0;font-size:14px;font-weight:700}
+.m-ui .btn2{border:1.5px solid var(--m-primary);color:var(--m-primary);border-radius:calc(var(--m-radius) - 4px);padding:4px 9px;font-weight:700;font-size:10px;background:var(--m-surface)}
+.m-ui .row{display:flex;gap:14px;align-items:center;margin:10px 0}
+.m-ui .qrw{width:120px;flex:none;background:#fff;border:1px solid var(--m-line);border-radius:6px;line-height:0}
+.m-ui .qrw svg{width:100%;height:auto}
+.m-ui .side p{margin:0 0 6px;max-width:none}
+.m-ui .addr{display:inline-block;font:700 17px/1 ui-monospace,Menlo,Consolas,monospace;padding:6px 9px;border:2px solid var(--m-ink);border-radius:calc(var(--m-radius) - 4px);background:var(--m-addrbg);white-space:nowrap}
+.m-ui .sec{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--m-muted);border-bottom:1px solid var(--m-line);padding-bottom:4px;margin:10px 0 5px}
+.m-ui .act p{margin:0 0 3px;max-width:none}
+.m-rx{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--m-bg);color:var(--m-ink);height:100%;padding:14px 12px;font-size:12px;line-height:1.35}
+.m-rx .brandline{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.m-rx h6{font-size:16px;margin:0 0 10px;font-weight:700;line-height:1.2}
+.m-rx .card{background:var(--m-surface);border:1px solid var(--m-line);border-radius:var(--m-radius);padding:10px;margin-bottom:10px}
+.m-rx .big{display:block;text-align:center;font-weight:700;font-size:12.5px;padding:11px 6px;border-radius:calc(var(--m-radius) - 4px);background:var(--m-primary);color:var(--m-onprimary);margin-bottom:8px}
+.m-rx .big.alt{background:var(--m-ok);color:#fff}
+.m-rx .f{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:7px 0;border-top:1px solid var(--m-line)}
+.m-rx .f:first-of-type{border-top:0}
+.m-rx .f b{display:block;font-size:12px;color:var(--m-link,var(--m-primary))}
+.m-rx .f span{color:var(--m-muted);font-size:10.5px}
+.m-rx .v{border:1.5px solid var(--m-link,var(--m-primary));color:var(--m-link,var(--m-primary));border-radius:7px;padding:3px 8px;font-weight:700;font-size:10.5px}
+.m-rx .q{font-weight:700;font-size:12.5px;margin:0 0 8px}
+.m-rx .foot{color:var(--m-muted);font-size:10px}
+.tab{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #d8dde4;border-bottom:0;border-radius:10px 10px 0 0;padding:8px 12px;width:210px;font:500 12px/1 -apple-system,"Segoe UI",sans-serif;color:#222}
+.tabrow{background:#E3E7EC;padding:10px 12px 0;border-radius:10px 10px 0 0}
+.tabrow .bar{height:26px;background:#fff;border:1px solid #d8dde4;border-top:0}
+.dock{display:flex;gap:10px;align-items:flex-end;justify-content:center;padding:12px 16px;border-radius:18px;background:rgba(210,216,224,.6);backdrop-filter:blur(6px)}
+.dock .o{width:44px;height:44px;border-radius:11px;background:#c9ced6}
+.hero{padding:22px 20px;border-radius:12px}
+.hero .hl{font-size:22px;line-height:1.15;margin:12px 0 14px;font-weight:800}
+.hero .dl{display:inline-block;padding:10px 16px;border-radius:10px;font-weight:700;font-size:14px}
+</style>
+<article class="prop pA" aria-label="Propuesta A: Pase">
+<section class="chapter" style="padding-top:36px"><header><span class="num">Propuesta A</span><div><h2>Pase</h2><p>La evolución de lo que ya existe.</p></div></header>
+<div class="block"><div class="grid2" style="align-items:stretch">
+<div class="spec"><div class="stage" style="background:#FFFFFF;min-height:260px"><span style="display:inline-flex;align-items:center;gap:21px"><svg viewBox="0 0 64 64" width="78" height="78" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font:800 60px/1 Figtree,sans-serif;letter-spacing:-.025em;color:#0A2A66">pasame</span></span></div><div class="cap">Logo principal sobre claro</div></div>
+<div class="panel"><h3>La idea</h3><p>El gesto de alcanzarle algo a otro. Un archivo sale de un lado y llega al otro, en línea recta, sin vueltas. Es la dirección más cercana a la app que ya funciona: toma el azul y el icono actuales y los vuelve un sistema.</p></div></div></div>
+<div class="block"><h3>Por qué sirve a los dos objetivos</h3><div class="panel"><div class="rule"><span class="k">+</span><div><b>Alcance:</b> formas planas, un solo color de fondo, flecha gruesa: se reconoce a 16 px y en blanco y negro.</div></div><div class="rule"><span class="k">+</span><div><b>Simpleza:</b> la flecha dice “pasar” sin palabras; el azul ya es el color de “esto se toca” en toda la web, y por eso el logo nunca se ubica al lado del botón principal.</div></div><div class="rule"><span class="k">+</span><div><b>Continuidad:</b> cero costo de migración; la app de hoy ya está en esta dirección.</div></div><div class="rule"><span class="k" style="color:var(--warn)">!</span><div><b>El riesgo:</b> Es la opción más segura y, justamente por eso, la menos memorable. Un azul con una flecha se parece a muchas apps de transferencia.</div></div></div></div>
+<div class="block"><h3>Sistema de logo</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#0A2A66"><span style="display:inline-flex;align-items:center;gap:16px"><svg viewBox="0 0 64 64" width="58" height="58" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font:800 45px/1 Figtree,sans-serif;letter-spacing:-.025em;color:#FFFFFF">pasame</span></span></div><div class="cap">Logo principal sobre oscuro</div></div>
+<div class="spec"><div class="stage" style="background:#FFFFFF;gap:22px;align-items:flex-end"><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">64</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">32</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="24" height="24" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">24</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">16</span></div></div><div class="cap">Isotipo a 64, 32, 24 y 16 px</div></div>
+</div>
+<div class="grid4" style="margin-top:16px">
+<div class="spec"><div class="stage sm" style="background:#E9ECF0"><svg viewBox="0 0 64 64" width="96" height="96" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cap">Ícono de app (macOS, Windows, Linux)</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><span style="font:800 40px/1 Figtree,sans-serif;letter-spacing:-.025em;color:#0A2A66">pasame</span></div><div class="cap">Logotipo solo</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#16202E"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cap">Monocromo positivo</div></div>
+<div class="spec"><div class="stage sm" style="background:#111"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#FFFFFF"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#16202E"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#16202E" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cap">Monocromo negativo</div></div>
+</div></div>
+<div class="block"><h3>Construcción, zona de protección y tamaños mínimos</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#fff;position:relative">
+<div style="position:relative;line-height:0">
+<svg viewBox="0 0 64 64" width="220" height="220" style="position:absolute;inset:0;z-index:2" aria-hidden="true"><g stroke="#E0457B" stroke-width=".25" opacity=".75"><line x1="0" y1="0" x2="0" y2="64"/><line x1="0" y1="0" x2="64" y2="0"/><line x1="8" y1="0" x2="8" y2="64"/><line x1="0" y1="8" x2="64" y2="8"/><line x1="16" y1="0" x2="16" y2="64"/><line x1="0" y1="16" x2="64" y2="16"/><line x1="24" y1="0" x2="24" y2="64"/><line x1="0" y1="24" x2="64" y2="24"/><line x1="32" y1="0" x2="32" y2="64"/><line x1="0" y1="32" x2="64" y2="32"/><line x1="40" y1="0" x2="40" y2="64"/><line x1="0" y1="40" x2="64" y2="40"/><line x1="48" y1="0" x2="48" y2="64"/><line x1="0" y1="48" x2="64" y2="48"/><line x1="56" y1="0" x2="56" y2="64"/><line x1="0" y1="56" x2="64" y2="56"/><line x1="64" y1="0" x2="64" y2="64"/><line x1="0" y1="64" x2="64" y2="64"/></g><circle cx="32" cy="32" r="31.5" fill="none" stroke="#E0457B" stroke-width=".35" stroke-dasharray="1.5 1.5"/></svg>
+<svg viewBox="0 0 64 64" width="220" height="220" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="cap">Retícula de 8 × 8 sobre el isotipo de 64</div></div>
+<div class="panel"><p>Retícula de 64 × 64 con esquinas de radio 15 (23 %). La flecha usa trazo de 6,5 con puntas redondeadas: el mismo grosor que la letra del logotipo en 64 px.</p><h4>Zona de protección</h4><p>El alto del cuadrado de archivo (x) alrededor de todo el logo. Nada entra en ese margen: ni texto, ni otro logo, ni el borde de la pantalla.</p><h4>Tamaños mínimos</h4><div class="tscroll"><table><tbody><tr><td>Isotipo en pantalla</td><td class="num">16 px (favicon)</td></tr><tr><td>Logotipo completo en pantalla</td><td class="num">88 px de ancho</td></tr><tr><td>Impreso</td><td class="num">8 mm el isotipo, 25 mm el logo completo</td></tr></tbody></table></div></div>
+</div></div>
+<div class="block"><h3>Color</h3><div class="swatches"><div class="swatch"><div class="c" style="background:#0B57D0;color:#FFFFFF">Azul Pase</div><div class="d"><b>#0B57D0</b><span class="mono">RGB 11, 87, 208</span>Primario. Botones principales, links, fondo del isotipo.</div></div><div class="swatch"><div class="c" style="background:#0A2A66;color:#FFFFFF">Azul Noche</div><div class="d"><b>#0A2A66</b><span class="mono">RGB 10, 42, 102</span>Títulos del sitio, logotipo sobre claro.</div></div><div class="swatch"><div class="c" style="background:#17803D;color:#FFFFFF">Verde Recibido</div><div class="d"><b>#17803D</b><span class="mono">RGB 23, 128, 61</span>Solo confirmaciones y el botón de enviar del receptor.</div></div><div class="swatch"><div class="c" style="background:#F2A900;color:#16202E">Ámbar Aviso</div><div class="d"><b>#F2A900</b><span class="mono">RGB 242, 169, 0</span>Fondo de avisos (VPN, “¿no pueden entrar?”). Nunca como texto.</div></div><div class="swatch"><div class="c" style="background:#16202E;color:#FFFFFF">Tinta</div><div class="d"><b>#16202E</b><span class="mono">RGB 22, 32, 46</span>Texto principal.</div></div><div class="swatch"><div class="c" style="background:#F2F5FA;color:#16202E">Niebla</div><div class="d"><b>#F2F5FA</b><span class="mono">RGB 242, 245, 250</span>Fondo general de pantallas y del sitio.</div></div></div>
+<h4>Proporción de uso en una pantalla típica</h4><div class="ratio"><i style="background:#F2F5FA;width:58%" title="58%"></i><i style="background:#FFFFFF;width:20%" title="20%"></i><i style="background:#0B57D0;width:12%" title="12%"></i><i style="background:#16202E;width:6%" title="6%"></i><i style="background:#17803D;width:2%" title="2%"></i><i style="background:#F2A900;width:2%" title="2%"></i></div>
+<h4>Contrastes medidos (WCAG 2.2)</h4><div class="contrast"><div class="cbox" style="background:#FFFFFF;color:#0B57D0">Aa texto<small>6.39 : 1<br>AA</small></div><div class="cbox" style="background:#F2F5FA;color:#0B57D0">Aa texto<small>5.84 : 1<br>AA</small></div><div class="cbox" style="background:#F2F5FA;color:#16202E">Aa texto<small>15.01 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#17803D">Aa texto<small>5.01 : 1<br>AA</small></div><div class="cbox" style="background:#F2A900;color:#16202E">Aa texto<small>8.16 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#0A2A66">Aa texto<small>13.67 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#F2A900">Aa texto<small>2.01 : 1<br>Prohibido</small></div></div>
+<p style="margin-top:12px;color:var(--muted);font-size:14px">“Solo texto grande” = válido desde 24 px (o 19 px en negrita). “Prohibido” = no se usa esa combinación para ningún texto ni ícono.</p></div>
+<div class="block"><h3>Tipografía</h3>
+<div class="grid2">
+<div class="type-spec"><span class="eyebrow">Display · Figtree</span><div class="big" style="font-family:'Figtree',sans-serif;font-weight:800;margin-top:12px">Pasá archivos</div><p style="font-family:'Figtree',sans-serif;font-weight:800;font-size:20px;margin-top:14px">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz · 0123456789</p></div>
+<div class="type-spec"><span class="eyebrow">Texto · Figtree</span><p style="font-family:'Figtree',sans-serif;font-size:19px;line-height:1.55;margin-top:12px">La otra persona apunta la cámara del celular al código que aparece y listo: se descargan. Si quiere, te manda fotos de vuelta.</p><span class="eyebrow" style="display:block;margin-top:16px">Dirección · IBM Plex Mono</span><p style="font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;margin:8px 0 0">192.168.1.40:8080</p><p style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--muted);margin-top:6px">0 O o · 1 l I · 8 B · 5 S</p></div>
+</div>
+<p style="margin-top:14px">Figtree: geométrica pero con terminaciones amables, gran altura de x (se lee chica) y cifras claras. Libre (OFL) en Google Fonts. En el producto no se carga: se usa la letra del sistema.</p>
+<div class="tscroll" style="margin-top:12px"><table class="scale"><thead><tr><th>Estilo</th><th>Muestra</th><th>Tamaño / interlineado</th><th>Dónde</th></tr></thead><tbody>
+<tr><td>Título de sitio</td><td style="font-family:'Figtree',sans-serif;font-weight:800;font-size:34px;line-height:1.1">Sin cable, sin cuentas</td><td class="num">48/52 escritorio · 34/38 celular</td><td>Portada de pasame.com.ar</td></tr>
+<tr><td>Título de pantalla</td><td style="font-weight:700;font-size:24px">Martín te comparte 3 archivos</td><td class="num">26/32 receptor · 28/35 emisor</td><td>App (letra del sistema)</td></tr>
+<tr><td>Botón principal</td><td style="font-weight:700;font-size:20px">⬇ Descargar todo (1,2 GB)</td><td class="num">20/26 · negrita</td><td>App</td></tr>
+<tr><td>Texto</td><td style="font-size:18px">Tiene que estar en la misma red WiFi.</td><td class="num">18/26</td><td>App</td></tr>
+<tr><td>Dirección</td><td style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:26px">192.168.1.40:8080</td><td class="num">24–40, una línea</td><td>Emisor</td></tr>
+<tr><td>Secundario</td><td style="font-size:15px;color:var(--muted)">Si cerrás esta pestaña, Pasame se cierra solo a los 2 minutos.</td><td class="num">15/22</td><td>App</td></tr>
+</tbody></table></div></div>
+<div class="block"><h3>Aplicaciones en la app real</h3>
+<div class="grid2" style="grid-template-columns:1.55fr 1fr;align-items:center">
+<div><div class="mock"><div class="chrome"><i></i><i></i><i></i><span class="url">127.0.0.1:55302</span></div>
+<div class="m-ui" style="--m-bg:#F2F5FA;--m-surface:#FFFFFF;--m-ink:#16202E;--m-muted:#5A6478;--m-line:#DCE2EB;--m-primary:#0B57D0;--m-onprimary:#FFFFFF;--m-ok:#17803D;--m-radius:10px;--m-addrbg:#F2F5FA;--m-link:#0B57D0">
+<div class="hd" style=""><svg viewBox="0 0 64 64" width="20" height="20" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font:800 15px/1 Figtree,sans-serif;letter-spacing:-.025em;color:#0A2A66">pasame</span><span class="who" style="">Tu nombre: <b>Martín</b></span></div>
+<div class="bd">
+<div class="top"><h5>Compartiendo 3 archivos (1,2 GB)</h5><span class="btn2">Terminar</span></div>
+<div class="row"><div class="qrw"><svg viewBox="0 0 37 37" role="img" aria-label="QR de ejemplo"><use href="#qr"/></svg></div>
+<div class="side"><p><b>Desde un celular:</b><br>apuntá la cámara a este código.</p><p><b>Desde una computadora:</b><br>escribí esto en el navegador</p><span class="addr">192.168.1.40:8080</span></div></div>
+<div class="sec">Actividad</div><div class="act"><p>● 2 dispositivos conectados</p><p>⬇ Descargando vacaciones.mp4 (2 personas)</p><p style="color:#17803D">✓ Recibido IMG_2231.jpg</p></div>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px">Emisor: la marca en la esquina, el botón y el QR mandan.</p></div>
+<div><div class="phone"><div class="scr"><div class="m-rx" style="--m-bg:#F2F5FA;--m-surface:#FFFFFF;--m-ink:#16202E;--m-muted:#5A6478;--m-line:#DCE2EB;--m-primary:#0B57D0;--m-onprimary:#FFFFFF;--m-ok:#17803D;--m-radius:10px;--m-addrbg:#F2F5FA;--m-link:#0B57D0">
+<div class="brandline" style=""><svg viewBox="0 0 64 64" width="18" height="18" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font:800 14px/1 Figtree,sans-serif;letter-spacing:-.025em;color:#0A2A66">pasame</span></div>
+<h6>Martín te comparte 3 archivos</h6>
+<div class="card"><span class="big">⬇ Descargar todo (1,2 GB)</span>
+<div class="f"><div><b>vacaciones.mp4</b><span>980 MB</span></div><span class="v">Ver</span></div>
+<div class="f"><div><b>contrato.pdf</b><span>1,3 MB</span></div><span class="v">Ver</span></div>
+<div class="f"><div><b>foto-abuela.jpg</b><span>4,2 MB</span></div><span class="v">Ver</span></div></div>
+<div class="card"><p class="q">¿Querés mandarle algo a Martín?</p><span class="big alt">⬆ Elegir archivos para enviar</span></div>
+<p class="foot">Los archivos viajan solo por esta red.</p>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px;text-align:center">Receptor en el celular (375 px).</p></div>
+</div>
+<div class="grid3" style="margin-top:18px">
+<div class="spec"><div class="stage sm" style="background:#fff;padding:18px 14px;display:block"><div class="tabrow"><div class="tab"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Pasame</span><span style="margin-left:auto;color:#999">×</span></div></div><div class="tabrow" style="padding:0;border-radius:0"><div class="bar"></div></div></div><div class="cap">Favicon en la pestaña</div></div>
+<div class="spec"><div class="stage sm" style="background:linear-gradient(160deg,#9fb0c6,#d9dee6)"><div class="dock"><span class="o"></span><span class="o"></span><svg viewBox="0 0 64 64" width="52" height="52" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="o"></span></div></div><div class="cap">Ícono entre otras apps</div></div>
+<div class="spec"><div class="hero" style="background:#F2F5FA;color:#16202E"><span style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 64 64" width="26" height="26" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font:800 20px/1 Figtree,sans-serif;letter-spacing:-.025em;color:#0A2A66">pasame</span></span><p class="hl" style="font-family:'Figtree',sans-serif;font-weight:800;color:#16202E">Pasá archivos a cualquier celular o computadora que esté cerca.</p><span class="dl" style="background:#0B57D0;color:#FFFFFF">Descargar Pasame para Mac</span></div><div class="cap">Portada de pasame.com.ar</div></div>
+</div></div>
+<div class="block"><h3>Usos correctos e incorrectos</h3><div class="dodont"><div class="dd ok"><div class="stage sm" style="background:#fff"><span style="display:inline-flex;align-items:center;gap:11px"><svg viewBox="0 0 64 64" width="40" height="40" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font:800 31px/1 Figtree,sans-serif;letter-spacing:-.025em;color:#0A2A66">pasame</span></span></div><div class="t"><b>SÍ</b>Isotipo azul sobre blanco o Niebla, con su zona de protección.</div></div><div class="dd no"><div class="stage sm" style="background:#F2F5FA;gap:8px"><svg viewBox="0 0 64 64" width="40" height="40" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="background:#0B57D0;color:#fff;font:700 13px/1 system-ui;padding:14px 14px;border-radius:10px">📂 Elegir archivos</span></div><div class="t"><b>NO</b>Poner el logo azul pegado al botón “Elegir archivos”: parecen dos botones.</div></div><div class="dd no"><div class="stage sm" style="background:#fff"><span style="color:#F2A900;font:700 18px/1.2 system-ui">Cambió la red</span></div><div class="t"><b>NO</b>Ámbar como color de texto: sobre blanco da 2,0 : 1.</div></div><div class="dd no"><div class="stage sm" style="background:#fff"><span style="transform:scaleX(-1);display:inline-block"><svg viewBox="0 0 64 64" width="56" height="56" role="img" aria-label="Isotipo Pase"><rect width="64" height="64" rx="15" fill="#0B57D0"/><rect x="11" y="24" width="15" height="16" rx="3.5" fill="#FFFFFF"/><path d="M31 32h20m-8.5-9 9 9-9 9" stroke="#FFFFFF" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="t"><b>NO</b>Girar la flecha o apuntarla a la izquierda: el pase siempre va hacia adelante.</div></div></div></div>
+<div class="block"><h3>Para implementarla en la app</h3><p>Estos son los tokens que reemplazan a los actuales en <code>web/control/app.css</code> y <code>web/share/page.css</code>. En el receptor se escriben como valores directos (sin variables CSS) para no romper navegadores viejos.</p><pre class="tokens">:root{
+  --brand:#0B57D0;      /* Azul Pase: botón principal, links */
+  --brand-strong:#084298;/* hover/activo del botón */
+  --ink:#16202E;        /* texto */
+  --muted:#5A6478;      /* texto secundario (5,95:1) */
+  --ground:#F2F5FA;     /* fondo */
+  --surface:#FFFFFF;    /* tarjetas */
+  --ok:#17803D;         /* recibido / enviar */
+  --notice:#F2A900;     /* fondo de avisos, texto var(--ink) */
+  --radius:12px;
+}</pre></div>
+<div class="block"><h3>Balance</h3><div class="verdict">
+<div class="panel"><h4 style="margin-top:0">A favor</h4><ul style="margin:0;padding-left:18px"><li>Se implementa hoy: la app ya usa estos colores.</li><li>Máxima claridad a 16 px.</li><li>Neutral: no excluye a nadie por cultura o edad.</li></ul></div>
+<div class="panel"><h4 style="margin-top:0">En contra</h4><ul style="margin:0;padding-left:18px"><li>Poco memorable; se confunde con otras apps de transferencia.</li><li>El azul del logo compite con el azul del botón principal: exige disciplina de ubicación.</li></ul></div>
+</div></div></section></article>
+<article class="prop pB" aria-label="Propuesta B: Ronda">
+<section class="chapter" style="padding-top:36px"><header><span class="num">Propuesta B</span><div><h2>Ronda</h2><p>Uno comparte, muchos reciben: el mate.</p></div></header>
+<div class="block"><div class="grid2" style="align-items:stretch">
+<div class="spec"><div class="stage" style="background:#FAFAF6;min-height:260px"><span style="display:inline-flex;align-items:center;gap:21px"><svg viewBox="0 0 64 64" width="78" height="78" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg><span style="font:800 60px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#2F5D2E">pasame</span></span></div><div class="cap">Logo principal sobre claro</div></div>
+<div class="panel"><h3>La idea</h3><p>En una ronda de mate hay una persona que ceba y muchas que reciben, de a una, sin anotarse en ningún lado. Es exactamente el modelo de Pasame: una computadora comparte y cualquiera que esté cerca toma lo que necesita. El isotipo es la ronda vista desde arriba: el que comparte en el centro y los que reciben alrededor.</p></div></div></div>
+<div class="block"><h3>Por qué sirve a los dos objetivos</h3><div class="panel"><div class="rule"><span class="k">+</span><div><b>Simpleza:</b> la idea se explica en una frase que cualquier persona de acá entiende sin saber nada de redes.</div></div><div class="rule"><span class="k">+</span><div><b>Distinción:</b> ninguna app de transferencia tiene este territorio; es local, cálido y propio.</div></div><div class="rule"><span class="k">+</span><div><b>Producto:</b> el verde yerba funciona como color de acción y a la vez se diferencia del azul genérico de los links.</div></div><div class="rule"><span class="k" style="color:var(--warn)">!</span><div><b>El riesgo:</b> Es muy rioplatense: fuera de Argentina, Uruguay y el sur de Brasil la referencia al mate no se lee (el logo igual funciona como “uno y muchos”). Con 7 círculos, a 16 px pierde detalle: necesita una versión reducida.</div></div></div></div>
+<div class="block"><h3>Sistema de logo</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#2F5D2E"><span style="display:inline-flex;align-items:center;gap:16px"><svg viewBox="0 0 64 64" width="58" height="58" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg><span style="font:800 45px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#FAFAF6">pasame</span></span></div><div class="cap">Logo principal sobre oscuro</div></div>
+<div class="spec"><div class="stage" style="background:#FAFAF6;gap:22px;align-items:flex-end"><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">64</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">32</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="24" height="24" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">24</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Ronda reducido"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="12" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="10" r="7"/><circle cx="51" cy="43" r="7"/><circle cx="13" cy="43" r="7"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">16</span></div></div><div class="cap">Isotipo a 64, 32, 24 y 16 px (16 px: versión reducida)</div></div>
+</div>
+<div class="grid4" style="margin-top:16px">
+<div class="spec"><div class="stage sm" style="background:#E9ECF0"><svg viewBox="0 0 64 64" width="96" height="96" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg></div><div class="cap">Ícono de app (macOS, Windows, Linux)</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><span style="font:800 40px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#2F5D2E">pasame</span></div><div class="cap">Logotipo solo</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#1B2A1A"/><circle cx="32" cy="32" r="9" fill="#FFFFFF"/><g fill="#FFFFFF"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg></div><div class="cap">Monocromo positivo</div></div>
+<div class="spec"><div class="stage sm" style="background:#111"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#FFFFFF"/><circle cx="32" cy="32" r="9" fill="#1B2A1A"/><g fill="#1B2A1A"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg></div><div class="cap">Monocromo negativo</div></div>
+</div></div>
+<div class="block"><h3>Construcción, zona de protección y tamaños mínimos</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#fff;position:relative">
+<div style="position:relative;line-height:0">
+<svg viewBox="0 0 64 64" width="220" height="220" style="position:absolute;inset:0;z-index:2" aria-hidden="true"><g stroke="#E0457B" stroke-width=".25" opacity=".75"><line x1="0" y1="0" x2="0" y2="64"/><line x1="0" y1="0" x2="64" y2="0"/><line x1="8" y1="0" x2="8" y2="64"/><line x1="0" y1="8" x2="64" y2="8"/><line x1="16" y1="0" x2="16" y2="64"/><line x1="0" y1="16" x2="64" y2="16"/><line x1="24" y1="0" x2="24" y2="64"/><line x1="0" y1="24" x2="64" y2="24"/><line x1="32" y1="0" x2="32" y2="64"/><line x1="0" y1="32" x2="64" y2="32"/><line x1="40" y1="0" x2="40" y2="64"/><line x1="0" y1="40" x2="64" y2="40"/><line x1="48" y1="0" x2="48" y2="64"/><line x1="0" y1="48" x2="64" y2="48"/><line x1="56" y1="0" x2="56" y2="64"/><line x1="0" y1="56" x2="64" y2="56"/><line x1="64" y1="0" x2="64" y2="64"/><line x1="0" y1="64" x2="64" y2="64"/></g><circle cx="32" cy="32" r="31.5" fill="none" stroke="#E0457B" stroke-width=".35" stroke-dasharray="1.5 1.5"/></svg>
+<svg viewBox="0 0 64 64" width="220" height="220" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg></div></div><div class="cap">Retícula de 8 × 8 sobre el isotipo de 64</div></div>
+<div class="panel"><p>Seis receptores en un hexágono regular de radio 19,5 alrededor del centro. Por debajo de 24 px se usa la versión reducida de 3 receptores, con círculos más grandes para que no se empasten.</p><h4>Zona de protección</h4><p>El diámetro del círculo central (x) alrededor de todo el logo. Nada entra en ese margen: ni texto, ni otro logo, ni el borde de la pantalla.</p><h4>Tamaños mínimos</h4><div class="tscroll"><table><tbody><tr><td>Isotipo completo</td><td class="num">24 px</td></tr><tr><td>Isotipo reducido (3 receptores)</td><td class="num">16 a 23 px</td></tr><tr><td>Logotipo completo</td><td class="num">96 px de ancho</td></tr><tr><td>Impreso</td><td class="num">10 mm el isotipo, 28 mm el logo completo</td></tr></tbody></table></div></div>
+</div></div>
+<div class="block"><h3>Color</h3><div class="swatches"><div class="swatch"><div class="c" style="background:#2F5D2E;color:#FFFFFF">Yerba</div><div class="d"><b>#2F5D2E</b><span class="mono">RGB 47, 93, 46</span>Primario. Botones, fondo del isotipo, titulares.</div></div><div class="swatch"><div class="c" style="background:#A7C957;color:#1B2A1A">Brote</div><div class="d"><b>#A7C957</b><span class="mono">RGB 167, 201, 87</span>Acento sobre Yerba (el que comparte). Solo en superficies, o texto ≥ 24 px sobre Yerba.</div></div><div class="swatch"><div class="c" style="background:#5A3A22;color:#FFFFFF">Calabaza</div><div class="d"><b>#5A3A22</b><span class="mono">RGB 90, 58, 34</span>Texto de marca en el sitio, detalles.</div></div><div class="swatch"><div class="c" style="background:#6E777D;color:#FFFFFF">Bombilla</div><div class="d"><b>#6E777D</b><span class="mono">RGB 110, 119, 125</span>Texto secundario, íconos inactivos.</div></div><div class="swatch"><div class="c" style="background:#1B2A1A;color:#FFFFFF">Tinta Yerba</div><div class="d"><b>#1B2A1A</b><span class="mono">RGB 27, 42, 26</span>Texto principal.</div></div><div class="swatch"><div class="c" style="background:#FAFAF6;color:#1B2A1A">Loza</div><div class="d"><b>#FAFAF6</b><span class="mono">RGB 250, 250, 246</span>Fondo general (un blanco apenas cálido, no crema).</div></div></div>
+<h4>Proporción de uso en una pantalla típica</h4><div class="ratio"><i style="background:#FAFAF6;width:60%" title="60%"></i><i style="background:#FFFFFF;width:18%" title="18%"></i><i style="background:#2F5D2E;width:12%" title="12%"></i><i style="background:#1B2A1A;width:6%" title="6%"></i><i style="background:#A7C957;width:3%" title="3%"></i><i style="background:#5A3A22;width:1%" title="1%"></i></div>
+<h4>Contrastes medidos (WCAG 2.2)</h4><div class="contrast"><div class="cbox" style="background:#FFFFFF;color:#2F5D2E">Aa texto<small>7.70 : 1<br>AAA</small></div><div class="cbox" style="background:#FAFAF6;color:#2F5D2E">Aa texto<small>7.36 : 1<br>AAA</small></div><div class="cbox" style="background:#A7C957;color:#1B2A1A">Aa texto<small>8.00 : 1<br>AAA</small></div><div class="cbox" style="background:#2F5D2E;color:#A7C957">Aa texto<small>4.08 : 1<br>Solo texto grande</small></div><div class="cbox" style="background:#FFFFFF;color:#6E777D">Aa texto<small>4.57 : 1<br>AA</small></div><div class="cbox" style="background:#FAFAF6;color:#5A3A22">Aa texto<small>9.73 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#A7C957">Aa texto<small>1.89 : 1<br>Prohibido</small></div></div>
+<p style="margin-top:12px;color:var(--muted);font-size:14px">“Solo texto grande” = válido desde 24 px (o 19 px en negrita). “Prohibido” = no se usa esa combinación para ningún texto ni ícono.</p></div>
+<div class="block"><h3>Tipografía</h3>
+<div class="grid2">
+<div class="type-spec"><span class="eyebrow">Display · Bricolage Grotesque</span><div class="big" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;margin-top:12px">Pasá archivos</div><p style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;margin-top:14px">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz · 0123456789</p></div>
+<div class="type-spec"><span class="eyebrow">Texto · Atkinson Hyperlegible</span><p style="font-family:'Atkinson Hyperlegible',sans-serif;font-size:19px;line-height:1.55;margin-top:12px">La otra persona apunta la cámara del celular al código que aparece y listo: se descargan. Si quiere, te manda fotos de vuelta.</p><span class="eyebrow" style="display:block;margin-top:16px">Dirección · IBM Plex Mono</span><p style="font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;margin:8px 0 0">192.168.1.40:8080</p><p style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--muted);margin-top:6px">0 O o · 1 l I · 8 B · 5 S</p></div>
+</div>
+<p style="margin-top:14px">Bricolage Grotesque para el logotipo y títulos del sitio: grotesca con carácter, un poco artesanal, que acompaña lo cálido del concepto. Atkinson Hyperlegible para textos largos del sitio: diseñada por el Braille Institute para baja visión, cada letra se distingue de las demás. En el producto: letra del sistema.</p>
+<div class="tscroll" style="margin-top:12px"><table class="scale"><thead><tr><th>Estilo</th><th>Muestra</th><th>Tamaño / interlineado</th><th>Dónde</th></tr></thead><tbody>
+<tr><td>Título de sitio</td><td style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;line-height:1.1">Sin cable, sin cuentas</td><td class="num">48/52 escritorio · 34/38 celular</td><td>Portada de pasame.com.ar</td></tr>
+<tr><td>Título de pantalla</td><td style="font-weight:700;font-size:24px">Martín te comparte 3 archivos</td><td class="num">26/32 receptor · 28/35 emisor</td><td>App (letra del sistema)</td></tr>
+<tr><td>Botón principal</td><td style="font-weight:700;font-size:20px">⬇ Descargar todo (1,2 GB)</td><td class="num">20/26 · negrita</td><td>App</td></tr>
+<tr><td>Texto</td><td style="font-size:18px">Tiene que estar en la misma red WiFi.</td><td class="num">18/26</td><td>App</td></tr>
+<tr><td>Dirección</td><td style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:26px">192.168.1.40:8080</td><td class="num">24–40, una línea</td><td>Emisor</td></tr>
+<tr><td>Secundario</td><td style="font-size:15px;color:var(--muted)">Si cerrás esta pestaña, Pasame se cierra solo a los 2 minutos.</td><td class="num">15/22</td><td>App</td></tr>
+</tbody></table></div></div>
+<div class="block"><h3>Aplicaciones en la app real</h3>
+<div class="grid2" style="grid-template-columns:1.55fr 1fr;align-items:center">
+<div><div class="mock"><div class="chrome"><i></i><i></i><i></i><span class="url">127.0.0.1:55302</span></div>
+<div class="m-ui" style="--m-bg:#FAFAF6;--m-surface:#FFFFFF;--m-ink:#1B2A1A;--m-muted:#5E675F;--m-line:#E1E4DA;--m-primary:#2F5D2E;--m-onprimary:#FFFFFF;--m-ok:#2F5D2E;--m-radius:16px;--m-addrbg:#F1F4EC;--m-link:#2F5D2E">
+<div class="hd" style=""><svg viewBox="0 0 64 64" width="20" height="20" role="img" aria-label="Isotipo Ronda reducido"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="12" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="10" r="7"/><circle cx="51" cy="43" r="7"/><circle cx="13" cy="43" r="7"/></g></svg><span style="font:800 15px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#2F5D2E">pasame</span><span class="who" style="">Tu nombre: <b>Martín</b></span></div>
+<div class="bd">
+<div class="top"><h5>Compartiendo 3 archivos (1,2 GB)</h5><span class="btn2">Terminar</span></div>
+<div class="row"><div class="qrw"><svg viewBox="0 0 37 37" role="img" aria-label="QR de ejemplo"><use href="#qr"/></svg></div>
+<div class="side"><p><b>Desde un celular:</b><br>apuntá la cámara a este código.</p><p><b>Desde una computadora:</b><br>escribí esto en el navegador</p><span class="addr">192.168.1.40:8080</span></div></div>
+<div class="sec">Actividad</div><div class="act"><p>● 2 dispositivos conectados</p><p>⬇ Descargando vacaciones.mp4 (2 personas)</p><p style="color:#2F5D2E">✓ Recibido IMG_2231.jpg</p></div>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px">Emisor: la marca en la esquina, el botón y el QR mandan.</p></div>
+<div><div class="phone"><div class="scr"><div class="m-rx" style="--m-bg:#FAFAF6;--m-surface:#FFFFFF;--m-ink:#1B2A1A;--m-muted:#5E675F;--m-line:#E1E4DA;--m-primary:#2F5D2E;--m-onprimary:#FFFFFF;--m-ok:#2F5D2E;--m-radius:16px;--m-addrbg:#F1F4EC;--m-link:#2F5D2E"><div style="background:#2F5D2E;color:#fff;margin:-14px -12px 0;padding:12px 12px 34px"><div class="brandline" style="margin:0"><svg viewBox="0 0 64 64" width="18" height="18" role="img" aria-label="Isotipo Ronda reducido"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="12" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="10" r="7"/><circle cx="51" cy="43" r="7"/><circle cx="13" cy="43" r="7"/></g></svg><span style="font:800 14px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#FAFAF6">pasame</span></div><h6 style="color:#fff;margin:12px 0 4px">Martín te comparte 3 archivos</h6><div style="color:#DDE8CF;font-size:10px">Los archivos viajan solo por esta red.</div></div><div style="margin-top:-24px">
+<div class="card" style="box-shadow:0 6px 16px rgba(27,42,26,.14)"><span class="big" style="background:#A7C957;color:#1B2A1A">⬇ Descargar todo (1,2 GB)</span><div class="f"><div><span style="float:left;width:26px;height:26px;line-height:26px;text-align:center;font-size:7.5px;font-weight:800;color:#2F5D2E;background:#F1F4EC;border-radius:7px;margin-right:7px">MP4</span><b style="color:#1B2A1A">vacaciones.mp4</b><span>980 MB</span></div><span class="v">Ver</span></div><div class="f"><div><span style="float:left;width:26px;height:26px;line-height:26px;text-align:center;font-size:7.5px;font-weight:800;color:#2F5D2E;background:#F1F4EC;border-radius:7px;margin-right:7px">PDF</span><b style="color:#1B2A1A">contrato.pdf</b><span>1,3 MB</span></div><span class="v">Ver</span></div><div class="f"><div><span style="float:left;width:26px;height:26px;line-height:26px;text-align:center;font-size:7.5px;font-weight:800;color:#2F5D2E;background:#F1F4EC;border-radius:7px;margin-right:7px">JPG</span><b style="color:#1B2A1A">foto-abuela.jpg</b><span>4,2 MB</span></div><span class="v">Ver</span></div></div>
+<div class="card"><p class="q">¿Querés mandarle algo a Martín?</p><span class="big" style="background:#fff;color:#2F5D2E;box-shadow:inset 0 0 0 1.5px #2F5D2E">⬆ Elegir archivos para enviar</span></div></div>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px;text-align:center">Receptor en el celular (375 px).</p></div>
+</div>
+<div class="grid3" style="margin-top:18px">
+<div class="spec"><div class="stage sm" style="background:#fff;padding:18px 14px;display:block"><div class="tabrow"><div class="tab"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Ronda reducido"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="12" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="10" r="7"/><circle cx="51" cy="43" r="7"/><circle cx="13" cy="43" r="7"/></g></svg><span>Pasame</span><span style="margin-left:auto;color:#999">×</span></div></div><div class="tabrow" style="padding:0;border-radius:0"><div class="bar"></div></div></div><div class="cap">Favicon en la pestaña</div></div>
+<div class="spec"><div class="stage sm" style="background:linear-gradient(160deg,#9fb0c6,#d9dee6)"><div class="dock"><span class="o"></span><span class="o"></span><svg viewBox="0 0 64 64" width="52" height="52" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg><span class="o"></span></div></div><div class="cap">Ícono entre otras apps</div></div>
+<div class="spec"><div class="hero" style="background:#FAFAF6;color:#1B2A1A"><span style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 64 64" width="26" height="26" role="img" aria-label="Isotipo Ronda"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="12.5" r="4.6"/><circle cx="48.9" cy="22.25" r="4.6"/><circle cx="48.9" cy="41.75" r="4.6"/><circle cx="32" cy="51.5" r="4.6"/><circle cx="15.1" cy="41.75" r="4.6"/><circle cx="15.1" cy="22.25" r="4.6"/></g></svg><span style="font:800 20px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#2F5D2E">pasame</span></span><p class="hl" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;color:#1B2A1A">Pasá archivos a cualquier celular o computadora que esté cerca.</p><span class="dl" style="background:#2F5D2E;color:#FFFFFF">Descargar Pasame para Mac</span></div><div class="cap">Portada de pasame.com.ar</div></div>
+</div></div>
+<div class="block"><h3>Usos correctos e incorrectos</h3><div class="dodont"><div class="dd ok"><div class="stage sm" style="background:#fff;gap:14px"><svg viewBox="0 0 64 64" width="22" height="22" role="img" aria-label="Isotipo Ronda reducido"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="12" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="10" r="7"/><circle cx="51" cy="43" r="7"/><circle cx="13" cy="43" r="7"/></g></svg><svg viewBox="0 0 64 64" width="20" height="20" role="img" aria-label="Isotipo Ronda reducido"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="12" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="10" r="7"/><circle cx="51" cy="43" r="7"/><circle cx="13" cy="43" r="7"/></g></svg><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Ronda reducido"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="12" fill="#A7C957"/><g fill="#FAFAF6"><circle cx="32" cy="10" r="7"/><circle cx="51" cy="43" r="7"/><circle cx="13" cy="43" r="7"/></g></svg></div><div class="t"><b>SÍ</b>Versión reducida en el favicon y en tamaños chicos.</div></div><div class="dd no"><div class="stage sm" style="background:#FAFAF6"><svg viewBox="0 0 64 64" width="56" height="56"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><path d="M20 26h24l-3 22a6 6 0 0 1-6 5h-6a6 6 0 0 1-6-5z" fill="#A7C957"/><path d="M36 12l-4 18" stroke="#C0C7CC" stroke-width="3.5" stroke-linecap="round"/></svg></div><div class="t"><b>NO</b>Agregar un dibujo de mate literal: la ronda ya lo cuenta.</div></div><div class="dd no"><div class="stage sm" style="background:#fff"><span style="color:#A7C957;font:700 18px/1.2 system-ui">Recibido</span></div><div class="t"><b>NO</b>Texto Brote sobre blanco: 1,95 : 1, no se lee.</div></div><div class="dd no"><div class="stage sm" style="background:#FAFAF6"><svg viewBox="0 0 64 64" width="56" height="56"><rect width="64" height="64" rx="18" fill="#2F5D2E"/><circle cx="32" cy="32" r="9" fill="#A7C957"/><circle cx="51.5" cy="32.0" r="4" fill="#FAFAF6"/><circle cx="46.9" cy="44.5" r="4" fill="#FAFAF6"/><circle cx="35.4" cy="51.2" r="4" fill="#FAFAF6"/><circle cx="22.3" cy="48.9" r="4" fill="#FAFAF6"/><circle cx="13.7" cy="38.7" r="4" fill="#FAFAF6"/><circle cx="13.7" cy="25.3" r="4" fill="#FAFAF6"/><circle cx="22.2" cy="15.1" r="4" fill="#FAFAF6"/><circle cx="35.4" cy="12.8" r="4" fill="#FAFAF6"/><circle cx="46.9" cy="19.5" r="4" fill="#FAFAF6"/></svg></div><div class="t"><b>NO</b>Cambiar la cantidad de receptores (7, 8…): la forma se vuelve un engranaje.</div></div></div></div>
+<div class="block"><h3>Para implementarla en la app</h3><p>Estos son los tokens que reemplazan a los actuales en <code>web/control/app.css</code> y <code>web/share/page.css</code>. En el receptor se escriben como valores directos (sin variables CSS) para no romper navegadores viejos.</p><pre class="tokens">:root{
+  --brand:#2F5D2E;        /* Yerba: botón principal del emisor, links (7,70:1 con blanco) */
+  --brand-strong:#234622;
+  --accent:#A7C957;       /* Brote: &quot;Descargar todo&quot; del receptor con texto --ink (8,00:1) y el centro de la ronda */
+  --ink:#1B2A1A;
+  --muted:#5E675F;        /* 5,60:1 sobre Loza */
+  --ground:#FAFAF6;       /* Loza */
+  --surface:#FFFFFF;
+  --line:#E1E4DA;
+  --soft:#F1F4EC;         /* recuadro de la dirección, etiquetas de tipo */
+  --ok-bg:#E8F1E1; --ok-ink:#1E4620;          /* recibido (9,27:1) */
+  --notice-bg:#FBF3D5; --notice-line:#F2C94C; /* avisos, texto --ink (13,56:1) */
+  --error:#B42318;        /* el verde es acción: el error va en rojo (6,57:1) */
+  --off:#DDE3D6;          /* receptores que todavía no entraron, en la ronda de Actividad */
+  --radius:16px;
+}</pre></div>
+<div class="block"><h3>Balance</h3><div class="verdict">
+<div class="panel"><h4 style="margin-top:0">A favor</h4><ul style="margin:0;padding-left:18px"><li>La única propuesta con una historia que se cuenta en una frase.</li><li>Muy distinta de cualquier competidor.</li><li>El concepto 1:N queda explicado por el logo.</li></ul></div>
+<div class="panel"><h4 style="margin-top:0">En contra</h4><ul style="margin:0;padding-left:18px"><li>Referencia regional: afuera se pierde la mitad del sentido.</li><li>Necesita dos versiones del isotipo (completa y reducida).</li><li>El verde de acción obliga a buscar otro color para “error”, que no se confunda.</li></ul></div>
+</div></div></section></article>
+<article class="prop pC" aria-label="Propuesta C: Señal">
+<section class="chapter" style="padding-top:36px"><header><span class="num">Propuesta C</span><div><h2>Señal</h2><p>El código y la dirección como identidad.</p></div></header>
+<div class="block"><div class="grid2" style="align-items:stretch">
+<div class="spec"><div class="stage" style="background:#FFFFFF;min-height:260px"><span style="display:inline-flex;align-items:center;gap:21px"><svg viewBox="0 0 64 64" width="78" height="78" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span style="font:800 60px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#0E1116">pasame</span></span></div><div class="cap">Logo principal sobre claro</div></div>
+<div class="panel"><h3>La idea</h3><p>Lo que la persona realmente ve de Pasame son dos cosas: un código QR y una dirección escrita en letras de máquina. Esta dirección las convierte en la marca. La “p” del isotipo está hecha con la esquina de un QR: el cuadrado con el que la cámara encuentra el código.</p></div></div></div>
+<div class="block"><h3>Por qué sirve a los dos objetivos</h3><div class="panel"><div class="rule"><span class="k">+</span><div><b>Alcance:</b> blanco y negro por naturaleza; es la que mejor sobrevive a una fotocopia, una pantalla vieja o una impresión mala.</div></div><div class="rule"><span class="k">+</span><div><b>Simpleza:</b> cuando la persona ve el QR en la pantalla, ya conoce la marca: logo y producto dicen lo mismo.</div></div><div class="rule"><span class="k">+</span><div><b>Honesta:</b> no promete magia; muestra el mecanismo real con una estética limpia.</div></div><div class="rule"><span class="k" style="color:var(--warn)">!</span><div><b>El riesgo:</b> Puede leerse fría o “técnica” para alguien mayor. Y hay que cuidar que el isotipo no parezca un QR para escanear (ver usos incorrectos).</div></div></div></div>
+<div class="block"><h3>Sistema de logo</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#0E1116"><span style="display:inline-flex;align-items:center;gap:16px"><svg viewBox="0 0 64 64" width="58" height="58" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#0E1116"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#FFFFFF" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#FFFFFF"/><rect x="0" y="7" width="2" height="2" fill="#FFFFFF"/></g></svg><span style="font:800 45px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#FFFFFF">pasame</span></span></div><div class="cap">Logo principal sobre oscuro</div></div>
+<div class="spec"><div class="stage" style="background:#FFFFFF;gap:22px;align-items:flex-end"><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">64</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">32</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="24" height="24" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">24</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span class="mono" style="font-size:11px;color:var(--muted)">16</span></div></div><div class="cap">Isotipo a 64, 32, 24 y 16 px</div></div>
+</div>
+<div class="grid4" style="margin-top:16px">
+<div class="spec"><div class="stage sm" style="background:#E9ECF0"><svg viewBox="0 0 64 64" width="96" height="96" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg></div><div class="cap">Ícono de app (macOS, Windows, Linux)</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><span style="font:800 40px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#0E1116">pasame</span></div><div class="cap">Logotipo solo</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0E1116"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg></div><div class="cap">Monocromo positivo</div></div>
+<div class="spec"><div class="stage sm" style="background:#111"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#0E1116"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#FFFFFF" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#FFFFFF"/><rect x="0" y="7" width="2" height="2" fill="#FFFFFF"/></g></svg></div><div class="cap">Monocromo negativo</div></div>
+</div></div>
+<div class="block"><h3>Construcción, zona de protección y tamaños mínimos</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#fff;position:relative">
+<div style="position:relative;line-height:0">
+<svg viewBox="0 0 64 64" width="220" height="220" style="position:absolute;inset:0;z-index:2" aria-hidden="true"><g stroke="#E0457B" stroke-width=".25" opacity=".75"><line x1="0" y1="0" x2="0" y2="64"/><line x1="0" y1="0" x2="64" y2="0"/><line x1="8" y1="0" x2="8" y2="64"/><line x1="0" y1="8" x2="64" y2="8"/><line x1="16" y1="0" x2="16" y2="64"/><line x1="0" y1="16" x2="64" y2="16"/><line x1="24" y1="0" x2="24" y2="64"/><line x1="0" y1="24" x2="64" y2="24"/><line x1="32" y1="0" x2="32" y2="64"/><line x1="0" y1="32" x2="64" y2="32"/><line x1="40" y1="0" x2="40" y2="64"/><line x1="0" y1="40" x2="64" y2="40"/><line x1="48" y1="0" x2="48" y2="64"/><line x1="0" y1="48" x2="64" y2="48"/><line x1="56" y1="0" x2="56" y2="64"/><line x1="0" y1="56" x2="64" y2="56"/><line x1="64" y1="0" x2="64" y2="64"/><line x1="0" y1="64" x2="64" y2="64"/></g><circle cx="32" cy="32" r="31.5" fill="none" stroke="#E0457B" stroke-width=".35" stroke-dasharray="1.5 1.5"/></svg>
+<svg viewBox="0 0 64 64" width="220" height="220" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg></div></div><div class="cap">Retícula de 8 × 8 sobre el isotipo de 64</div></div>
+<div class="panel"><p>Construido sobre una retícula de módulos de 5 × 5 px en 64 px: el patrón de posición de un QR (7 × 7 módulos) forma el cuerpo de la “p” y dos módulos de alto forman el asta. El centro de 3 × 3 va en Cian.</p><h4>Zona de protección</h4><p>Un módulo × 2 (2x) alrededor de todo el logo: el mismo margen proporcional que la zona tranquila del QR. Nada entra en ese margen: ni texto, ni otro logo, ni el borde de la pantalla.</p><h4>Tamaños mínimos</h4><div class="tscroll"><table><tbody><tr><td>Isotipo en pantalla</td><td class="num">16 px (el asta sigue visible)</td></tr><tr><td>Logotipo completo</td><td class="num">92 px de ancho</td></tr><tr><td>Impreso</td><td class="num">7 mm el isotipo, 24 mm el logo completo</td></tr></tbody></table></div></div>
+</div></div>
+<div class="block"><h3>Color</h3><div class="swatches"><div class="swatch"><div class="c" style="background:#0E1116;color:#FFFFFF">Tinta Señal</div><div class="d"><b>#0E1116</b><span class="mono">RGB 14, 17, 22</span>Primario. Logo, texto, bordes, botón principal.</div></div><div class="swatch"><div class="c" style="background:#FFFFFF;color:#0E1116">Papel</div><div class="d"><b>#FFFFFF</b><span class="mono">RGB 255, 255, 255</span>Fondo. Siempre blanco puro, como el del QR.</div></div><div class="swatch"><div class="c" style="background:#0072B5;color:#FFFFFF">Cian Señal</div><div class="d"><b>#0072B5</b><span class="mono">RGB 0, 114, 181</span>Acento. Links, foco, el centro del isotipo.</div></div><div class="swatch"><div class="c" style="background:#0B7A53;color:#FFFFFF">Verde Leído</div><div class="d"><b>#0B7A53</b><span class="mono">RGB 11, 122, 83</span>Confirmaciones: recibido, descargado.</div></div><div class="swatch"><div class="c" style="background:#C24400;color:#FFFFFF">Naranja Alerta</div><div class="d"><b>#C24400</b><span class="mono">RGB 194, 68, 0</span>Errores y avisos importantes.</div></div><div class="swatch"><div class="c" style="background:#E7EAEE;color:#0E1116">Módulo</div><div class="d"><b>#E7EAEE</b><span class="mono">RGB 231, 234, 238</span>Superficies secundarias, separadores.</div></div></div>
+<h4>Proporción de uso en una pantalla típica</h4><div class="ratio"><i style="background:#FFFFFF;width:64%" title="64%"></i><i style="background:#E7EAEE;width:14%" title="14%"></i><i style="background:#0E1116;width:16%" title="16%"></i><i style="background:#0072B5;width:4%" title="4%"></i><i style="background:#0B7A53;width:1%" title="1%"></i><i style="background:#C24400;width:1%" title="1%"></i></div>
+<h4>Contrastes medidos (WCAG 2.2)</h4><div class="contrast"><div class="cbox" style="background:#FFFFFF;color:#0E1116">Aa texto<small>18.91 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#0072B5">Aa texto<small>5.15 : 1<br>AA</small></div><div class="cbox" style="background:#FFFFFF;color:#0B7A53">Aa texto<small>5.35 : 1<br>AA</small></div><div class="cbox" style="background:#FFFFFF;color:#C24400">Aa texto<small>5.10 : 1<br>AA</small></div><div class="cbox" style="background:#FFFFFF;color:#586170">Aa texto<small>6.25 : 1<br>AA</small></div><div class="cbox" style="background:#0E1116;color:#4FB3E8">Aa texto<small>8.06 : 1<br>AAA</small></div></div>
+<p style="margin-top:12px;color:var(--muted);font-size:14px">“Solo texto grande” = válido desde 24 px (o 19 px en negrita). “Prohibido” = no se usa esa combinación para ningún texto ni ícono.</p></div>
+<div class="block"><h3>Tipografía</h3>
+<div class="grid2">
+<div class="type-spec"><span class="eyebrow">Display · JetBrains Mono</span><div class="big" style="font-family:'JetBrains Mono',monospace;font-weight:800;margin-top:12px">Pasá archivos</div><p style="font-family:'JetBrains Mono',monospace;font-weight:800;font-size:20px;margin-top:14px">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz · 0123456789</p></div>
+<div class="type-spec"><span class="eyebrow">Texto · Public Sans</span><p style="font-family:'Public Sans',sans-serif;font-size:19px;line-height:1.55;margin-top:12px">La otra persona apunta la cámara del celular al código que aparece y listo: se descargan. Si quiere, te manda fotos de vuelta.</p><span class="eyebrow" style="display:block;margin-top:16px">Dirección · JetBrains Mono</span><p style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;margin:8px 0 0">192.168.1.40:8080</p><p style="font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted);margin-top:6px">0 O o · 1 l I · 8 B · 5 S</p></div>
+</div>
+<p style="margin-top:14px">JetBrains Mono para el logotipo, los títulos del sitio y la dirección en la UI del emisor (embebida en el binario, unos 20 KB): distingue 0/O y 1/l/I a propósito. Public Sans, la tipografía del gobierno de EE. UU. para servicios públicos, para textos largos: neutra y muy legible. En el receptor: letra del sistema.</p>
+<div class="tscroll" style="margin-top:12px"><table class="scale"><thead><tr><th>Estilo</th><th>Muestra</th><th>Tamaño / interlineado</th><th>Dónde</th></tr></thead><tbody>
+<tr><td>Título de sitio</td><td style="font-family:'JetBrains Mono',monospace;font-weight:800;font-size:34px;line-height:1.1">Sin cable, sin cuentas</td><td class="num">48/52 escritorio · 34/38 celular</td><td>Portada de pasame.com.ar</td></tr>
+<tr><td>Título de pantalla</td><td style="font-weight:700;font-size:24px">Martín te comparte 3 archivos</td><td class="num">26/32 receptor · 28/35 emisor</td><td>App (letra del sistema)</td></tr>
+<tr><td>Botón principal</td><td style="font-weight:700;font-size:20px">⬇ Descargar todo (1,2 GB)</td><td class="num">20/26 · negrita</td><td>App</td></tr>
+<tr><td>Texto</td><td style="font-size:18px">Tiene que estar en la misma red WiFi.</td><td class="num">18/26</td><td>App</td></tr>
+<tr><td>Dirección</td><td style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:26px">192.168.1.40:8080</td><td class="num">24–40, una línea</td><td>Emisor</td></tr>
+<tr><td>Secundario</td><td style="font-size:15px;color:var(--muted)">Si cerrás esta pestaña, Pasame se cierra solo a los 2 minutos.</td><td class="num">15/22</td><td>App</td></tr>
+</tbody></table></div></div>
+<div class="block"><h3>Aplicaciones en la app real</h3>
+<div class="grid2" style="grid-template-columns:1.55fr 1fr;align-items:center">
+<div><div class="mock"><div class="chrome"><i></i><i></i><i></i><span class="url">127.0.0.1:55302</span></div>
+<div class="m-ui" style="--m-bg:#FFFFFF;--m-surface:#FFFFFF;--m-ink:#0E1116;--m-muted:#586170;--m-line:#E7EAEE;--m-primary:#0E1116;--m-onprimary:#FFFFFF;--m-ok:#0B7A53;--m-radius:6px;--m-addrbg:#FFFFFF;--m-link:#0072B5">
+<div class="hd" style=""><svg viewBox="0 0 64 64" width="20" height="20" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span style="font:800 15px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#0E1116">pasame</span><span class="who" style="">Tu nombre: <b>Martín</b></span></div>
+<div class="bd">
+<div class="top"><h5>Compartiendo 3 archivos (1,2 GB)</h5><span class="btn2">Terminar</span></div>
+<div class="row"><div class="qrw"><svg viewBox="0 0 37 37" role="img" aria-label="QR de ejemplo"><use href="#qr"/></svg></div>
+<div class="side"><p><b>Desde un celular:</b><br>apuntá la cámara a este código.</p><p><b>Desde una computadora:</b><br>escribí esto en el navegador</p><span class="addr">192.168.1.40:8080</span></div></div>
+<div class="sec">Actividad</div><div class="act"><p>● 2 dispositivos conectados</p><p>⬇ Descargando vacaciones.mp4 (2 personas)</p><p style="color:#0B7A53">✓ Recibido IMG_2231.jpg</p></div>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px">Emisor: la marca en la esquina, el botón y el QR mandan.</p></div>
+<div><div class="phone"><div class="scr"><div class="m-rx" style="--m-bg:#FFFFFF;--m-surface:#FFFFFF;--m-ink:#0E1116;--m-muted:#586170;--m-line:#E7EAEE;--m-primary:#0E1116;--m-onprimary:#FFFFFF;--m-ok:#0B7A53;--m-radius:6px;--m-addrbg:#FFFFFF;--m-link:#0072B5">
+<div class="brandline" style=""><svg viewBox="0 0 64 64" width="18" height="18" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span style="font:800 14px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#0E1116">pasame</span></div>
+<h6>Martín te comparte 3 archivos</h6>
+<div class="card"><span class="big">⬇ Descargar todo (1,2 GB)</span>
+<div class="f"><div><b>vacaciones.mp4</b><span>980 MB</span></div><span class="v">Ver</span></div>
+<div class="f"><div><b>contrato.pdf</b><span>1,3 MB</span></div><span class="v">Ver</span></div>
+<div class="f"><div><b>foto-abuela.jpg</b><span>4,2 MB</span></div><span class="v">Ver</span></div></div>
+<div class="card"><p class="q">¿Querés mandarle algo a Martín?</p><span class="big alt">⬆ Elegir archivos para enviar</span></div>
+<p class="foot">Los archivos viajan solo por esta red.</p>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px;text-align:center">Receptor en el celular (375 px).</p></div>
+</div>
+<div class="grid3" style="margin-top:18px">
+<div class="spec"><div class="stage sm" style="background:#fff;padding:18px 14px;display:block"><div class="tabrow"><div class="tab"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span>Pasame</span><span style="margin-left:auto;color:#999">×</span></div></div><div class="tabrow" style="padding:0;border-radius:0"><div class="bar"></div></div></div><div class="cap">Favicon en la pestaña</div></div>
+<div class="spec"><div class="stage sm" style="background:linear-gradient(160deg,#9fb0c6,#d9dee6)"><div class="dock"><span class="o"></span><span class="o"></span><svg viewBox="0 0 64 64" width="52" height="52" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span class="o"></span></div></div><div class="cap">Ícono entre otras apps</div></div>
+<div class="spec"><div class="hero" style="background:#FFFFFF;color:#0E1116"><span style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 64 64" width="26" height="26" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span style="font:800 20px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#0E1116">pasame</span></span><p class="hl" style="font-family:'JetBrains Mono',monospace;font-weight:800;color:#0E1116">Pasá archivos a cualquier celular o computadora que esté cerca.</p><span class="dl" style="background:#0E1116;color:#FFFFFF">Descargar Pasame para Mac</span></div><div class="cap">Portada de pasame.com.ar</div></div>
+</div></div>
+<div class="block"><h3>Usos correctos e incorrectos</h3><div class="dodont"><div class="dd ok"><div class="stage sm" style="background:#fff"><span style="display:inline-flex;align-items:center;gap:11px"><svg viewBox="0 0 64 64" width="40" height="40" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span style="font:800 31px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#0E1116">pasame</span></span></div><div class="t"><b>SÍ</b>El isotipo siempre con su asta: sin asta es solo la esquina de un QR.</div></div><div class="dd no"><div class="stage sm" style="background:#fff;gap:10px"><svg viewBox="0 0 64 64" width="62" height="62" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><div style="width:62px;line-height:0;border:1px solid #eee"><svg viewBox="0 0 37 37" width="62" height="62"><use href="#qr"/></svg></div></div><div class="t"><b>NO</b>Poner el isotipo cerca del QR real con el mismo tamaño: la cámara y la persona se confunden.</div></div><div class="dd no"><div class="stage sm" style="background:#fff;position:relative"><svg viewBox="0 0 20 8" width="100%" height="100" preserveAspectRatio="none" style="position:absolute;inset:0;opacity:.18"><g fill="#0E1116"><rect x="0" y="0" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="1" y="7" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/><rect x="5" y="3" width="1" height="1"/><rect x="6" y="7" width="1" height="1"/><rect x="7" y="5" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="8" y="1" width="1" height="1"/><rect x="8" y="4" width="1" height="1"/><rect x="8" y="7" width="1" height="1"/><rect x="9" y="0" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/><rect x="9" y="5" width="1" height="1"/><rect x="9" y="7" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="10" y="7" width="1" height="1"/><rect x="11" y="0" width="1" height="1"/><rect x="11" y="3" width="1" height="1"/><rect x="11" y="4" width="1" height="1"/><rect x="11" y="6" width="1" height="1"/><rect x="13" y="4" width="1" height="1"/><rect x="13" y="5" width="1" height="1"/><rect x="14" y="1" width="1" height="1"/><rect x="14" y="4" width="1" height="1"/><rect x="14" y="7" width="1" height="1"/><rect x="15" y="6" width="1" height="1"/><rect x="15" y="7" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="16" y="5" width="1" height="1"/><rect x="16" y="7" width="1" height="1"/><rect x="17" y="2" width="1" height="1"/><rect x="17" y="5" width="1" height="1"/><rect x="18" y="0" width="1" height="1"/><rect x="18" y="1" width="1" height="1"/><rect x="18" y="3" width="1" height="1"/><rect x="18" y="4" width="1" height="1"/><rect x="18" y="7" width="1" height="1"/><rect x="19" y="0" width="1" height="1"/><rect x="19" y="1" width="1" height="1"/><rect x="19" y="5" width="1" height="1"/><rect x="19" y="6" width="1" height="1"/></g></svg><span style="position:relative"><span style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 64 64" width="30" height="30" role="img" aria-label="Isotipo Señal"><rect width="64" height="64" rx="12" fill="#FFFFFF"/><g transform="translate(14.5 9.5) scale(5)"><path fill="#0E1116" fill-rule="evenodd" d="M0 0h7v7H0zM1 1v5h5V1z"/><rect x="2" y="2" width="3" height="3" fill="#0072B5"/><rect x="0" y="7" width="2" height="2" fill="#0E1116"/></g></svg><span style="font:800 23px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#0E1116">pasame</span></span></span></div><div class="t"><b>NO</b>Llenar de módulos decorativos el fondo: parece un código roto.</div></div><div class="dd no"><div class="stage sm" style="background:#0072B5"><span style="font:800 28px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#fff">pasame</span></div><div class="t"><b>NO</b>Cian en superficies grandes: el sistema es blanco y negro con un punto de color.</div></div></div></div>
+<div class="block"><h3>Para implementarla en la app</h3><p>Estos son los tokens que reemplazan a los actuales en <code>web/control/app.css</code> y <code>web/share/page.css</code>. En el receptor se escriben como valores directos (sin variables CSS) para no romper navegadores viejos.</p><pre class="tokens">:root{
+  --brand:#0E1116;      /* Tinta: botón principal negro (18,9:1) */
+  --brand-strong:#2A2F37;
+  --accent:#0072B5;     /* Cian: links y foco (5,15:1) */
+  --ink:#0E1116;
+  --muted:#586170;
+  --ground:#FFFFFF;     /* Papel */
+  --surface:#FFFFFF;
+  --line:#E7EAEE;       /* Módulo */
+  --ok:#0B7A53;
+  --error:#C24400;
+  --radius:6px;
+  --mono:&quot;JetBrains Mono&quot;,ui-monospace,Menlo,Consolas,monospace;
+}</pre></div>
+<div class="block"><h3>Balance</h3><div class="verdict">
+<div class="panel"><h4 style="margin-top:0">A favor</h4><ul style="margin:0;padding-left:18px"><li>La más robusta en cualquier pantalla, impresión o fotocopia.</li><li>Logo y producto son lo mismo: el QR ya es la marca.</li><li>Estética limpia que envejece bien.</li></ul></div>
+<div class="panel"><h4 style="margin-top:0">En contra</h4><ul style="margin:0;padding-left:18px"><li>Puede sentirse técnica o fría para el público mayor.</li><li>Riesgo de que el isotipo se confunda con un QR escaneable si se usa mal.</li><li>El botón principal negro es menos obvio como “tocable” que uno de color.</li></ul></div>
+</div></div></section></article>
+<article class="prop pD" aria-label="Propuesta D: Cartel">
+<section class="chapter" style="padding-top:36px"><header><span class="num">Propuesta D</span><div><h2>Cartel</h2><p>Señalética pública: se lee a 5 metros.</p></div></header>
+<div class="block"><div class="grid2" style="align-items:stretch">
+<div class="spec"><div class="stage" style="background:#FFFFFF;min-height:260px"><span style="display:inline-flex;align-items:center;gap:21px"><svg viewBox="0 0 64 64" width="78" height="78" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span style="font:900 60px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#111111">pasame</span></span></div><div class="cap">Logo principal sobre claro</div></div>
+<div class="panel"><h3>La idea</h3><p>Los carteles del subte, de las rutas y de los aeropuertos resolvieron hace décadas el mismo problema que Pasame: que cualquier persona, apurada, sin leer instrucciones, sepa para dónde ir. Esta dirección toma ese lenguaje: amarillo y negro, pictograma de flecha, letra de ruta. Pasame se presenta como un cartel que indica el camino.</p></div></div></div>
+<div class="block"><h3>Por qué sirve a los dos objetivos</h3><div class="panel"><div class="rule"><span class="k">+</span><div><b>Simpleza:</b> es la propuesta con más legibilidad: 12,5 : 1 de contraste entre el amarillo y el negro, letras grandes, formas de pictograma.</div></div><div class="rule"><span class="k">+</span><div><b>Alcance:</b> el amarillo y negro es universal y funciona para baja visión y daltonismo.</div></div><div class="rule"><span class="k">+</span><div><b>Presencia:</b> en una pantalla llena de apps azules, el ícono amarillo se encuentra al instante.</div></div><div class="rule"><span class="k" style="color:var(--warn)">!</span><div><b>El riesgo:</b> El amarillo es difícil: sobre blanco no se lee (1,51 : 1) y en exceso cansa o parece advertencia. Se usa en superficies, nunca como texto, y el negro carga el peso.</div></div></div></div>
+<div class="block"><h3>Sistema de logo</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#111111"><span style="display:inline-flex;align-items:center;gap:16px"><svg viewBox="0 0 64 64" width="58" height="58" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span style="font:900 45px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#FFCC00">pasame</span></span></div><div class="cap">Logo principal sobre oscuro</div></div>
+<div class="spec"><div class="stage" style="background:#FFFFFF;gap:22px;align-items:flex-end"><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">64</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">32</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="24" height="24" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">24</span></div><div style="display:grid;justify-items:center;gap:6px"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span class="mono" style="font-size:11px;color:var(--muted)">16</span></div></div><div class="cap">Isotipo a 64, 32, 24 y 16 px</div></div>
+</div>
+<div class="grid4" style="margin-top:16px">
+<div class="spec"><div class="stage sm" style="background:#E9ECF0"><svg viewBox="0 0 64 64" width="96" height="96" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg></div><div class="cap">Ícono de app (macOS, Windows, Linux)</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><span style="font:900 40px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#111111">pasame</span></div><div class="cap">Logotipo solo</div></div>
+<div class="spec"><div class="stage sm" style="background:#fff"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#111111"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#FFFFFF"/><path fill="#FFFFFF" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg></div><div class="cap">Monocromo positivo</div></div>
+<div class="spec"><div class="stage sm" style="background:#111"><svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFFFFF"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg></div><div class="cap">Monocromo negativo</div></div>
+</div></div>
+<div class="block"><h3>Construcción, zona de protección y tamaños mínimos</h3>
+<div class="grid2">
+<div class="spec"><div class="stage" style="background:#fff;position:relative">
+<div style="position:relative;line-height:0">
+<svg viewBox="0 0 64 64" width="220" height="220" style="position:absolute;inset:0;z-index:2" aria-hidden="true"><g stroke="#E0457B" stroke-width=".25" opacity=".75"><line x1="0" y1="0" x2="0" y2="64"/><line x1="0" y1="0" x2="64" y2="0"/><line x1="8" y1="0" x2="8" y2="64"/><line x1="0" y1="8" x2="64" y2="8"/><line x1="16" y1="0" x2="16" y2="64"/><line x1="0" y1="16" x2="64" y2="16"/><line x1="24" y1="0" x2="24" y2="64"/><line x1="0" y1="24" x2="64" y2="24"/><line x1="32" y1="0" x2="32" y2="64"/><line x1="0" y1="32" x2="64" y2="32"/><line x1="40" y1="0" x2="40" y2="64"/><line x1="0" y1="40" x2="64" y2="40"/><line x1="48" y1="0" x2="48" y2="64"/><line x1="0" y1="48" x2="64" y2="48"/><line x1="56" y1="0" x2="56" y2="64"/><line x1="0" y1="56" x2="64" y2="56"/><line x1="64" y1="0" x2="64" y2="64"/><line x1="0" y1="64" x2="64" y2="64"/></g><circle cx="32" cy="32" r="31.5" fill="none" stroke="#E0457B" stroke-width=".35" stroke-dasharray="1.5 1.5"/></svg>
+<svg viewBox="0 0 64 64" width="220" height="220" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg></div></div><div class="cap">Retícula de 8 × 8 sobre el isotipo de 64</div></div>
+<div class="panel"><p>Pictograma sobre retícula de 64 con radio 10 (esquina de cartel, no de app). La flecha es de relleno sólido, sin trazo, como en la señalética vial: se imprime y se recorta en vinilo sin perder forma.</p><h4>Zona de protección</h4><p>El ancho del rectángulo de archivo (x) alrededor de todo el logo. Nada entra en ese margen: ni texto, ni otro logo, ni el borde de la pantalla.</p><h4>Tamaños mínimos</h4><div class="tscroll"><table><tbody><tr><td>Isotipo en pantalla</td><td class="num">16 px</td></tr><tr><td>Logotipo completo</td><td class="num">90 px de ancho</td></tr><tr><td>Impreso</td><td class="num">8 mm el isotipo, 25 mm el logo completo</td></tr></tbody></table></div></div>
+</div></div>
+<div class="block"><h3>Color</h3><div class="swatches"><div class="swatch"><div class="c" style="background:#FFCC00;color:#111111">Amarillo Cartel</div><div class="d"><b>#FFCC00</b><span class="mono">RGB 255, 204, 0</span>Fondo del isotipo, banda superior, superficies de marca. Nunca como texto.</div></div><div class="swatch"><div class="c" style="background:#111111;color:#FFFFFF">Negro Cartel</div><div class="d"><b>#111111</b><span class="mono">RGB 17, 17, 17</span>Texto, logotipo, pictogramas, botón principal.</div></div><div class="swatch"><div class="c" style="background:#FFFFFF;color:#111111">Blanco</div><div class="d"><b>#FFFFFF</b><span class="mono">RGB 255, 255, 255</span>Fondo de contenido.</div></div><div class="swatch"><div class="c" style="background:#0055A5;color:#FFFFFF">Azul Línea</div><div class="d"><b>#0055A5</b><span class="mono">RGB 0, 85, 165</span>Links y acciones secundarias.</div></div><div class="swatch"><div class="c" style="background:#00843D;color:#FFFFFF">Verde Salida</div><div class="d"><b>#00843D</b><span class="mono">RGB 0, 132, 61</span>Confirmaciones.</div></div><div class="swatch"><div class="c" style="background:#5B6168;color:#FFFFFF">Gris Andén</div><div class="d"><b>#5B6168</b><span class="mono">RGB 91, 97, 104</span>Texto secundario.</div></div></div>
+<h4>Proporción de uso en una pantalla típica</h4><div class="ratio"><i style="background:#FFFFFF;width:62%" title="62%"></i><i style="background:#111111;width:18%" title="18%"></i><i style="background:#FFCC00;width:14%" title="14%"></i><i style="background:#5B6168;width:3%" title="3%"></i><i style="background:#0055A5;width:2%" title="2%"></i><i style="background:#00843D;width:1%" title="1%"></i></div>
+<h4>Contrastes medidos (WCAG 2.2)</h4><div class="contrast"><div class="cbox" style="background:#FFCC00;color:#111111">Aa texto<small>12.49 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#111111">Aa texto<small>18.88 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#0055A5">Aa texto<small>7.39 : 1<br>AAA</small></div><div class="cbox" style="background:#FFFFFF;color:#00843D">Aa texto<small>4.81 : 1<br>AA</small></div><div class="cbox" style="background:#FFFFFF;color:#5B6168">Aa texto<small>6.26 : 1<br>AA</small></div><div class="cbox" style="background:#FFFFFF;color:#FFCC00">Aa texto<small>1.51 : 1<br>Prohibido</small></div></div>
+<p style="margin-top:12px;color:var(--muted);font-size:14px">“Solo texto grande” = válido desde 24 px (o 19 px en negrita). “Prohibido” = no se usa esa combinación para ningún texto ni ícono.</p></div>
+<div class="block"><h3>Tipografía</h3>
+<div class="grid2">
+<div class="type-spec"><span class="eyebrow">Display · Overpass</span><div class="big" style="font-family:'Overpass',sans-serif;font-weight:900;margin-top:12px">Pasá archivos</div><p style="font-family:'Overpass',sans-serif;font-weight:900;font-size:20px;margin-top:14px">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz · 0123456789</p></div>
+<div class="type-spec"><span class="eyebrow">Texto · Atkinson Hyperlegible</span><p style="font-family:'Atkinson Hyperlegible',sans-serif;font-size:19px;line-height:1.55;margin-top:12px">La otra persona apunta la cámara del celular al código que aparece y listo: se descargan. Si quiere, te manda fotos de vuelta.</p><span class="eyebrow" style="display:block;margin-top:16px">Dirección · IBM Plex Mono</span><p style="font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;margin:8px 0 0">192.168.1.40:8080</p><p style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--muted);margin-top:6px">0 O o · 1 l I · 8 B · 5 S</p></div>
+</div>
+<p style="margin-top:14px">Overpass, heredera libre de la tipografía de las rutas de EE. UU. (Highway Gothic), para logotipo y títulos: pensada para leerse de lejos y en movimiento. Atkinson Hyperlegible para textos largos del sitio. En el producto: letra del sistema, en negrita para los títulos.</p>
+<div class="tscroll" style="margin-top:12px"><table class="scale"><thead><tr><th>Estilo</th><th>Muestra</th><th>Tamaño / interlineado</th><th>Dónde</th></tr></thead><tbody>
+<tr><td>Título de sitio</td><td style="font-family:'Overpass',sans-serif;font-weight:900;font-size:34px;line-height:1.1">Sin cable, sin cuentas</td><td class="num">48/52 escritorio · 34/38 celular</td><td>Portada de pasame.com.ar</td></tr>
+<tr><td>Título de pantalla</td><td style="font-weight:700;font-size:24px">Martín te comparte 3 archivos</td><td class="num">26/32 receptor · 28/35 emisor</td><td>App (letra del sistema)</td></tr>
+<tr><td>Botón principal</td><td style="font-weight:700;font-size:20px">⬇ Descargar todo (1,2 GB)</td><td class="num">20/26 · negrita</td><td>App</td></tr>
+<tr><td>Texto</td><td style="font-size:18px">Tiene que estar en la misma red WiFi.</td><td class="num">18/26</td><td>App</td></tr>
+<tr><td>Dirección</td><td style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:26px">192.168.1.40:8080</td><td class="num">24–40, una línea</td><td>Emisor</td></tr>
+<tr><td>Secundario</td><td style="font-size:15px;color:var(--muted)">Si cerrás esta pestaña, Pasame se cierra solo a los 2 minutos.</td><td class="num">15/22</td><td>App</td></tr>
+</tbody></table></div></div>
+<div class="block"><h3>Aplicaciones en la app real</h3>
+<div class="grid2" style="grid-template-columns:1.55fr 1fr;align-items:center">
+<div><div class="mock"><div class="chrome"><i></i><i></i><i></i><span class="url">127.0.0.1:55302</span></div>
+<div class="m-ui" style="--m-bg:#FFFFFF;--m-surface:#FFFFFF;--m-ink:#111111;--m-muted:#5B6168;--m-line:#E3E3E3;--m-primary:#111111;--m-onprimary:#FFCC00;--m-ok:#00843D;--m-radius:8px;--m-addrbg:#FFFFFF;--m-link:#0055A5">
+<div class="hd" style="background:#FFCC00;"><svg viewBox="0 0 64 64" width="20" height="20" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#111111"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#FFFFFF"/><path fill="#FFFFFF" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span style="font:900 15px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#111111">pasame</span><span class="who" style="color:#111">Tu nombre: <b>Martín</b></span></div>
+<div class="bd">
+<div class="top"><h5>Compartiendo 3 archivos (1,2 GB)</h5><span class="btn2">Terminar</span></div>
+<div class="row"><div class="qrw"><svg viewBox="0 0 37 37" role="img" aria-label="QR de ejemplo"><use href="#qr"/></svg></div>
+<div class="side"><p><b>Desde un celular:</b><br>apuntá la cámara a este código.</p><p><b>Desde una computadora:</b><br>escribí esto en el navegador</p><span class="addr">192.168.1.40:8080</span></div></div>
+<div class="sec">Actividad</div><div class="act"><p>● 2 dispositivos conectados</p><p>⬇ Descargando vacaciones.mp4 (2 personas)</p><p style="color:#00843D">✓ Recibido IMG_2231.jpg</p></div>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px">Emisor: la marca en la esquina, el botón y el QR mandan.</p></div>
+<div><div class="phone"><div class="scr"><div class="m-rx" style="--m-bg:#FFFFFF;--m-surface:#FFFFFF;--m-ink:#111111;--m-muted:#5B6168;--m-line:#E3E3E3;--m-primary:#111111;--m-onprimary:#FFCC00;--m-ok:#00843D;--m-radius:8px;--m-addrbg:#FFFFFF;--m-link:#0055A5">
+<div class="brandline" style="background:#FFCC00;margin:-14px -12px 12px;padding:10px 12px;"><svg viewBox="0 0 64 64" width="18" height="18" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#111111"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#FFFFFF"/><path fill="#FFFFFF" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span style="font:900 14px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#111111">pasame</span></div>
+<h6>Martín te comparte 3 archivos</h6>
+<div class="card"><span class="big">⬇ Descargar todo (1,2 GB)</span>
+<div class="f"><div><b>vacaciones.mp4</b><span>980 MB</span></div><span class="v">Ver</span></div>
+<div class="f"><div><b>contrato.pdf</b><span>1,3 MB</span></div><span class="v">Ver</span></div>
+<div class="f"><div><b>foto-abuela.jpg</b><span>4,2 MB</span></div><span class="v">Ver</span></div></div>
+<div class="card"><p class="q">¿Querés mandarle algo a Martín?</p><span class="big alt">⬆ Elegir archivos para enviar</span></div>
+<p class="foot">Los archivos viajan solo por esta red.</p>
+</div></div></div><p class="mono" style="font-size:12px;color:var(--muted);margin-top:8px;text-align:center">Receptor en el celular (375 px).</p></div>
+</div>
+<div class="grid3" style="margin-top:18px">
+<div class="spec"><div class="stage sm" style="background:#fff;padding:18px 14px;display:block"><div class="tabrow"><div class="tab"><svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span>Pasame</span><span style="margin-left:auto;color:#999">×</span></div></div><div class="tabrow" style="padding:0;border-radius:0"><div class="bar"></div></div></div><div class="cap">Favicon en la pestaña</div></div>
+<div class="spec"><div class="stage sm" style="background:linear-gradient(160deg,#9fb0c6,#d9dee6)"><div class="dock"><span class="o"></span><span class="o"></span><svg viewBox="0 0 64 64" width="52" height="52" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span class="o"></span></div></div><div class="cap">Ícono entre otras apps</div></div>
+<div class="spec"><div class="hero" style="background:#FFCC00;color:#111111"><span style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 64 64" width="26" height="26" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#FFCC00"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#111111"/><path fill="#111111" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span style="font:900 20px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#111111">pasame</span></span><p class="hl" style="font-family:'Overpass',sans-serif;font-weight:900;color:#111111">Pasá archivos a cualquier celular o computadora que esté cerca.</p><span class="dl" style="background:#111111;color:#FFCC00">Descargar Pasame para Mac</span></div><div class="cap">Portada de pasame.com.ar</div></div>
+</div></div>
+<div class="block"><h3>Usos correctos e incorrectos</h3><div class="dodont"><div class="dd ok"><div class="stage sm" style="background:#fff;flex-direction:column;align-items:stretch;padding:0"><div style="background:#FFCC00;padding:10px 12px;display:flex;gap:8px;align-items:center"><svg viewBox="0 0 64 64" width="22" height="22" role="img" aria-label="Isotipo Cartel"><rect width="64" height="64" rx="10" fill="#111111"/><rect x="10" y="22" width="12" height="20" rx="2" fill="#FFFFFF"/><path fill="#FFFFFF" d="M26 26.5h13V17l16 15-16 15v-9.5H26z"/></svg><span style="font:900 16px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#111">pasame</span></div><div style="padding:12px;font:700 13px/1.3 system-ui;color:#111">Compartiendo 3 archivos</div></div><div class="t"><b>SÍ</b>Banda amarilla con el logo en negro arriba de la pantalla; el contenido en blanco.</div></div><div class="dd no"><div class="stage sm" style="background:#fff"><span style="color:#FFCC00;font:900 20px/1.2 Overpass,system-ui">Descargar todo</span></div><div class="t"><b>NO</b>Amarillo como color de texto o de íconos sobre blanco (1,51 : 1).</div></div><div class="dd no"><div class="stage sm" style="background:#FFCC00;flex-direction:column;gap:6px"><span style="font:900 15px/1 Overpass,system-ui;color:#111">Martín te comparte 3 archivos</span><span style="font:600 11px/1 system-ui;color:#111">vacaciones.mp4 · contrato.pdf</span></div><div class="t"><b>NO</b>Fondo amarillo en toda la pantalla: cansa y se lee como advertencia.</div></div><div class="dd no"><div class="stage sm" style="background:repeating-linear-gradient(45deg,#FFCC00 0 12px,#111 12px 24px)"><span style="background:#fff;padding:8px 10px;border-radius:6px"><span style="font:900 22px/1 Overpass,sans-serif;letter-spacing:-.01em;color:#111">pasame</span></span></div><div class="t"><b>NO</b>Rayas diagonales amarillas y negras: eso es “peligro”, no “pasame”.</div></div></div></div>
+<div class="block"><h3>Para implementarla en la app</h3><p>Estos son los tokens que reemplazan a los actuales en <code>web/control/app.css</code> y <code>web/share/page.css</code>. En el receptor se escriben como valores directos (sin variables CSS) para no romper navegadores viejos.</p><pre class="tokens">:root{
+  --brand:#FFCC00;      /* Amarillo: superficies, nunca texto */
+  --primary:#111111;    /* Negro: botón principal, texto en amarillo */
+  --on-primary:#FFCC00; /* texto del botón principal (12,5:1) */
+  --ink:#111111;
+  --muted:#5B6168;
+  --ground:#FFFFFF;
+  --link:#0055A5;
+  --ok:#00843D;
+  --radius:8px;
+}</pre></div>
+<div class="block"><h3>Balance</h3><div class="verdict">
+<div class="panel"><h4 style="margin-top:0">A favor</h4><ul style="margin:0;padding-left:18px"><li>La más legible de las cuatro, para todas las edades y para baja visión.</li><li>El ícono amarillo se encuentra rápido entre otras apps.</li><li>Lenguaje universal, no depende de cultura.</li></ul></div>
+<div class="panel"><h4 style="margin-top:0">En contra</h4><ul style="margin:0;padding-left:18px"><li>El amarillo exige reglas estrictas; mal usado parece advertencia.</li><li>Menos cálida: comunica eficiencia más que cercanía.</li><li>Overpass en el sitio suma una fuente más a cargar (solo en el sitio).</li></ul></div>
+</div></div></section></article>
+</div>
+<section class="chapter" id="comparacion"><header><span class="num">Capítulo 6</span><div><h2>Comparación y recomendación</h2><p>Todas cumplen las reglas fijas. La diferencia está en qué tan memorable es cada una y cuánto riesgo trae.</p></div></header>
+<div class="block"><div class="tscroll"><table><thead><tr><th>Propuesta</th><th>Alcance</th><th>Simpleza</th><th>Distinción</th><th>Riesgo</th><th>Costo de implementar</th></tr></thead><tbody><tr><td><b>A · Pase</b><br><span style="color:var(--muted);font-size:13px">La evolución de lo que ya existe</span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></td></tr><tr><td><b>B · Ronda</b><br><span style="color:var(--muted);font-size:13px">Uno comparte, muchos reciben: el mate</span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td></tr><tr><td><b>C · Señal</b><br><span style="color:var(--muted);font-size:13px">El código y la dirección como identidad</span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td></tr><tr><td><b>D · Cartel</b><br><span style="color:var(--muted);font-size:13px">Señalética pública: se lee a 5 metros</span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="meter"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td></tr></tbody></table></div>
+<p style="margin-top:10px;color:var(--muted);font-size:14px">Cinco rayitas = máximo. En riesgo y costo, menos es mejor. El alcance casi no varía porque la app usa la letra del sistema en todas: lo que cambia es cómo se lee el ícono a 16 px y en blanco y negro.</p></div>
+<div class="block"><div class="panel" style="border-color:var(--ok);margin-bottom:16px"><span class="pill" style="background:var(--ok);color:#fff">Decisión · 21 sep 2026</span><h3 style="margin-top:12px">Se eligió B · Ronda</h3><p>Martín eligió la Ronda por su idea: una persona comparte y muchas reciben. Se aplicó a la app con dos reglas tomadas de la propuesta Cartel: el logo nunca va pegado al botón principal, y los avisos usan un amarillo de alto contraste con texto oscuro. En el receptor, “Descargar todo” va en Brote con texto oscuro (8,00 : 1) y una banda Yerba arriba presenta a quien comparte.</p><p style="margin:0">Archivos de logo: <code>docs/marca/*.svg</code>. Tokens aplicados: <code>web/control/app.css</code> y <code>web/share/page.css</code>.</p></div>
+<div class="panel" style="border-color:var(--accent)">
+<span class="pill">Recomendación original (antes de decidir)</span>
+<h3 style="margin-top:12px">D · Cartel</h3>
+<p>Medidas contra los dos objetivos del proyecto, la A y la D empatan arriba: son las más legibles para cualquier persona y las que mejor se ven en cualquier pantalla. Entre las dos, <b>la D además se distingue</b>: en una pantalla llena de íconos azules, el amarillo se encuentra al instante, y su lenguaje de cartel público ya significa “por acá” para gente de cualquier edad y cualquier país.</p>
+<p>Su riesgo es controlable con tres reglas que ya están en el manual: el amarillo nunca es texto, nunca cubre la pantalla entera y nunca se combina en rayas. El negro carga el peso de la interfaz.</p>
+<p><b>Alternativa con más historia:</b> B · Ronda. Es la única con una idea propia que se cuenta en una frase y que explica el producto (una persona comparte, muchas reciben). Pierde alcance fuera del Río de la Plata y necesita dos versiones del isotipo. Vale la pena si Pasame se piensa primero para Argentina y Uruguay.</p>
+<p><b>La que no conviene:</b> A · Pase. Cumple todo, pero no deja huella: es la app de hoy prolija, no una marca.</p>
+<p style="margin:0"><b>Siguiente paso:</b> elegir una. Con esa decisión se actualizan <code>packaging/icon/pasame.svg</code> (Plan 2, Tarea 6), los tokens de CSS de la app y el sitio pasame.com.ar.</p>
+</div></div></section>
+</div>

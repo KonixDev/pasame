@@ -108,3 +108,12 @@ func TestViewable(t *testing.T) {
 		}
 	}
 }
+
+func TestTypeLabel(t *testing.T) {
+	cases := map[string]string{"a.mp4": "MP4", "Foto.JPEG": "JPEG", "sin-extension": "—", "raro.abcdefg": "—", "x.pdf": "PDF"}
+	for in, want := range cases {
+		if got := typeLabel(in); got != want {
+			t.Errorf("typeLabel(%q) = %q, want %q", in, got, want)
+		}
+	}
+}

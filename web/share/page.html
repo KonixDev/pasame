@@ -1,23 +1,28 @@
 {{define "page.html"}}<!DOCTYPE html>
 <html lang="{{.Lang}}"><head>{{template "head" .}}</head>
-<body><main>
-<p class="brand">Pasame{{if .SuggestAlt}}<a class="lang" id="lang-top" href="?lang={{.Alt}}">{{.AltName}}</a>{{end}}</p>
+<body>
 {{$p := .Sess.Path}}{{$l := .Lang}}
+<div class="hero"><div class="hero-in">
+{{template "ronda-deco"}}
+<p class="brand">{{template "brand-neg"}}{{if .SuggestAlt}}<a class="lang" id="lang-top" href="?lang={{.Alt}}">{{.AltName}}</a>{{end}}</p>
+{{if .Sess.Files}}<h1>{{if eq (len .Sess.Files) 1}}{{t $l "sharing_1" .Sender}}{{else}}{{t $l "sharing_n" .Sender (len .Sess.Files)}}{{end}}</h1>
+{{else}}<h1>{{t $l "receive_only" .Sender}}</h1>{{end}}
+<p class="sub">{{if .Strict}}{{t $l "footer_tunnel"}}{{else}}{{t $l "footer_lan"}}{{end}}</p>
+</div></div>
+<main>
+{{if .Msg}}<p class="{{if .MsgErr}}err{{else}}ok{{end}}" id="up-result">{{.Msg}}</p>{{end}}
 {{if .Sess.Files}}
-<h1>{{if eq (len .Sess.Files) 1}}{{t $l "sharing_1" .Sender}}{{else}}{{t $l "sharing_n" .Sender (len .Sess.Files)}}{{end}}</h1>
-<div class="card">
+<div class="card first">
 <a class="big" href="{{$p}}/zip">⬇ {{t $l "download_all" (size $l .Sess.TotalSize)}}</a>
 <ul>
-{{range .Sess.Files}}<li>{{if viewable .Name}}<a class="view" href="{{$p}}/f/{{.Index}}?inline=1">{{t $l "view"}}</a>{{end}}<a class="name" href="{{$p}}/f/{{.Index}}">{{.Rel}}</a><span class="size">{{size $l .Size}}</span></li>
+{{range .Sess.Files}}<li><span class="type">{{ext .Name}}</span>{{if viewable .Name}}<a class="view" href="{{$p}}/f/{{.Index}}?inline=1">{{t $l "view"}}</a>{{end}}<a class="name" href="{{$p}}/f/{{.Index}}">{{.Rel}}</a><span class="size">{{size $l .Size}}</span></li>
 {{end}}</ul>
 </div>
 <div class="card">
 <h2>{{t $l "send_back" .Sender}}</h2>
 {{else}}
-<h1>{{t $l "receive_only" .Sender}}</h1>
-<div class="card">
+<div class="card first">
 {{end}}
-{{if .Msg}}<p class="{{if .MsgErr}}err{{else}}ok{{end}}" id="up-result">{{.Msg}}</p>{{end}}
 <form id="up-form" method="post" action="{{$p}}/up" enctype="multipart/form-data">
 <label class="big alt js-only" for="up-input">⬆ {{t $l "choose_send"}}</label>
 <input id="up-input" type="file" name="f" multiple>
@@ -26,8 +31,7 @@
 <p id="up-status" class="note"></p>
 <div class="bar" id="up-bar-wrap" style="display:none"><div id="up-bar"></div></div>
 </div>
-<p class="note">{{if .Strict}}{{t $l "footer_tunnel"}}{{else}}{{t $l "footer_lan"}}{{end}}</p>
-<p class="note"><a href="?lang={{.Alt}}">{{.AltName}}</a></p>
+<p class="note foot"><a href="?lang={{.Alt}}">{{.AltName}}</a></p>
 </main>
 <script>var T={sending:"{{t $l "sending_js" 0 0 0}}",done:"{{t $l "sent_done_js" .Sender}}",fail:"{{t $l "err_generic"}}"};</script>
 <script>{{js}}</script>

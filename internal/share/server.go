@@ -54,6 +54,7 @@ func New(d Deps) (*Server, error) {
 		"size":     i18n.Size,
 		"css":      func() template.CSS { return template.CSS(css) },
 		"viewable": Viewable,
+		"ext":      typeLabel,
 		"js":       func() template.JS { return template.JS(mustRead("share/page.js")) },
 	}).ParseFS(web.Share, "share/*.html")
 	if err != nil {

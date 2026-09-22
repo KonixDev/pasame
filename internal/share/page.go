@@ -20,6 +20,15 @@ var viewExt = map[string]bool{
 	".pdf": true,
 }
 
+// typeLabel es la etiqueta de tipo que se ve al lado de cada archivo ("MP4", "JPG"). Sin extensión, "—".
+func typeLabel(name string) string {
+	e := strings.ToUpper(strings.TrimPrefix(filepath.Ext(name), "."))
+	if e == "" || len(e) > 4 {
+		return "—"
+	}
+	return e
+}
+
 // Viewable indica si el archivo merece botón "Ver" (abrir inline).
 func Viewable(name string) bool { return viewExt[strings.ToLower(filepath.Ext(name))] }
 
