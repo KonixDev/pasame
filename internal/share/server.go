@@ -42,9 +42,11 @@ func New(d Deps) (*Server, error) {
 		return nil, err
 	}
 	tpl, err := template.New("").Funcs(template.FuncMap{
-		"t":    i18n.T,
-		"size": i18n.Size,
-		"css":  func() template.CSS { return template.CSS(css) },
+		"t":        i18n.T,
+		"size":     i18n.Size,
+		"css":      func() template.CSS { return template.CSS(css) },
+		"viewable": Viewable,
+		"js":       func() template.JS { return template.JS(mustRead("share/page.js")) },
 	}).ParseFS(web.Share, "share/*.html")
 	if err != nil {
 		return nil, err
@@ -106,9 +108,6 @@ func (s *Server) withSession(h sessHandler) http.HandlerFunc {
 }
 
 // Stubs: los completan las Tareas 7 a 10.
-func (s *Server) page(w http.ResponseWriter, r *http.Request, _ *session.Session, _ *session.Stats) {
-	http.Error(w, "todavía no", http.StatusNotImplemented)
-}
 func (s *Server) file(w http.ResponseWriter, r *http.Request, _ *session.Session, _ *session.Stats) {
 	http.Error(w, "todavía no", http.StatusNotImplemented)
 }

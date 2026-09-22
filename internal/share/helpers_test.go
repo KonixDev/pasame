@@ -11,11 +11,11 @@ import (
 )
 
 type fixture struct {
-	srv   *Server
-	sess  *session.Session
-	stats *session.Stats
-	dir   string // archivos compartidos
-	quar  string // cuarentena
+	srv    *Server
+	sess   *session.Session
+	stats  *session.Stats
+	dir    string // archivos compartidos
+	quar   string // cuarentena
 	strict bool
 }
 

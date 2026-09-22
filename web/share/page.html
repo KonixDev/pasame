@@ -1,0 +1,28 @@
+{{define "page.html"}}<!DOCTYPE html>
+<html lang="{{.Lang}}"><head>{{template "head" .}}</head>
+<body><main>
+<p class="brand">Pasame</p>
+{{$p := .Sess.Path}}{{$l := .Lang}}
+{{if .Sess.Files}}
+<h1>{{if eq (len .Sess.Files) 1}}{{t $l "sharing_1" .Sender}}{{else}}{{t $l "sharing_n" .Sender (len .Sess.Files)}}{{end}}</h1>
+<a class="big" href="{{$p}}/zip">⬇ {{t $l "download_all" (size $l .Sess.TotalSize)}}</a>
+<ul>
+{{range .Sess.Files}}<li>{{if viewable .Name}}<a class="view" href="{{$p}}/f/{{.Index}}?inline=1">{{t $l "view"}}</a>{{end}}<a class="name" href="{{$p}}/f/{{.Index}}">{{.Rel}}</a><span class="size">{{size $l .Size}}</span></li>
+{{end}}</ul>
+<h2>{{t $l "send_back" .Sender}}</h2>
+{{else}}
+<h1>{{t $l "receive_only" .Sender}}</h1>
+{{end}}
+{{if .Msg}}<p class="{{if .MsgErr}}err{{else}}ok{{end}}" id="up-result">{{.Msg}}</p>{{end}}
+<form id="up-form" method="post" action="{{$p}}/up" enctype="multipart/form-data">
+<label class="big alt" for="up-input">⬆ {{t $l "choose_send"}}</label>
+<input id="up-input" type="file" name="f" multiple>
+<button id="up-send" type="submit" class="big">{{t $l "send"}}</button>
+</form>
+<p id="up-status" class="note"></p>
+<div class="bar" id="up-bar-wrap" style="display:none"><div id="up-bar"></div></div>
+<p class="note">{{if .Strict}}{{t $l "footer_tunnel"}}{{else}}{{t $l "footer_lan"}}{{end}}</p>
+</main>
+<script>var T={sending:"{{t $l "sending_js" 0 0 0}}",done:"{{t $l "sent_done_js" .Sender}}",fail:"{{t $l "err_generic"}}"};</script>
+<script>{{js}}</script>
+</body></html>{{end}}
