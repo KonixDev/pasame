@@ -1,0 +1,83 @@
+version: 2
+project_name: pasame
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: unix
+    main: ./cmd/pasame
+    binary: pasame
+    env: [CGO_ENABLED=0]
+    flags: [-trimpath]
+    ldflags: ["-s -w -X main.version={{ .Version }}"]
+    goos: [linux, darwin]
+    goarch: [amd64, arm64, arm]
+    goarm: ["7"]
+    ignore:
+      - { goos: darwin, goarch: arm }
+  - id: windows
+    main: ./cmd/pasame
+    binary: pasame
+    env: [CGO_ENABLED=0]
+    flags: [-trimpath]
+    ldflags: ["-s -w -H=windowsgui -X main.version={{ .Version }}"]
+    goos: [windows]
+    goarch: [amd64, arm64]
+
+universal_binaries:
+  - id: macos
+    ids: [unix]
+    replace: true   # queda un solo binario darwin (Intel + Apple Silicon)
+
+archives:
+  - id: linux
+    ids: [unix]
+    formats: [tar.gz]
+    builds_info: { mode: 0755 }
+    name_template: 'pasame-linux-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    files:
+      - src: packaging/linux/pasame.desktop
+        strip_parent: true
+      - src: packaging/linux/icon.png
+        strip_parent: true
+      - README.md
+      - LICENSE
+  - id: windows
+    ids: [windows]
+    formats: [binary]
+    name_template: 'Pasame-Windows{{ if eq .Arch "arm64" }}-arm64{{ end }}'
+
+nfpms:
+  - id: deb
+    ids: [unix]
+    package_name: pasame
+    file_name_template: 'pasame_{{ .Version }}_{{ if eq .Arch "arm" }}armhf{{ else }}{{ .Arch }}{{ end }}'
+    formats: [deb]
+    maintainer: Martin Coll <145708582+KonixDev@users.noreply.github.com>
+    homepage: https://github.com/KonixDev/pasame # pasame.com.ar cuando se registre el dominio
+    description: Pasá archivos a cualquier celular o computadora que esté cerca.
+    license: MIT
+    recommends: [zenity, xdg-utils]
+    contents:
+      - src: packaging/linux/pasame.desktop
+        dst: /usr/share/applications/pasame.desktop
+      - src: packaging/linux/icon.png
+        dst: /usr/share/icons/hicolor/256x256/apps/pasame.png
+
+checksum:
+  name_template: checksums.txt
+
+signs:
+  - cmd: cosign
+    artifacts: checksum
+    signature: '${artifact}.sig'
+    certificate: '${artifact}.pem'
+    args: [sign-blob, --yes, '--output-signature=${signature}', '--output-certificate=${certificate}', '${artifact}']
+
+release:
+  github: { owner: KonixDev, name: pasame }
+  prerelease: auto
+  draft: true   # release-mac.sh sube el .dmg y latest.json, y recién ahí la publica
