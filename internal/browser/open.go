@@ -26,8 +26,9 @@ func Open(url string) error {
 	name, args := command(url)
 	err := exec.Command(name, args...).Start()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Abrí esta dirección en tu navegador:", url)
-		zenity.Info("Abrí esta dirección en tu navegador:\n\n"+url, zenity.Title("Pasame"))
+		// Todavía no se sabe el idioma de la persona: el aviso va en los dos.
+		fmt.Fprintln(os.Stderr, "Abrí esta dirección en tu navegador / Open this address in your browser:", url)
+		zenity.Info("Abrí esta dirección en tu navegador.\nOpen this address in your browser.\n\n"+url, zenity.Title("Pasame"))
 	}
 	return err
 }

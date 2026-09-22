@@ -45,6 +45,7 @@ type Core struct {
 	pickUnsupported bool
 	strict          bool
 	firewallHint    string
+	detectedLang    string // del navegador de la pestaña de control; no se guarda (es una suposición)
 	netChangedUntil time.Time
 	lastPrimary     string
 
@@ -59,14 +60,14 @@ type Core struct {
 }
 
 func New(o Options) *Core {
-	if o.Pick == nil {
-		o.Pick = defaultPick
-	}
 	c := &Core{o: o, cfg: o.Config, phase: "idle", subs: map[chan struct{}]bool{}, done: make(chan struct{})}
 	// Se calcula una vez: en macOS es un exec de `defaults`, no algo para cada push de SSE.
 	// En Windows el aviso solo tiene sentido la primera vez (después el permiso ya se dio o se negó).
 	if h := platform.FirewallHint(); h == "mac" || (h == "windows" && o.FirstRun) {
 		c.firewallHint = h
+	}
+	if c.o.Pick == nil {
+		c.o.Pick = c.nativePick
 	}
 	if o.Config.IfaceOverride != "" {
 		o.LAN.SetOverride(o.Config.IfaceOverride)
@@ -74,12 +75,18 @@ func New(o Options) *Core {
 	return c
 }
 
-func defaultPick(kind string) ([]string, error) {
+var pickTitles = map[i18n.Lang][2]string{
+	i18n.ES: {"Elegí los archivos para pasar", "Elegí la carpeta para pasar"},
+	i18n.EN: {"Choose the files to send", "Choose the folder to send"},
+}
+
+func (c *Core) nativePick(kind string) ([]string, error) {
+	t := pickTitles[c.Lang()]
 	if kind == "folder" {
-		p, err := dialog.PickFolder()
+		p, err := dialog.PickFolder(t[1])
 		return []string{p}, err
 	}
-	return dialog.PickFiles()
+	return dialog.PickFiles(t[0])
 }
 
 // --- lectura para share.Deps ---
@@ -87,14 +94,42 @@ func defaultPick(kind string) ([]string, error) {
 func (c *Core) Current() *session.Session { c.mu.Lock(); defer c.mu.Unlock(); return c.sess }
 func (c *Core) Stats() *session.Stats     { c.mu.Lock(); defer c.mu.Unlock(); return c.stats }
 
-// Lang es el idioma de quien comparte (config "lang"; español si no está).
+// Lang es el idioma de quien comparte: el elegido en el menú (se guarda), si no el detectado del
+// navegador de la pestaña de control, si no español. También es el idioma por defecto del receptor.
 func (c *Core) Lang() i18n.Lang {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	if c.cfg.Lang == string(i18n.EN) {
+	return c.langLocked()
+}
+
+func (c *Core) langLocked() i18n.Lang {
+	switch {
+	case c.cfg.Lang == "en" || c.cfg.Lang == "es":
+		return i18n.Lang(c.cfg.Lang)
+	case c.detectedLang == "en":
 		return i18n.EN
 	}
 	return i18n.ES
+}
+
+// SetLang cambia el idioma. explicit=true es una elección de la persona (se guarda y gana siempre);
+// explicit=false es lo detectado del navegador (no se guarda y no pisa una elección).
+func (c *Core) SetLang(lang string, explicit bool) error {
+	if lang != "es" && lang != "en" {
+		return errors.New("idioma no soportado")
+	}
+	c.mu.Lock()
+	if !explicit {
+		c.detectedLang = lang
+		c.mu.Unlock()
+		c.notify()
+		return nil
+	}
+	c.cfg.Lang = lang
+	cfg := c.cfg
+	c.mu.Unlock()
+	c.notify()
+	return platform.SaveConfig(c.o.ConfigDir, cfg)
 }
 
 func (c *Core) Strict() bool { c.mu.Lock(); defer c.mu.Unlock(); return c.strict }
@@ -221,6 +256,7 @@ func (c *Core) State() State {
 		PickUnsupported: c.pickUnsupported, Strict: c.strict, Quarantine: c.o.Quarantine,
 		Version: c.o.Version, NetChanged: time.Now().Before(c.netChangedUntil),
 		FirewallHint: c.firewallHint,
+		Lang:         string(c.langLocked()), LangExplicit: c.cfg.Lang != "",
 	}
 	if sess != nil {
 		st.SharedAt = c.sharedAt.UnixMilli()

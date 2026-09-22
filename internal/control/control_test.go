@@ -165,3 +165,18 @@ func TestEventsStream(t *testing.T) {
 		t.Fatalf("estado tras compartir: %+v", s.Phase)
 	}
 }
+
+func TestLangAPI(t *testing.T) {
+	c := newCore(t)
+	h := New(c, tok, 5555)
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, req("POST", "/api/lang", `{"lang":"en","auto":true}`, "127.0.0.1:5555", tok))
+	if w.Code != http.StatusNoContent || c.State().Lang != "en" || c.State().LangExplicit {
+		t.Fatalf("%d %+v", w.Code, c.State().Lang)
+	}
+	w = httptest.NewRecorder()
+	h.ServeHTTP(w, req("POST", "/api/lang", `{"lang":"xx"}`, "127.0.0.1:5555", tok))
+	if w.Code != http.StatusBadRequest || !strings.Contains(w.Body.String(), `"code":"bad_lang"`) {
+		t.Fatalf("%d %s", w.Code, w.Body)
+	}
+}

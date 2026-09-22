@@ -4,64 +4,142 @@
   var state = null;
   var closed = false;
 
-  // Todos los textos del emisor (spec §13). Voz rioplatense, sin palabras técnicas.
-  var T = {
-    who: 'Tu nombre: ',
-    edit: 'Cambiar',
-    headline: 'Pasá archivos a cualquier celular<br>o computadora que esté cerca.',
-    pickFiles: '📂  Elegir archivos',
-    pickFolder: 'o elegir una carpeta entera',
-    receiveOnly: 'Solo quiero recibir archivos',
-    // El spec §6.1 dice "No pasan por ningún servidor", pero §6 prohíbe la palabra "servidor": gana la regla de voz.
-    direct: 'Los archivos van directo de tu computadora al otro dispositivo, sin pasar por internet.',
-    picking: 'Se abrió una ventana para elegir archivos. Si no la ves, fijate detrás de esta.',
-    noDialog: 'No se pudo abrir la ventana para elegir. Pegá acá la ubicación del archivo o carpeta:',
-    paste: 'Compartir',
-    fwWindows: '<b>Windows te va a pedir permiso.</b> Cuando aparezca una ventana que dice "Firewall de Windows Defender", tocá <b>Permitir acceso</b>. Es para que el celular pueda ver tu computadora.',
-    fwMac: 'Si tu Mac pregunta si permitís que Pasame acepte conexiones, tocá <b>Permitir</b>.',
-    sharingN: function (n, total) { return 'Compartiendo ' + n + (n === 1 ? ' archivo' : ' archivos') + ' (' + total + ')'; },
-    receiving: 'Listo para recibir archivos',
-    stop: 'Terminar',
-    phone: '<b>Desde un celular:</b><br>apuntá la cámara a este código y tocá el aviso que aparece.',
-    pc: '<b>Desde una computadora:</b><br>escribí esto en el navegador',
-    alsoTry: 'o probá: ',
-    activity: 'Actividad',
-    files: 'Archivos',
-    nobody: 'Nadie entró todavía. Tiene que estar en la misma red WiFi.',
-    devices: function (n) { return n + (n === 1 ? ' dispositivo conectado' : ' dispositivos conectados'); },
-    downloading: function (name, k) { return '⬇ Descargando ' + name + (k > 1 ? ' (' + k + ' personas)' : ''); },
-    downloaded: function (name, k) { return '✓ ' + name + ' descargado' + (k > 1 ? ' ' + k + ' veces' : ''); },
-    uploading: function (name) { return '⬆ Recibiendo ' + name + '…'; },
-    received: function (name) { return '✓ Recibido ' + name; },
-    openFolder: 'Abrir carpeta',
-    cantEnter: '<b>¿No pueden entrar?</b> Probá en este orden:<ol>' +
-      '<li>Los dos dispositivos tienen que estar en <b>la misma red WiFi</b> (fijate el nombre de la red en el celular).</li>' +
-      '<li>Si están en un WiFi de un bar, hotel o aeropuerto, esas redes suelen bloquear esto.</li>' +
-      '<li>Si tenés una VPN, apagala un momento.</li></ol>',
-    checkWindows: 'Revisar permiso de Windows',
-    vpn: 'Parece que tenés una VPN activa. Si el celular no puede entrar, apagala un momento o tocá Cambiar red.',
-    netChanged: 'Cambió la red. El código se actualizó.',
-    unreadable: 'No pude leer: ',
-    network: 'Red: ',
-    changeNet: 'Cambiar red',
-    auto: 'Automática',
-    tabHint: 'Si cerrás esta pestaña, Pasame se cierra solo a los 2 minutos.',
-    stopped: 'Listo. Los links ya no funcionan.',
-    copy: 'Copiar link',
-    copied: 'Link copiado. Pegalo en un mensaje para alguien de esta red.',
-    copyFail: 'No se pudo copiar. Seleccioná la dirección y copiala a mano.',
-    qrHint: 'Tocá el código para agrandarlo.',
-    busyStop: function (n) { return n === 1 ? 'Hay 1 transferencia en curso. Si terminás ahora, se corta.' : 'Hay ' + n + ' transferencias en curso. Si terminás ahora, se cortan.'; },
-    stopAnyway: 'Terminar igual',
-    keepSharing: 'Seguir compartiendo',
-    closedMsg: 'Pasame está cerrado. Podés cerrar esta pestaña.',
-    oss: 'Pasame es gratis y de código abierto. Si te sirvió,',
-    star: 'dale una estrella en GitHub',
-    madeBy: 'Creado por',
-    dropHint: 'Para elegir archivos usá el botón (o arrastralos sobre el ícono de Pasame).',
-    noNetwork: 'Esta computadora no está conectada a ninguna red. Conectate a un WiFi y esperá unos segundos.'
+  // Todos los textos del emisor, en los dos idiomas (spec §13). Voz rioplatense en es; llana en en.
+  // Ninguno usa palabras técnicas: lo controla internal/control/ui_test.go.
+  var TT = {
+    es: {
+      who: 'Tu nombre: ',
+      edit: 'Cambiar',
+      headline: 'Pasá archivos a cualquier celular<br>o computadora que esté cerca.',
+      pickFiles: '📂  Elegir archivos',
+      pickFolder: 'o elegir una carpeta entera',
+      receiveOnly: 'Solo quiero recibir archivos',
+      // El spec §6.1 dice "No pasan por ningún servidor", pero §6 prohíbe la palabra "servidor": gana la regla de voz.
+      direct: 'Los archivos van directo de tu computadora al otro dispositivo, sin pasar por internet.',
+      picking: 'Se abrió una ventana para elegir archivos. Si no la ves, fijate detrás de esta.',
+      noDialog: 'No se pudo abrir la ventana para elegir. Pegá acá la ubicación del archivo o carpeta:',
+      paste: 'Compartir',
+      fwWindows: '<b>Windows te va a pedir permiso.</b> Cuando aparezca una ventana que dice "Firewall de Windows Defender", tocá <b>Permitir acceso</b>. Es para que el celular pueda ver tu computadora.',
+      fwMac: 'Si tu Mac pregunta si permitís que Pasame acepte conexiones, tocá <b>Permitir</b>.',
+      sharingN: function (n, total) { return 'Compartiendo ' + n + (n === 1 ? ' archivo' : ' archivos') + ' (' + total + ')'; },
+      receiving: 'Listo para recibir archivos',
+      stop: 'Terminar',
+      phone: '<b>Desde un celular:</b><br>apuntá la cámara a este código y tocá el aviso que aparece.',
+      pc: '<b>Desde una computadora:</b><br>escribí esto en el navegador',
+      alsoTry: 'o probá: ',
+      activity: 'Actividad',
+      files: 'Archivos',
+      nobody: 'Nadie entró todavía. Tiene que estar en la misma red WiFi.',
+      devices: function (n) { return n + (n === 1 ? ' dispositivo conectado' : ' dispositivos conectados'); },
+      downloading: function (name, k) { return '⬇ Descargando ' + name + (k > 1 ? ' (' + k + ' personas)' : ''); },
+      downloaded: function (name, k) { return '✓ ' + name + ' descargado' + (k > 1 ? ' ' + k + ' veces' : ''); },
+      uploading: function (name) { return '⬆ Recibiendo ' + name + '…'; },
+      received: function (name) { return '✓ Recibido ' + name; },
+      openFolder: 'Abrir carpeta',
+      cantEnter: '<b>¿No pueden entrar?</b> Probá en este orden:<ol>' +
+        '<li>Los dos dispositivos tienen que estar en <b>la misma red WiFi</b> (fijate el nombre de la red en el celular).</li>' +
+        '<li>Si están en un WiFi de un bar, hotel o aeropuerto, esas redes suelen bloquear esto.</li>' +
+        '<li>Si tenés una VPN, apagala un momento.</li></ol>',
+      checkWindows: 'Revisar permiso de Windows',
+      vpn: 'Parece que tenés una VPN activa. Si el celular no puede entrar, apagala un momento o tocá Cambiar red.',
+      netChanged: 'Cambió la red. El código se actualizó.',
+      unreadable: 'No pude leer: ',
+      network: 'Red: ',
+      changeNet: 'Cambiar red',
+      auto: 'Automática',
+      tabHint: 'Si cerrás esta pestaña, Pasame se cierra solo a los 2 minutos.',
+      stopped: 'Listo. Los links ya no funcionan.',
+      copy: 'Copiar link',
+      copied: 'Link copiado. Pegalo en un mensaje para alguien de esta red.',
+      copyFail: 'No se pudo copiar. Seleccioná la dirección y copiala a mano.',
+      qrHint: 'Tocá el código para agrandarlo.',
+      busyStop: function (n) { return n === 1 ? 'Hay 1 transferencia en curso. Si terminás ahora, se corta.' : 'Hay ' + n + ' transferencias en curso. Si terminás ahora, se cortan.'; },
+      stopAnyway: 'Terminar igual',
+      keepSharing: 'Seguir compartiendo',
+      closedMsg: 'Pasame está cerrado. Podés cerrar esta pestaña.',
+      oss: 'Pasame es gratis y de código abierto. Si te sirvió,',
+      star: 'dale una estrella en GitHub',
+      madeBy: 'Creado por',
+      dropHint: 'Para elegir archivos usá el botón (o arrastralos sobre el ícono de Pasame).',
+      noNetwork: 'Esta computadora no está conectada a ninguna red. Conectate a un WiFi y esperá unos segundos.',
+      editLabel: 'Cambiar nombre',
+      askName: '¿Cómo te llamás? (lo ve quien recibe)',
+      cantEnterPlan2: '', // el Plan 2 agrega acá el paso "Tocá Compartir por internet"
+      more: 'Más opciones',
+      menuStar: '★ Dar una estrella en GitHub',
+      menuMadeBy: 'Creado por martincoll.dev',
+      quit: 'Cerrar Pasame',
+      otherLang: 'English',
+      loading: 'Cargando…',
+      errors: { bad_name: 'Escribí un nombre.', bad_iface: 'Esa dirección no es de esta computadora.', no_paths: 'No llegó ningún archivo.', bad_lang: 'Idioma no disponible.', generic: 'No se pudo. Probá de nuevo.' }
+    },
+    en: {
+      who: 'Your name: ',
+      edit: 'Change',
+      editLabel: 'Change name',
+      askName: 'What is your name? (the people receiving will see it)',
+      headline: 'Send files to any phone<br>or computer nearby.',
+      pickFiles: '📂  Choose files',
+      pickFolder: 'or choose a whole folder',
+      receiveOnly: 'I only want to receive files',
+      direct: 'Files go straight from your computer to the other device, without going through the internet.',
+      picking: 'A window opened to choose files. If you cannot see it, look behind this one.',
+      noDialog: 'The window to choose files could not open. Paste the location of the file or folder here:',
+      paste: 'Share',
+      fwWindows: '<b>Windows will ask for permission.</b> When a window titled "Windows Defender Firewall" appears, click <b>Allow access</b>. This lets the phone see your computer.',
+      fwMac: 'If your Mac asks whether Pasame may accept incoming connections, click <b>Allow</b>.',
+      sharingN: function (n, total) { return 'Sharing ' + n + (n === 1 ? ' file' : ' files') + ' (' + total + ')'; },
+      receiving: 'Ready to receive files',
+      stop: 'Stop sharing',
+      phone: '<b>From a phone:</b><br>point the camera at this code and tap the notice that appears.',
+      pc: '<b>From a computer:</b><br>type this into the browser',
+      alsoTry: 'or try: ',
+      activity: 'Activity',
+      files: 'Files',
+      nobody: 'No one has joined yet. They need to be on the same WiFi network.',
+      devices: function (n) { return n + (n === 1 ? ' device connected' : ' devices connected'); },
+      downloading: function (name, k) { return '⬇ Downloading ' + name + (k > 1 ? ' (' + k + ' people)' : ''); },
+      downloaded: function (name, k) { return '✓ ' + name + ' downloaded' + (k > 1 ? ' ' + k + ' times' : ''); },
+      uploading: function (name) { return '⬆ Receiving ' + name + '…'; },
+      received: function (name) { return '✓ Received ' + name; },
+      openFolder: 'Open folder',
+      cantEnter: '<b>Can\'t connect?</b> Try this, in order:<ol>' +
+        '<li>Both devices need to be on <b>the same WiFi network</b> (check the network name on the phone).</li>' +
+        '<li>WiFi in cafés, hotels and airports often blocks this.</li>' +
+        '<li>If you use a VPN, turn it off for a moment.</li></ol>',
+      cantEnterPlan2: '',
+      checkWindows: 'Check Windows permission',
+      vpn: 'It looks like a VPN is on. If the phone cannot connect, turn it off for a moment or use Change network.',
+      netChanged: 'The network changed. The code was updated.',
+      unreadable: 'Could not read: ',
+      network: 'Network: ',
+      changeNet: 'Change network',
+      auto: 'Automatic',
+      tabHint: 'If you close this tab, Pasame quits by itself after 2 minutes.',
+      stopped: 'Done. The links no longer work.',
+      copy: 'Copy link',
+      copied: 'Link copied. Paste it in a message to someone on this network.',
+      copyFail: 'Could not copy. Select the address and copy it by hand.',
+      qrHint: 'Tap the code to make it bigger.',
+      busyStop: function (n) { return n === 1 ? '1 transfer is in progress. If you stop now, it will be cut off.' : n + ' transfers are in progress. If you stop now, they will be cut off.'; },
+      stopAnyway: 'Stop anyway',
+      keepSharing: 'Keep sharing',
+      closedMsg: 'Pasame is closed. You can close this tab.',
+      oss: 'Pasame is free and open source. If it helped you,',
+      star: 'give it a star on GitHub',
+      madeBy: 'Made by',
+      dropHint: 'To choose files, use the button (or drag them onto the Pasame icon).',
+      noNetwork: 'This computer is not connected to any network. Connect to a WiFi network and wait a few seconds.',
+      more: 'More options',
+      menuStar: '★ Star on GitHub',
+      menuMadeBy: 'Made by martincoll.dev',
+      quit: 'Quit Pasame',
+      otherLang: 'Español',
+      loading: 'Loading…',
+      errors: { bad_name: 'Type a name.', bad_iface: 'That address does not belong to this computer.', no_paths: 'No file arrived.', bad_lang: 'Language not available.', generic: 'That did not work. Try again.' }
+    }
   };
-  T.cantEnterPlan2 = ''; // el Plan 2 agrega acá el paso "Tocá Compartir por internet"
+  var T = TT.es;
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -76,7 +154,7 @@
       body: JSON.stringify(body || {})
     }).then(function (r) {
       if (r.ok) return null;
-      return r.json().then(function (j) { toast(j.error || 'No se pudo.'); }, function () { toast('No se pudo.'); });
+      return r.json().then(function (j) { toast(T.errors[j.code] || T.errors.generic); }, function () { toast(T.errors.generic); });
     });
   }
 
@@ -89,7 +167,7 @@
   }
 
   function renderWho(s) {
-    document.getElementById('who').innerHTML = esc(T.who) + '<b>' + esc(s.name) + '</b> <button class="link" id="edit-name" aria-label="Cambiar nombre">' + T.edit + '</button>';
+    document.getElementById('who').innerHTML = esc(T.who) + '<b>' + esc(s.name) + '</b> <button class="link" id="edit-name" aria-label="' + esc(T.editLabel) + '">' + esc(T.edit) + '</button>';
   }
 
   function renderIdle(s) {
@@ -224,6 +302,27 @@
     if (!document.hidden) { unseen = 0; document.title = 'Pasame'; }
   });
 
+  var detected = false;
+  // Idioma: lo que eligió la persona gana; si no eligió, se toma del navegador. Español para
+  // idiomas cercanos (pt, it, ca, gl); inglés para el resto, que es lo que más gente entiende.
+  function applyLang(s) {
+    T = TT[s.lang] || TT.es;
+    document.documentElement.lang = s.lang || 'es';
+    if (!s.langExplicit && !detected) {
+      detected = true;
+      var nav = (navigator.language || 'es').slice(0, 2).toLowerCase();
+      var want = ['es', 'pt', 'it', 'ca', 'gl'].indexOf(nav) >= 0 ? 'es' : 'en';
+      if (want !== s.lang) api('/api/lang', { lang: want, auto: true });
+    }
+    var b = document.getElementById('menu');
+    b.setAttribute('aria-label', T.more);
+    document.getElementById('m-star').textContent = T.menuStar;
+    document.getElementById('m-made').textContent = T.menuMadeBy;
+    document.getElementById('m-lang').textContent = T.otherLang;
+    document.getElementById('m-lang').setAttribute('lang', s.lang === 'en' ? 'es' : 'en');
+    document.getElementById('quit').textContent = T.quit;
+  }
+
   function render() {
     if (!state || closed) return;
     // Re-render cada 5 s: no pisar un control que la persona está usando (se le cerraría el menú de red).
@@ -258,13 +357,14 @@
   document.addEventListener('click', function (e) {
     // Click afuera cierra el menú.
     if (!e.target.closest('#menu, #menu-box') && !document.getElementById('menu-box').hidden) toggleMenu(false);
-    var el = e.target.closest('[data-act], #qr, #edit-name, #menu, #quit');
+    var el = e.target.closest('[data-act], #qr, #edit-name, #menu, #quit, #m-lang');
     if (!el) return;
     if (el.id === 'qr') return el.classList.toggle('full');
     if (el.id === 'menu') return toggleMenu();
     if (el.id === 'quit') return api('/api/quit').then(showClosed);
+    if (el.id === 'm-lang') { toggleMenu(false); return api('/api/lang', { lang: state.lang === 'en' ? 'es' : 'en' }); }
     if (el.id === 'edit-name') {
-      var n = prompt('¿Cómo te llamás? (lo ve quien recibe)', state.name); // prompt: único diálogo, lo abre la persona
+      var n = prompt(T.askName, state.name); // prompt: único diálogo, lo abre la persona
       if (n !== null) api('/api/name', { name: n });
       return;
     }
@@ -301,7 +401,7 @@
   });
 
   var es = new EventSource('/events?t=' + encodeURIComponent(t));
-  es.addEventListener('state', function (e) { state = JSON.parse(e.data); trackReceived(state); render(); });
+  es.addEventListener('state', function (e) { state = JSON.parse(e.data); applyLang(state); trackReceived(state); render(); });
 
   // Teclado: Esc cierra el QR a pantalla completa; Enter o espacio sobre el QR lo agranda.
   document.addEventListener('keydown', function (e) {

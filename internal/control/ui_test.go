@@ -17,23 +17,68 @@ func read(t *testing.T, name string) string {
 	return string(b)
 }
 
-// Spec §6: nunca aparecen estas palabras en textos que ve la persona.
+// Spec §6: nunca aparecen estas palabras en textos que ve la persona, en ningún idioma.
 func TestUIVoice(t *testing.T) {
 	js := read(t, "control/app.js")
-	start := strings.Index(js, "var T = {")
-	end := strings.Index(js[start:], "};")
+	start := strings.Index(js, "var TT = {")
+	end := strings.Index(js[start:], "\n  };")
 	if start < 0 || end < 0 {
-		t.Fatal("no encuentro el objeto T en app.js")
+		t.Fatal("no encuentro el objeto TT en app.js")
 	}
-	texts := strings.ToLower(js[start : start+end])
-	texts = regexp.MustCompile(`(?m)^\s*//.*$`).ReplaceAllString(texts, "") // comentarios de código
-	// "Firewall de Windows Defender" es el título literal de la ventana que la persona va a ver: se permite.
-	texts = strings.ReplaceAll(texts, "firewall de windows defender", "")
-	// \b evita falsos positivos como "aeropuerto".
-	for _, w := range []string{`\bip\b`, `\bpuerto`, `\bservidor`, `túnel`, `\btunel`, `\bfirewall`, `\btoken`, `\bmdns`, `\blan\b`} {
-		if regexp.MustCompile(w).MatchString(texts) {
-			t.Errorf("la UI usa la palabra prohibida %q", w)
+	block := js[start : start+end]
+	es, en := block[:strings.Index(block, "\n    en: {")], block[strings.Index(block, "\n    en: {"):]
+	clean := func(s string) string {
+		s = strings.ToLower(s)
+		s = regexp.MustCompile(`(?m)^\s*//.*$`).ReplaceAllString(s, "") // comentarios de código
+		s = regexp.MustCompile(`(?m)^\s*\w+:`).ReplaceAllString(s, "")  // nombres de clave (no se ven)
+		// Títulos literales de ventanas del sistema que la persona va a ver: se permiten.
+		s = strings.ReplaceAll(s, "firewall de windows defender", "")
+		s = strings.ReplaceAll(s, "windows defender firewall", "")
+		// Aviso de privacidad del túnel (Plan 2): tiene que decir exactamente por dónde pasan los archivos.
+		s = strings.ReplaceAll(s, "los servidores de cloudflare", "")
+		s = strings.ReplaceAll(s, "cloudflare's servers", "")
+		return s
+	}
+	// \b evita falsos positivos como "aeropuerto" o "support".
+	banned := map[string][]string{
+		"es": {`\bip\b`, `\bpuerto`, `\bservidor`, `túnel`, `\btunel`, `\bfirewall`, `\btoken`, `\bmdns`, `\blan\b`},
+		"en": {`\bip\b`, `\bport\b`, `\bserver`, `\btunnel`, `\bfirewall`, `\btoken`, `\bmdns`, `\blan\b`, `\blocalhost`, `\bupload`},
+	}
+	for lang, texts := range map[string]string{"es": clean(es), "en": clean(en)} {
+		for _, w := range banned[lang] {
+			if regexp.MustCompile(w).MatchString(texts) {
+				t.Errorf("la UI (%s) usa la palabra prohibida %q", lang, w)
+			}
 		}
+	}
+}
+
+// Las dos versiones tienen exactamente las mismas claves.
+func TestUILangParity(t *testing.T) {
+	js := read(t, "control/app.js")
+	start := strings.Index(js, "var TT = {")
+	block := js[start : start+strings.Index(js[start:], "\n  };")]
+	i := strings.Index(block, "\n    en: {")
+	keys := func(s string) map[string]bool {
+		m := map[string]bool{}
+		for _, k := range regexp.MustCompile(`(?m)^      (\w+):`).FindAllStringSubmatch(s, -1) {
+			m[k[1]] = true
+		}
+		return m
+	}
+	es, en := keys(block[:i]), keys(block[i:])
+	for k := range es {
+		if !en[k] {
+			t.Errorf("falta %q en inglés", k)
+		}
+	}
+	for k := range en {
+		if !es[k] {
+			t.Errorf("falta %q en español", k)
+		}
+	}
+	if len(es) < 50 {
+		t.Fatalf("solo encontré %d claves: ¿cambió el formato?", len(es))
 	}
 }
 

@@ -26,12 +26,12 @@ func mapErr(err error) error {
 	return err
 }
 
-func PickFiles() ([]string, error) {
-	paths, err := zenity.SelectFileMultiple(zenity.Title("Elegí los archivos para pasar"))
+func PickFiles(title string) ([]string, error) {
+	paths, err := zenity.SelectFileMultiple(zenity.Title(title))
 	return paths, mapErr(err)
 }
 
-func PickFolder() (string, error) {
-	p, err := zenity.SelectFile(zenity.Directory(), zenity.Title("Elegí la carpeta para pasar"))
+func PickFolder(title string) (string, error) {
+	p, err := zenity.SelectFile(zenity.Directory(), zenity.Title(title))
 	return p, mapErr(err)
 }
