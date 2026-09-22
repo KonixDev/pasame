@@ -1,0 +1,19 @@
+/* Marca Ronda (docs/marca). El sitio sí carga la tipografía de marca: no tiene la restricción offline de la app. */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+body{margin:0;font-family:"Atkinson Hyperlegible",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:19px;line-height:1.5;color:#1B2A1A;background:#FAFAF6}
+main{max-width:760px;margin:0 auto;padding:32px 16px 64px}
+h1,h2{font-family:"Bricolage Grotesque",-apple-system,"Segoe UI",sans-serif;font-weight:800;letter-spacing:-.02em}
+h1{font-size:44px;margin:0 0 8px;color:#2F5D2E}
+.lead{font-size:22px;color:#1B2A1A;margin:0 0 32px}
+.dl{display:block;text-align:center;padding:22px;font-size:24px;font-weight:700;color:#1B2A1A;background:#A7C957;border-radius:16px;text-decoration:none}
+.sub{text-align:center;color:#5E675F;font-size:16px;margin:10px 0 32px}
+.box{background:#fff;border:1px solid #E1E4DA;border-radius:16px;padding:18px 20px;margin:20px 0}
+.beta{background:#FBF3D5;border:1px solid #F2C94C}
+ol li{margin:0 0 14px}
+img{max-width:100%;border:1px solid #E1E4DA;border-radius:10px;margin:8px 0}
+a{color:#2F5D2E}
+.top{display:flex;justify-content:space-between;align-items:center;min-height:24px;margin:0 0 12px;font-size:16px}
+.top .lang{margin-left:auto}
+.dl:hover{background:#B4D366}
+.dl:focus-visible,a:focus-visible{outline:3px solid #F2C94C;outline-offset:3px}
+[hidden]{display:none!important} /* .dl{display:block} le ganaba al atributo hidden */
