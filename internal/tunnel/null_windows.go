@@ -25,8 +25,10 @@ func taskkill(args ...string) {
 	c.Run()
 }
 
-// En Windows no hay SIGINT para otro proceso: se usa taskkill con el árbol.
-func interrupt(cmd *exec.Cmd) { taskkill("/T", "/PID", strconv.Itoa(cmd.Process.Pid)) }
+// En Windows no hay forma ordenada de pedirle a un programa de consola sin ventana que termine: taskkill
+// sin /F manda WM_CLOSE, que cloudflared nunca recibe, y cada apagado esperaba los 5 s de stopGrace.
+// Cortarlo de una es seguro: Cloudflare da de baja el túnel cuando se cae la conexión.
+func interrupt(cmd *exec.Cmd) { kill(cmd) }
 
 func kill(cmd *exec.Cmd) { taskkill("/T", "/F", "/PID", strconv.Itoa(cmd.Process.Pid)) }
 

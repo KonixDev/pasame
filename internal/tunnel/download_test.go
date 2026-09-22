@@ -12,6 +12,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"regexp"
+	"runtime"
 	"strconv"
 	"sync/atomic"
 	"testing"
@@ -75,7 +76,8 @@ func TestEnsurePlainBinary(t *testing.T) {
 	}
 	got, _ := os.ReadFile(p)
 	fi, _ := os.Stat(p)
-	if !bytes.Equal(got, bin) || fi.Mode()&0o111 == 0 || calls == 0 {
+	executable := runtime.GOOS == "windows" || fi.Mode()&0o111 != 0 // Windows no tiene bit de ejecución
+	if !bytes.Equal(got, bin) || !executable || calls == 0 {
 		t.Fatalf("contenido/permisos/progreso mal: exec=%v calls=%d", fi.Mode(), calls)
 	}
 	// Segunda vez: ya está, no descarga.
