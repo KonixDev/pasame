@@ -1,0 +1,6 @@
+/dist/
+/pasame
+/pasame.exe
+/test/e2e/node_modules/
+/test/e2e/test-results/
+*.part
