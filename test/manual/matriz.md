@@ -12,7 +12,7 @@ Emisor × receptor: Windows 11 + macOS actual + Ubuntu LTS como emisores; iPhone
 | iPhone (iOS−2) | | | |
 | Android actual | | | |
 | Android 9 | | | |
-| PC con Windows (navegador) | ✓ (v0.1, emisor Mac por WiFi → PC por cable) | ✓ (v0.1) | |
+| PC con Windows (navegador) | n/a | ✓ (v0.1: Mac por WiFi → PC por cable) | |
 
 ## Instalación y primer arranque (con los assets de la release, no con `make build`)
 
