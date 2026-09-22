@@ -48,11 +48,25 @@ No hace falta instalar nada: es un solo archivo que se abre con doble clic. Del 
 
 ### La primera vez que lo abrís
 
-Pasame todavía no está firmado por Microsoft ni por Apple, así que la primera vez tu computadora avisa. Se hace una sola vez ([guía paso a paso](https://konixdev.github.io/pasame/como-abrir.html)).
+Pasame todavía no está verificado por Apple ni por Microsoft, así que la primera vez la computadora lo frena. Se hace una sola vez; después abre sin avisos. Guía con más detalle: [cómo abrirla](https://konixdev.github.io/pasame/como-abrir.html).
 
-- **Windows:** si aparece "Windows protegió tu PC", tocá **Más información** → **Ejecutar de todas formas**. Si aparece una ventana del "Firewall de Windows Defender", tocá **Permitir acceso**: es para que el celular pueda ver tu computadora.
-- **Mac:** abrí el `.dmg`, arrastrá **Pasame** a Aplicaciones y abrilo. Si dice que no se puede abrir, andá a **Ajustes del Sistema → Privacidad y seguridad**, bajá hasta el final y tocá **Abrir de todos modos**.
-- **Linux:** instalá el `.deb` (queda en el menú de aplicaciones) o descomprimí el `.tar.gz` y ejecutá `./pasame`. Para elegir archivos con una ventana hace falta `zenity` o `kdialog` (vienen en GNOME y KDE).
+**Mac**
+
+1. Abrí `Pasame-macOS.dmg` y arrastrá **Pasame** a la carpeta **Aplicaciones**.
+2. Abrí Pasame desde Aplicaciones. Aparece un aviso con dos botones: tocá **Listo**. *(No toques "Trasladar a la Papelera": borra la app.)*
+3. Abrí **Ajustes del Sistema → Privacidad y seguridad** y bajá hasta el final, a **Seguridad**.
+4. Al lado del mensaje que nombra a Pasame, tocá **Abrir de todos modos**. Si no aparece, repetí el paso 2: el botón se muestra solo durante un rato.
+5. Poné tu contraseña y, en el último aviso, tocá otra vez **Abrir de todos modos**.
+
+Se abre una pestaña del navegador: esa pestaña es la app (no aparece en el Dock, a propósito). Si aun así no abre, en la Terminal: `xattr -dr com.apple.quarantine /Applications/Pasame.app`.
+
+**Windows**
+
+1. Doble clic en `Pasame-Windows.exe`.
+2. En el aviso azul "Windows protegió tu PC", tocá **Más información** y después **Ejecutar de todas formas**.
+3. Si aparece el "Firewall de Windows Defender", tocá **Permitir acceso**: es para que el celular pueda ver tu computadora.
+
+**Linux:** instalá el `.deb` (queda en el menú de aplicaciones) o descomprimí el `.tar.gz` y ejecutá `./pasame`. Para elegir archivos con una ventana hace falta `zenity` o `kdialog` (vienen en GNOME y KDE).
 
 ## Lo que conviene saber
 

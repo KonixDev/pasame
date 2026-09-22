@@ -9,24 +9,39 @@
 <body><main>
 <p class="top"><a href="./">← Pasame</a><a class="lang" href="en/how-to-open.html" hreflang="en" lang="en">English</a></p>
 <h1>Cómo abrir Pasame</h1>
-<p class="lead">La primera vez, tu computadora puede avisarte porque Pasame es nueva y gratuita. Es normal: se hace una sola vez.</p>
-
-<h2 id="windows">En Windows</h2>
-<ol>
-<li>Hacé doble clic en <b>Pasame-Windows.exe</b> (está en Descargas).</li>
-<li>Si aparece “Windows protegió tu PC”, tocá <b>Más información</b>.</li>
-<li>Tocá <b>Ejecutar de todas formas</b>.</li>
-<li>Si aparece una ventana del “Firewall de Windows Defender”, tocá <b>Permitir acceso</b>. Es para que el celular pueda ver tu computadora.</li>
-</ol>
+<p class="lead">La primera vez, Windows y Mac frenan a Pasame porque es nueva y todavía no está verificada por Microsoft ni por Apple. Es normal y se hace una sola vez: después abre sin avisos.</p>
+<p class="jump">Ir a: <a href="#mac">Mac</a> · <a href="#windows">Windows</a> · <a href="#linux">Linux</a></p>
 
 <h2 id="mac">En Mac</h2>
-<ol>
-<li>Abrí <b>Pasame-macOS.dmg</b> y arrastrá <b>Pasame</b> a <b>Aplicaciones</b>.</li>
-<li>Abrí Pasame desde Aplicaciones. Si dice que no se puede abrir, tocá <b>Aceptar</b> (o <b>Listo</b>).</li>
-<li>Abrí <b>Ajustes del Sistema</b> → <b>Privacidad y seguridad</b>, bajá hasta el final y tocá <b>Abrir de todos modos</b>. Ese botón aparece solo durante un rato: si no lo ves, volvé a intentar el paso 2.</li>
-<li>Confirmá con tu contraseña o huella.</li>
+<p>Son dos partes: macOS la frena la primera vez, y vos la habilitás en Ajustes. Tarda un minuto.</p>
+<ol class="steps">
+<li><b>Instalala.</b> Abrí <b>Pasame-macOS.dmg</b> (está en Descargas). En la ventana que aparece, arrastrá el ícono de <b>Pasame</b> sobre la carpeta <b>Aplicaciones</b>.</li>
+<li><b>Abrila una vez.</b> Abrí Pasame desde la carpeta Aplicaciones. macOS muestra un aviso que dice que no pudo verificarla, con dos botones. Tocá <span class="btn">Listo</span>.
+<p class="warn">No toques el otro botón (<b>Trasladar a la Papelera</b>): borra la app y hay que volver a bajarla.</p></li>
+<li><b>Abrí los Ajustes.</b> Menú de la manzana  (arriba a la izquierda) → <b>Ajustes del Sistema</b> → en la columna de la izquierda, <b>Privacidad y seguridad</b>.</li>
+<li><b>Habilitala.</b> Bajá hasta el final, a la parte que dice <b>Seguridad</b>. Vas a ver un mensaje que nombra a <b>Pasame</b> y dice que se bloqueó. Al lado, tocá <span class="btn">Abrir de todos modos</span>.
+<p class="note">¿No aparece? Ese botón se muestra solo durante un rato después del paso 2. Volvé a abrir Pasame, tocá <span class="btn">Listo</span> y volvé a esta pantalla.</p></li>
+<li><b>Confirmá.</b> Poné tu contraseña de la Mac (o tu huella).</li>
+<li><b>Último aviso.</b> Aparece otra vez un cartel sobre Pasame: ahora tocá <span class="btn">Abrir de todos modos</span>.</li>
 </ol>
-<p class="box">Cuando Pasame esté verificada por Apple, en Mac no vas a ver ningún aviso.</p>
+<p class="box ok"><b>Listo.</b> Se abre una pestaña del navegador con Pasame: esa pestaña es la app. <b>No aparece en el Dock</b>, es a propósito. Desde ahora la abrís como cualquier otra, sin avisos.</p>
+<details class="box"><summary>¿Hiciste todo y sigue sin abrir?</summary>
+<p>Abrí <b>Terminal</b> (Aplicaciones → Utilidades → Terminal), pegá esta línea y apretá Enter:</p>
+<pre>xattr -dr com.apple.quarantine /Applications/Pasame.app</pre>
+<p>Después abrí Pasame de nuevo. Esa línea le saca a la app la marca de “bajada de internet”, que es lo que hace que macOS la frene.</p>
+</details>
+
+<h2 id="windows">En Windows</h2>
+<ol class="steps">
+<li><b>Abrila.</b> Hacé doble clic en <b>Pasame-Windows.exe</b> (está en Descargas).</li>
+<li><b>Aviso azul “Windows protegió tu PC”.</b> Tocá el texto <span class="btn">Más información</span> (está debajo del mensaje; no toques “No ejecutar”).</li>
+<li>Aparece un botón nuevo: tocá <span class="btn">Ejecutar de todas formas</span>.</li>
+<li><b>Ventana “Firewall de Windows Defender”.</b> Si aparece, tocá <span class="btn">Permitir acceso</span>. Es para que el celular pueda ver tu computadora; si tocás Cancelar, el celular no va a poder entrar.</li>
+</ol>
+<p class="box ok"><b>Listo.</b> Se abre una pestaña del navegador con Pasame. La próxima vez abre directo.</p>
+
+<h2 id="linux">En Linux</h2>
+<p>En Ubuntu o Debian, abrí el <b>.deb</b> con doble clic (o <code>sudo apt install ./pasame_*.deb</code>) y buscá <b>Pasame</b> en el menú de aplicaciones. Con el <b>.tar.gz</b>: descomprimilo y ejecutá <code>./pasame</code>.</p>
 
 <h2>En el celular</h2>
 <p>No hay que instalar nada. Apuntá la cámara al código que muestra la computadora y tocá el aviso que aparece.</p>

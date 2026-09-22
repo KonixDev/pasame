@@ -17,3 +17,16 @@ a{color:#2F5D2E}
 .dl:hover{background:#B4D366}
 .dl:focus-visible,a:focus-visible{outline:3px solid #F2C94C;outline-offset:3px}
 [hidden]{display:none!important} /* .dl{display:block} le ganaba al atributo hidden */
+/* Guía "cómo abrir": cada paso dice qué vas a ver y qué tocar. */
+.jump{font-size:16px;color:#5E675F;margin:-16px 0 8px}
+h2{margin-top:40px;font-size:30px}
+.steps{padding-left:0;list-style:none;counter-reset:paso}
+.steps>li{counter-increment:paso;position:relative;padding:0 0 0 52px;margin:0 0 22px}
+.steps>li::before{content:counter(paso);position:absolute;left:0;top:-2px;width:34px;height:34px;border-radius:50%;background:#2F5D2E;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:18px}
+.btn{display:inline-block;padding:1px 10px;border:1.5px solid #1B2A1A;border-radius:8px;background:#fff;font-weight:700;white-space:nowrap;box-shadow:0 2px 0 #E1E4DA}
+.warn{margin:10px 0 0;padding:10px 14px;background:#FDECEA;border-left:4px solid #B42318;border-radius:8px;font-size:17px}
+.note{margin:10px 0 0;color:#5E675F;font-size:17px}
+.ok{background:#E8F1E1;border-color:#BCD6AE}
+details summary{cursor:pointer;font-weight:700}
+pre,code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}
+pre{background:#1B2A1A;color:#FAFAF6;padding:12px 14px;border-radius:10px;overflow-x:auto;white-space:pre-wrap;word-break:break-all}

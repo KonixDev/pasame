@@ -50,11 +50,25 @@ There is nothing to install: it is a single file you double-click. The receiving
 
 ### The first time you open it
 
-Pasame is not yet signed by Microsoft or Apple, so your computer will warn you the first time. You only do this once ([step-by-step guide](https://konixdev.github.io/pasame/en/how-to-open.html)).
+Pasame isn't verified by Apple or Microsoft yet, so your computer blocks it the first time. You only do this once; after that it opens with no warnings. More detailed guide: [how to open it](https://konixdev.github.io/pasame/en/how-to-open.html).
 
-- **Windows:** if you see "Windows protected your PC", click **More info** → **Run anyway**. If a "Windows Defender Firewall" window appears, click **Allow access**: this lets the phone see your computer.
-- **Mac:** open the `.dmg`, drag **Pasame** to Applications and open it. If it says it can't be opened, go to **System Settings → Privacy & Security**, scroll to the bottom and click **Open Anyway**.
-- **Linux:** install the `.deb` (it shows up in your app menu) or extract the `.tar.gz` and run `./pasame`. To pick files with a window you need `zenity` or `kdialog` (GNOME and KDE ship them).
+**Mac**
+
+1. Open `Pasame-macOS.dmg` and drag **Pasame** to the **Applications** folder.
+2. Open Pasame from Applications. A warning with two buttons appears: click **Done**. *(Don't click "Move to Trash": it deletes the app.)*
+3. Open **System Settings → Privacy & Security** and scroll to the bottom, to **Security**.
+4. Next to the message that names Pasame, click **Open Anyway**. If it isn't there, repeat step 2: the button only shows up for a while.
+5. Enter your password and, on the last warning, click **Open Anyway** again.
+
+A browser tab opens: that tab is the app (it doesn't show up in the Dock, on purpose). If it still won't open, in Terminal: `xattr -dr com.apple.quarantine /Applications/Pasame.app`.
+
+**Windows**
+
+1. Double-click `Pasame-Windows.exe`.
+2. On the blue "Windows protected your PC" screen, click **More info** and then **Run anyway**.
+3. If "Windows Defender Firewall" appears, click **Allow access**: it lets the phone see your computer.
+
+**Linux:** install the `.deb` (it shows up in your app menu) or extract the `.tar.gz` and run `./pasame`. To pick files with a window you need `zenity` or `kdialog` (GNOME and KDE ship them).
 
 ## Good to know
 

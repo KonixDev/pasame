@@ -9,24 +9,39 @@
 <body><main>
 <p class="top"><a href="./">← Pasame</a><a class="lang" href="../como-abrir.html" hreflang="es" lang="es">Español</a></p>
 <h1>How to open Pasame</h1>
-<p class="lead">The first time, your computer may warn you because Pasame is new and free. That's normal, and you only do this once.</p>
-
-<h2 id="windows">On Windows</h2>
-<ol>
-<li>Double-click <b>Pasame-Windows.exe</b> (it's in Downloads).</li>
-<li>If you see “Windows protected your PC”, click <b>More info</b>.</li>
-<li>Click <b>Run anyway</b>.</li>
-<li>If a “Windows Defender Firewall” window appears, click <b>Allow access</b>. It lets the phone see your computer.</li>
-</ol>
+<p class="lead">The first time, Windows and Mac hold Pasame back because it's new and not yet verified by Microsoft or Apple. That's normal and you only do it once: after that it opens with no warnings.</p>
+<p class="jump">Go to: <a href="#mac">Mac</a> · <a href="#windows">Windows</a> · <a href="#linux">Linux</a></p>
 
 <h2 id="mac">On Mac</h2>
-<ol>
-<li>Open <b>Pasame-macOS.dmg</b> and drag <b>Pasame</b> to <b>Applications</b>.</li>
-<li>Open Pasame from Applications. If it says it can't be opened, click <b>OK</b> (or <b>Done</b>).</li>
-<li>Open <b>System Settings</b> → <b>Privacy &amp; Security</b>, scroll to the bottom and click <b>Open Anyway</b>. That button only shows up for a while: if you don't see it, try step 2 again.</li>
-<li>Confirm with your password or Touch ID.</li>
+<p>Two parts: macOS blocks it the first time, and you allow it in Settings. It takes a minute.</p>
+<ol class="steps">
+<li><b>Install it.</b> Open <b>Pasame-macOS.dmg</b> (it's in Downloads). In the window that appears, drag the <b>Pasame</b> icon onto the <b>Applications</b> folder.</li>
+<li><b>Open it once.</b> Open Pasame from the Applications folder. macOS shows a warning saying it couldn't verify it, with two buttons. Click <span class="btn">Done</span>.
+<p class="warn">Don't click the other button (<b>Move to Trash</b>): it deletes the app and you'll have to download it again.</p></li>
+<li><b>Open Settings.</b> Apple menu  (top left) → <b>System Settings</b> → in the left column, <b>Privacy &amp; Security</b>.</li>
+<li><b>Allow it.</b> Scroll to the bottom, to the <b>Security</b> part. You'll see a message that names <b>Pasame</b> and says it was blocked. Next to it, click <span class="btn">Open Anyway</span>.
+<p class="note">Not there? That button only shows up for a while after step 2. Open Pasame again, click <span class="btn">Done</span> and come back to this screen.</p></li>
+<li><b>Confirm.</b> Enter your Mac password (or use Touch ID).</li>
+<li><b>Last warning.</b> A notice about Pasame appears again: now click <span class="btn">Open Anyway</span>.</li>
 </ol>
-<p class="box">Once Pasame is verified by Apple, you won't see any warning on Mac.</p>
+<p class="box ok"><b>Done.</b> A browser tab opens with Pasame: that tab is the app. <b>It doesn't show up in the Dock</b>, on purpose. From now on you open it like any other app, with no warnings.</p>
+<details class="box"><summary>Did all of that and it still won't open?</summary>
+<p>Open <b>Terminal</b> (Applications → Utilities → Terminal), paste this line and press Return:</p>
+<pre>xattr -dr com.apple.quarantine /Applications/Pasame.app</pre>
+<p>Then open Pasame again. That line removes the “downloaded from the internet” mark that makes macOS block it.</p>
+</details>
+
+<h2 id="windows">On Windows</h2>
+<ol class="steps">
+<li><b>Open it.</b> Double-click <b>Pasame-Windows.exe</b> (it's in Downloads).</li>
+<li><b>Blue “Windows protected your PC” screen.</b> Click the <span class="btn">More info</span> text (below the message; don't click “Don't run”).</li>
+<li>A new button appears: click <span class="btn">Run anyway</span>.</li>
+<li><b>“Windows Defender Firewall” window.</b> If it appears, click <span class="btn">Allow access</span>. It lets the phone see your computer; if you click Cancel, the phone won't be able to connect.</li>
+</ol>
+<p class="box ok"><b>Done.</b> A browser tab opens with Pasame. Next time it opens right away.</p>
+
+<h2 id="linux">On Linux</h2>
+<p>On Ubuntu or Debian, double-click the <b>.deb</b> (or <code>sudo apt install ./pasame_*.deb</code>) and look for <b>Pasame</b> in your app menu. With the <b>.tar.gz</b>: extract it and run <code>./pasame</code>.</p>
 
 <h2>On the phone</h2>
 <p>Nothing to install. Point the camera at the code shown on the computer and tap the notice that appears.</p>
