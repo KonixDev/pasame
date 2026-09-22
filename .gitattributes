@@ -1,0 +1,6 @@
+# Finales de línea LF siempre: las plantillas y el JS se embeben en el binario, que tiene que ser
+# idéntico se compile donde se compile (Windows convertiría a CRLF al hacer checkout).
+* text=auto eol=lf
+*.png binary
+*.icns binary
+*.syso binary

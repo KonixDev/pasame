@@ -96,6 +96,7 @@ func TestZip64Sparse(t *testing.T) {
 		t.Fatal(err)
 	}
 	tmp, _ := os.CreateTemp(d, "*.zip")
+	defer tmp.Close() // en Windows un archivo abierto no se puede borrar al limpiar TempDir
 	n, _ := io.Copy(tmp, resp.Body)
 	resp.Body.Close()
 	zr, err := zip.NewReader(tmp, n)
