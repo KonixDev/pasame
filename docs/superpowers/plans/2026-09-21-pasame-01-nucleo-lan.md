@@ -5496,14 +5496,16 @@ func read(t *testing.T, name string) string {
 func TestUIVoice(t *testing.T) {
 	js := read(t, "control/app.js")
 	start := strings.Index(js, "var T = {")
-	end := strings.Index(js[start:], "\n};")
+	end := strings.Index(js[start:], "};")
 	if start < 0 || end < 0 {
 		t.Fatal("no encuentro el objeto T en app.js")
 	}
 	texts := strings.ToLower(js[start : start+end])
+	texts = regexp.MustCompile(`(?m)^\s*//.*$`).ReplaceAllString(texts, "") // comentarios de código
 	// "Firewall de Windows Defender" es el título literal de la ventana que la persona va a ver: se permite.
 	texts = strings.ReplaceAll(texts, "firewall de windows defender", "")
-	for _, w := range []string{`\bip\b`, `puerto`, `servidor`, `túnel`, `tunel`, `firewall`, `token`, `mdns`, `\blan\b`} {
+	// \b evita falsos positivos como "aeropuerto".
+	for _, w := range []string{`\bip\b`, `\bpuerto`, `\bservidor`, `túnel`, `\btunel`, `\bfirewall`, `\btoken`, `\bmdns`, `\blan\b`} {
 		if regexp.MustCompile(w).MatchString(texts) {
 			t.Errorf("la UI usa la palabra prohibida %q", w)
 		}

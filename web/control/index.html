@@ -1,1 +1,20 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Pasame</title></head><body>Pasame</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pasame</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <span class="brand">Pasame</span>
+  <span id="who"></span>
+  <button id="menu" class="link" aria-label="Más opciones">⋯</button>
+</header>
+<div id="menu-box" hidden><button id="quit" class="link">Cerrar Pasame</button></div>
+<main id="app"><p class="muted">Cargando…</p></main>
+<div id="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
