@@ -3,6 +3,7 @@ package share
 
 import (
 	"html/template"
+	"io"
 	"io/fs"
 	"net"
 	"net/http"
@@ -21,9 +22,10 @@ type Deps struct {
 }
 
 type Server struct {
-	d   Deps
-	mux *http.ServeMux
-	tpl *template.Template
+	d          Deps
+	mux        *http.ServeMux
+	tpl        *template.Template
+	createPart func(path string) (io.WriteCloser, error) // inyectable en tests (disco lleno)
 }
 
 // view es lo que reciben todas las plantillas.
@@ -51,7 +53,7 @@ func New(d Deps) (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	s := &Server{d: d, mux: http.NewServeMux(), tpl: tpl}
+	s := &Server{d: d, mux: http.NewServeMux(), tpl: tpl, createPart: defaultCreatePart}
 	s.mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { w.Write([]byte("ok")) })
 	s.mux.HandleFunc("GET /{$}", s.root)
 	s.mux.HandleFunc("GET /s/{tok}", s.withSession(s.page))
@@ -108,6 +110,3 @@ func (s *Server) withSession(h sessHandler) http.HandlerFunc {
 }
 
 // Stubs: los completan las Tareas 7 a 10.
-func (s *Server) upload(w http.ResponseWriter, r *http.Request, _ *session.Session, _ *session.Stats) {
-	http.Error(w, "todavía no", http.StatusNotImplemented)
-}

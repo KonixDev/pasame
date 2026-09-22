@@ -17,14 +17,14 @@ func TestSameKeys(t *testing.T) {
 
 func TestPick(t *testing.T) {
 	cases := map[string]Lang{
-		"":                              ES,
-		"es-AR,es;q=0.9":                ES,
-		"en-US,en;q=0.9":                EN,
-		"en-GB":                         EN,
-		"pt-BR,pt;q=0.9":                ES,
-		"fr-FR,en;q=0.8,es;q=0.9":       ES,
-		"fr-FR,es;q=0.5,en;q=0.8":       EN,
-		"*":                             ES,
+		"":                        ES,
+		"es-AR,es;q=0.9":          ES,
+		"en-US,en;q=0.9":          EN,
+		"en-GB":                   EN,
+		"pt-BR,pt;q=0.9":          ES,
+		"fr-FR,en;q=0.8,es;q=0.9": ES,
+		"fr-FR,es;q=0.5,en;q=0.8": EN,
+		"*":                       ES,
 	}
 	for in, want := range cases {
 		if got := Pick(in); got != want {
