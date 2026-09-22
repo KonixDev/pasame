@@ -108,9 +108,6 @@ func (s *Server) withSession(h sessHandler) http.HandlerFunc {
 }
 
 // Stubs: los completan las Tareas 7 a 10.
-func (s *Server) zip(w http.ResponseWriter, r *http.Request, _ *session.Session, _ *session.Stats) {
-	http.Error(w, "todavía no", http.StatusNotImplemented)
-}
 func (s *Server) upload(w http.ResponseWriter, r *http.Request, _ *session.Session, _ *session.Stats) {
 	http.Error(w, "todavía no", http.StatusNotImplemented)
 }
