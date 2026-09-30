@@ -3,6 +3,8 @@ package tunnel
 import (
 	"context"
 	"errors"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -88,6 +90,21 @@ func TestStartVerifyFails(t *testing.T) {
 	bad := func(context.Context, string) error { return errors.New("todavía no responde") }
 	if _, err := Start(context.Background(), Options{Bin: fakeBin, Port: 8080, Timeout: time.Second, Verify: bad}); err == nil {
 		t.Fatal("mostró una URL que no verificó")
+	}
+}
+
+// Una comprobación colgada no puede comerse el plazo entero: tiene que cortar rápido y reintentar.
+func TestVerifyHealthzDoesNotHang(t *testing.T) {
+	block := make(chan struct{})
+	srv := httptest.NewServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) { <-block }))
+	defer srv.Close()
+	defer close(block)
+	start := time.Now()
+	if err := verifyHealthz(context.Background(), srv.URL); err == nil {
+		t.Fatal("un servidor que no contesta pasó la verificación")
+	}
+	if d := time.Since(start); d > 6*time.Second {
+		t.Fatalf("la comprobación esperó %v; tiene que cortar antes para poder reintentar", d)
 	}
 }
 

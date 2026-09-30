@@ -53,7 +53,7 @@ func childEnv(home string) []string {
 
 func Start(ctx context.Context, o Options) (*Tunnel, error) {
 	if o.Timeout == 0 {
-		o.Timeout = 30 * time.Second
+		o.Timeout = 60 * time.Second
 	}
 	if o.Verify == nil {
 		o.Verify = verifyHealthz
@@ -140,11 +140,12 @@ func verifyHealthz(ctx context.Context, url string) error {
 
 var publicDNS = []string{"1.1.1.1:53", "8.8.8.8:53"}
 
+// Cada intento corta a los 5 s: si uno se cuelga mientras la dirección se propaga, el siguiente suele andar.
 var verifyClient = &http.Client{
-	Timeout: 10 * time.Second,
+	Timeout: 5 * time.Second,
 	Transport: &http.Transport{
 		DisableKeepAlives: true,
-		DialContext: (&net.Dialer{Timeout: 10 * time.Second, Resolver: &net.Resolver{
+		DialContext: (&net.Dialer{Timeout: 5 * time.Second, Resolver: &net.Resolver{
 			PreferGo: true,
 			Dial: func(ctx context.Context, network, system string) (net.Conn, error) {
 				d := net.Dialer{Timeout: 2 * time.Second}
